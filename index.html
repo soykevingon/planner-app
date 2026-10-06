@@ -125,6 +125,43 @@ label.seg input:focus-visible+span{outline:2px solid var(--accent);outline-offse
 .sheet-actions .right{display:flex;gap:8px;margin-left:auto}
 .btn.danger{color:var(--crit)}
 .confirm-del{font-size:13px;color:var(--crit);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.auth{position:fixed;inset:0;z-index:40;background:#0a0d12;color:#eef1f5;display:flex;flex-direction:column;overflow-y:auto;font-family:var(--f-body)}
+.auth.checking .auth-main{visibility:hidden}
+.auth-bg{position:fixed;inset:0;pointer-events:none;overflow:hidden;
+  background:radial-gradient(120% 90% at 85% 15%,rgba(240,145,58,.22),transparent 55%),radial-gradient(90% 70% at 10% 100%,rgba(79,176,192,.12),transparent 60%),#0a0d12}
+.auth-bg svg{position:absolute;right:-18vmax;top:-14vmax;width:92vmax;height:92vmax;opacity:.55}
+.auth-sweep{transform-origin:500px 500px;animation:authSweep 9s linear infinite}
+@keyframes authSweep{to{transform:rotate(360deg)}}
+.auth-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,13,18,.15),rgba(10,13,18,.75) 70%,#0a0d12)}
+.auth-top{position:relative;display:flex;align-items:center;gap:12px;padding:22px clamp(16px,4vw,48px)}
+.auth-top img{width:44px;height:44px;border-radius:11px}
+.auth-top b{font:700 26px var(--f-display);letter-spacing:-.01em}
+.auth-top small{display:block;font:600 10.5px var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:#9aa6b6;margin-top:2px}
+.auth-main{position:relative;flex:1;display:flex;align-items:center;justify-content:center;padding:12px 16px 40px}
+.auth-card{width:100%;max-width:430px;background:rgba(8,11,16,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:44px 48px 36px}
+.auth-card h1{font:700 32px var(--f-display);margin:0 0 6px;letter-spacing:-.015em}
+.auth-sub{color:#9aa6b6;margin:0 0 26px;font-size:15px}
+.float{position:relative;display:block;margin-bottom:14px}
+.auth .float input{width:100%;height:58px;padding:24px 16px 8px;font:16px var(--f-body);color:#eef1f5;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:8px;outline:none;transition:border-color .15s,background .15s}
+.auth .float input:focus{border-color:#f0913a;background:rgba(255,255,255,.09)}
+.float>span{position:absolute;left:17px;top:19px;font-size:16px;color:#9aa6b6;pointer-events:none;transition:top .15s,font-size .15s}
+.float input:focus+span,.float input:not(:placeholder-shown)+span{top:8px;font-size:11.5px;letter-spacing:.02em}
+.float.pw input{padding-right:64px}
+.peek{position:absolute;right:10px;top:16px;background:none;border:none;color:#c9d1dc;font:600 13px var(--f-body);cursor:pointer;padding:4px 6px;border-radius:6px}
+.peek:hover{color:#fff}
+.auth-go{width:100%;height:50px;margin-top:6px;border:none;border-radius:8px;background:#f0913a;color:#1a1206;font:700 16px var(--f-body);cursor:pointer;transition:filter .15s,transform .05s}
+.auth-go:hover{filter:brightness(1.07)} .auth-go:active{transform:translateY(1px)} .auth-go:disabled{opacity:.6;cursor:progress}
+.auth-msg{min-height:20px;margin:2px 0 6px;font-size:14px;color:#ffb27a}
+.auth-msg.ok{color:#7fd3df}
+.auth-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:16px;font-size:14px;color:#c9d1dc}
+.auth-row label{display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+.auth-row input{accent-color:#f0913a;width:16px;height:16px}
+.auth-link{background:none;border:none;color:#c9d1dc;font:500 14px var(--f-body);cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px}
+.auth-link:hover{color:#fff}
+.auth-foot{margin:26px 0 0;padding-top:18px;border-top:1px solid rgba(255,255,255,.08);color:#7d889a;font-size:13.5px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.auth :focus-visible{outline:2px solid #f0913a;outline-offset:2px}
+@media (max-width:520px){.auth-card{background:transparent;border:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:18px 4px}.auth-main{align-items:flex-start}.auth-card h1{font-size:28px}}
+@media (prefers-reduced-motion:reduce){.auth-sweep{animation:none}}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:10px;font-size:14px;z-index:30}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px}
 .tab{border:none;background:none;font:600 15px var(--f-body);color:var(--muted);padding:10px 14px;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
@@ -654,6 +691,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       <span class="fnote" id="cloudInfo"></span>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn sm" type="button" id="cloudUpload">Upload this device’s data</button>
+        <button class="btn sm" type="button" id="cloudPass">Change password</button>
         <button class="btn sm" type="button" id="cloudSignOut">Sign out</button>
       </div>
       <span class="fnote">Use “Upload” once on the computer that already has your tasks. Other devices download them when you sign in.</span>
@@ -699,19 +737,34 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     </div>
   </form>
 </div>
-<!-- Sign-in sheet -->
-<div class="scrim" id="lScrim" hidden>
-  <form class="sheet" id="lForm">
-    <h3>Sign in to sync</h3>
-    <p class="fnote" style="margin:-6px 0 14px">Your tasks sync between your computer and phone. A copy stays on each device, so you can keep working offline.</p>
-    <div class="field"><label for="lEmail">Email</label><input type="email" id="lEmail" required autocomplete="username"></div>
-    <div class="field"><label for="lPass">Password</label><input type="password" id="lPass" required autocomplete="current-password"></div>
-    <p class="fnote" id="lMsg" role="status"></p>
-    <div class="sheet-actions"><div class="right">
-      <button class="btn" type="button" id="lCancel">Cancel</button>
-      <button class="btn primary" type="submit" id="lGo">Sign in</button>
-    </div></div>
-  </form>
+<!-- Sign-in page -->
+<div class="auth checking" id="lScrim">
+  <div class="auth-bg" aria-hidden="true">
+    <svg viewBox="0 0 1000 1000">
+      <defs><linearGradient id="authG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f0913a" stop-opacity="0"/><stop offset="1" stop-color="#f0913a" stop-opacity=".55"/></linearGradient></defs>
+      <circle cx="500" cy="500" r="120" fill="none" stroke="rgba(240,145,58,0.5)" stroke-width="1.5"/><circle cx="500" cy="500" r="220" fill="none" stroke="rgba(240,145,58,0.38)" stroke-width="1.5"/><circle cx="500" cy="500" r="320" fill="none" stroke="rgba(240,145,58,0.28)" stroke-width="1.5"/><circle cx="500" cy="500" r="420" fill="none" stroke="rgba(240,145,58,0.2)" stroke-width="1.5"/><circle cx="500" cy="500" r="495" fill="none" stroke="rgba(240,145,58,0.14)" stroke-width="1.5"/>
+      <line x1="5" y1="500" x2="995" y2="500" stroke="rgba(240,145,58,.12)"/><line x1="500" y1="5" x2="500" y2="995" stroke="rgba(240,145,58,.12)"/>
+      <g class="auth-sweep"><path d="M500 500 L995 500 A495 495 0 0 0 850 150 Z" fill="url(#authG)" opacity=".5"/></g>
+      <circle cx="680" cy="330" r="9" fill="#ef5d50"/><circle cx="380" cy="270" r="7" fill="#f0913a"/><circle cx="300" cy="640" r="6" fill="#4fb0c0"/><circle cx="720" cy="700" r="5" fill="#7d889a"/>
+    </svg>
+  </div>
+  <header class="auth-top"><img id="lLogo" alt=""><div><b id="lName">Kairo</b><small id="lTag">Strategic planner</small></div></header>
+  <main class="auth-main">
+    <form class="auth-card" id="lForm" novalidate>
+      <h1 id="lHead">Sign in</h1>
+      <p class="auth-sub" id="lSub">Your plan for today, on every device.</p>
+      <label class="float" id="lEmailF"><input type="email" id="lEmail" placeholder=" " autocomplete="username" required><span>Email</span></label>
+      <label class="float pw" id="lPassF"><input type="password" id="lPass" placeholder=" " autocomplete="current-password"><span id="lPassL">Password</span><button type="button" class="peek" data-for="lPass">Show</button></label>
+      <label class="float pw" id="lPass2F" hidden><input type="password" id="lPass2" placeholder=" " autocomplete="new-password"><span>Confirm new password</span><button type="button" class="peek" data-for="lPass2">Show</button></label>
+      <p class="auth-msg" id="lMsg" role="status"></p>
+      <button class="auth-go" type="submit" id="lGo">Sign in</button>
+      <div class="auth-row" id="lRow">
+        <label><input type="checkbox" id="lRemember"> Remember me</label>
+        <button type="button" class="auth-link" id="lForgot">Forgot password?</button>
+      </div>
+      <div class="auth-foot"><span id="lFoot">Accounts are by invitation.</span><button type="button" class="auth-link" id="lCancel">Cancel</button></div>
+    </form>
+  </main>
 </div>
 <datalist id="clientList"></datalist>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -721,7 +774,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 (() => {
   const $ = id => document.getElementById(id);
   const DAY = 864e5;
-  const APP_VERSION = '0.11 POC';
+  const APP_VERSION = '0.14 POC';
   const FEEDBACK_EMAIL = 'gonzalezkevin70@gmail.com';
   // Product name lives here only: change these two lines to rebrand.
   const APP_NAME = 'Kairo', APP_TAGLINE = 'Strategic planner';
@@ -2105,7 +2158,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     try { await store.save('daily', d.id, data); toast('Last check removed'); } catch(e){ fail(e); }
   }
 
-  document.addEventListener('keydown', e => { if(e.key !== 'Escape') return; if(!$('scrim').hidden) closeForm(); if(!$('dScrim').hidden) closeDaily(); if(!$('cScrim').hidden) closeClose(); $('sScrim').hidden = true; $('fbScrim').hidden = true; $('lScrim').hidden = true; closeDetails(); });
+  document.addEventListener('keydown', e => { if(e.key !== 'Escape') return; if(!$('scrim').hidden) closeForm(); if(!$('dScrim').hidden) closeDaily(); if(!$('cScrim').hidden) closeClose(); $('sScrim').hidden = true; $('fbScrim').hidden = true; if(!$('lScrim').hidden && !authGate && authMode !== 'recover') hideLogin(); closeDetails(); });
 
   let toastT;
   function toast(msg){ const t = $('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 1800); }
@@ -2318,43 +2371,124 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     $('cloudInfo').textContent = !sb ? 'The sync service didn’t load. Check your connection and reload.'
       : cloudUser ? `Signed in as ${cloudUser.email}. ` + (n ? `${n} change${n === 1 ? '' : 's'} waiting to upload.` : 'Everything is synced.')
       : 'Not signed in. Changes stay on this device and upload when you sign in.';
-    $('cloudUpload').hidden = !cloudUser; $('cloudSignOut').hidden = !cloudUser;
+    $('cloudUpload').hidden = !cloudUser; $('cloudSignOut').hidden = !cloudUser; $('cloudPass').hidden = !cloudUser;
   }
+  // Hosted version: nothing shows until you sign in.
+  const GATE = location.protocol !== 'file:';   // only the local copy opened from Documents skips sign-in
+  // The sign-in screen covers everything from the first paint; it lifts only once a session is confirmed.
+  if(!GATE){ $('lScrim').hidden = true; $('lScrim').classList.remove('checking'); }
+  const hasSavedSession = () => { try { return [...Object.keys(localStorage), ...Object.keys(sessionStorage)].some(k => /^sb-.*-auth-token$/.test(k)); } catch { return false; } };
+  let authMode = 'signin', authGate = false;
+  const remember = () => { try { return localStorage.getItem('pr-remember') !== '0'; } catch { return true; } };
+  // "Remember me" off keeps the session only until the browser closes
+  const authStorage = {
+    getItem: k => { try { return localStorage.getItem(k) ?? sessionStorage.getItem(k); } catch { return null; } },
+    setItem: (k, v) => { try { (remember() ? localStorage : sessionStorage).setItem(k, v); (remember() ? sessionStorage : localStorage).removeItem(k); } catch {} },
+    removeItem: k => { try { localStorage.removeItem(k); sessionStorage.removeItem(k); } catch {} },
+  };
+  const AUTH = {
+    signin:  {head: 'Sign in', sub: 'Your plan for today, on every device.', go: 'Sign in', email: true, pass: true, pass2: false, row: true, passL: 'Password'},
+    forgot:  {head: 'Reset password', sub: 'Enter your email and we’ll send you a link to set a new password.', go: 'Send reset link', email: true, pass: false, pass2: false, row: false},
+    recover: {head: 'Set a new password', sub: 'Choose a password with at least 8 characters.', go: 'Save password', email: false, pass: true, pass2: true, row: false, passL: 'New password'},
+  };
+  function setAuthMode(m){
+    authMode = m; const c = AUTH[m === 'change' ? 'recover' : m];
+    $('lHead').textContent = c.head; $('lSub').textContent = c.sub; $('lGo').textContent = c.go;
+    $('lEmailF').hidden = !c.email; $('lPassF').hidden = !c.pass; $('lPass2F').hidden = !c.pass2; $('lRow').hidden = !c.row;
+    $('lPassL').textContent = c.passL || 'Password';
+    $('lPass').autocomplete = c.pass2 ? 'new-password' : 'current-password';
+    $('lPass').value = ''; $('lPass2').value = '';
+    $('lMsg').textContent = ''; $('lMsg').classList.remove('ok');
+    $('lCancel').textContent = m === 'forgot' ? 'Back to sign in' : 'Cancel';
+    $('lCancel').hidden = authGate && m !== 'forgot';
+    $('lFoot').textContent = m === 'change' || m === 'recover' ? '' : 'Accounts are by invitation.';
+    setTimeout(() => (c.email ? $('lEmail') : $('lPass')).focus(), 30);
+  }
+  function showLogin(gate, mode = 'signin'){
+    authGate = gate; $('lRemember').checked = remember(); $('lScrim').classList.remove('checking');
+    $('lScrim').hidden = false; setAuthMode(mode);
+  }
+  const hideLogin = () => { $('lScrim').hidden = true; authGate = false; };
+  const gated = () => GATE && !!sb && !cloudUser;
   function setCloudUser(u){
     const was = cloudUser && cloudUser.id; cloudUser = u || null;
+    if(gated()) showLogin(true);
+    else if($('lScrim').classList.contains('checking')){ $('lScrim').classList.remove('checking'); $('lScrim').hidden = true; }
+    else if(authGate && authMode === 'signin') hideLogin();
     renderSync(); renderFileBar();
     if(cloudUser && was !== cloudUser.id) syncNow();
   }
   async function initCloud(){
     cloudMark = queueChange;   // queue changes even before signing in
-    if(!(window.supabase && window.supabase.createClient)){ renderSync(); return; }
-    sb = window.supabase.createClient(CLOUD_URL, CLOUD_KEY, {auth: {persistSession: true, autoRefreshToken: true}});
-    try { const {data} = await sb.auth.getSession(); setCloudUser(data.session ? data.session.user : null); } catch { renderSync(); }
-    sb.auth.onAuthStateChange((_e, session) => setCloudUser(session ? session.user : null));
+    if(!(window.supabase && window.supabase.createClient)){
+      renderSync();
+      if(GATE){
+        // sync service unreachable: let a device that was signed in keep working offline
+        if(hasSavedSession()){ $('lScrim').classList.remove('checking'); $('lScrim').hidden = true; }
+        else { showLogin(true); authMsg('Couldn’t reach the sync service. Check your connection and reload.'); }
+      }
+      return;
+    }
+    sb = window.supabase.createClient(CLOUD_URL, CLOUD_KEY, {auth: {persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: authStorage}});
+    try { const {data} = await sb.auth.getSession(); setCloudUser(data.session ? data.session.user : null); } catch { setCloudUser(null); }
+    sb.auth.onAuthStateChange((ev, session) => {
+      setCloudUser(session ? session.user : null);
+      if(ev === 'PASSWORD_RECOVERY') showLogin(true, 'recover');   // arrived from a reset-password email
+    });
     window.addEventListener('online', syncNow);
     window.addEventListener('offline', renderSync);
     document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') syncNow(); });
     setInterval(syncNow, 30 * 1000);
   }
+  { const logo = document.querySelector('.brand img'); if(logo) $('lLogo').src = logo.src; $('lName').textContent = APP_NAME; $('lTag').textContent = APP_TAGLINE; }
   $('syncBtn').addEventListener('click', () => {
-    if(sb && !cloudUser){ $('lMsg').textContent = ''; $('lScrim').hidden = false; setTimeout(() => $('lEmail').focus(), 30); }
+    if(sb && !cloudUser) showLogin(GATE);
     else syncNow();
   });
-  $('lCancel').addEventListener('click', () => { $('lScrim').hidden = true; });
-  $('lScrim').addEventListener('click', e => { if(e.target === $('lScrim')) $('lScrim').hidden = true; });
+  document.querySelectorAll('.peek').forEach(b => b.addEventListener('click', () => {
+    const i = $(b.dataset.for), show = i.type === 'password'; i.type = show ? 'text' : 'password'; b.textContent = show ? 'Hide' : 'Show'; i.focus();
+  }));
+  $('lRemember').addEventListener('change', () => { try { localStorage.setItem('pr-remember', $('lRemember').checked ? '1' : '0'); } catch {} });
+  $('lForgot').addEventListener('click', () => setAuthMode('forgot'));
+  $('lCancel').addEventListener('click', () => { if(authMode === 'forgot') setAuthMode('signin'); else hideLogin(); });
+  $('cloudPass').addEventListener('click', () => { $('sScrim').hidden = true; showLogin(false, 'change'); });
+  const authMsg = (t, ok) => { $('lMsg').textContent = t; $('lMsg').classList.toggle('ok', !!ok); };
   $('lForm').addEventListener('submit', async e => {
-    e.preventDefault(); if(!sb) return;
-    $('lMsg').textContent = 'Signing in…'; $('lGo').disabled = true;
+    e.preventDefault(); if(!sb){ authMsg('Couldn’t reach the sync service. Check your connection and reload.'); return; }
+    const email = $('lEmail').value.trim(), pass = $('lPass').value;
+    if(AUTH[authMode === 'change' ? 'recover' : authMode].email && !EMAIL.test(email)){ authMsg('Enter a valid email address.'); $('lEmail').focus(); return; }
+    $('lGo').disabled = true;
     try {
-      const {error} = await sb.auth.signInWithPassword({email: $('lEmail').value.trim(), password: $('lPass').value});
-      if(error){ $('lMsg').textContent = error.message; return; }
-      $('lPass').value = ''; $('lScrim').hidden = true; toast('Signed in · syncing');
-    } catch { $('lMsg').textContent = 'Couldn’t reach the sync service. Check your connection.'; }
+      if(authMode === 'signin'){
+        if(!pass){ authMsg('Enter your password.'); $('lPass').focus(); return; }
+        authMsg('Signing in…', true);
+        const {error} = await sb.auth.signInWithPassword({email, password: pass});
+        if(error){ authMsg(/invalid/i.test(error.message) ? 'Incorrect email or password.' : error.message); return; }
+        hideLogin(); toast('Welcome back · syncing');
+      } else if(authMode === 'forgot'){
+        authMsg('Sending…', true);
+        const {error} = await sb.auth.resetPasswordForEmail(email, {redirectTo: location.origin + location.pathname});
+        if(error){ authMsg(error.message); return; }
+        authMsg('If that email has an account, a reset link is on its way. Check your inbox.', true);
+      } else {
+        if(pass.length < 8){ authMsg('Use at least 8 characters.'); $('lPass').focus(); return; }
+        if(pass !== $('lPass2').value){ authMsg('The passwords don’t match.'); $('lPass2').focus(); return; }
+        authMsg('Saving…', true);
+        const {error} = await sb.auth.updateUser({password: pass});
+        if(error){ authMsg(error.message); return; }
+        hideLogin(); toast('Password updated');
+        if(location.hash) history.replaceState(null, '', location.pathname);
+      }
+    } catch { authMsg('Couldn’t reach the sync service. Check your connection.'); }
     finally { $('lGo').disabled = false; }
   });
+  // Signing out also removes this device's copy, so nobody else using it sees your tasks.
   $('cloudSignOut').addEventListener('click', async () => {
+    const n = Object.keys(pending).length;
+    if(n && !confirm(`${n} change${n === 1 ? '' : 's'} haven’t uploaded yet and will be lost. Sign out anyway?`)) return;
     try { await sb.auth.signOut(); } catch {}
-    toast('Signed out. Your tasks stay on this device.'); renderCloudInfo();
+    try { ['pr-tasks','pr-daily','pr-settings','pr-clients','pr-outbox','pr-delivery','pr-pending','pr-lastpull'].forEach(k => localStorage.removeItem(k)); } catch {}
+    location.reload();
   });
   $('cloudUpload').addEventListener('click', () => {
     tasks.forEach(t => queueChange('tasks', t.id, t));
@@ -2382,6 +2516,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       store = await localStore(); dataReady = true; render(); await initCloud(); renderFileBar(); spawnRecurring();
       return;
     }
+    $('lScrim').hidden = true;   // Claude-hosted version handles its own access
     try { userNs = await window.claude.use('user'); me = userNs ? await userNs.id() : null; } catch { userNs = null; me = null; }
     try { downloadsNs = await window.claude.use('downloads'); } catch { downloadsNs = null; }
     const settingsId = me || 'main';
