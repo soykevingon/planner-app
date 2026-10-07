@@ -537,10 +537,10 @@ table.rep tr.clickable:hover td{background:var(--bg)}
         <div class="hz-row"><span class="flabel">Look ahead</span><div class="seg-ctl" id="horizonCtl" role="group" aria-label="Look ahead"></div></div>
         <svg class="radar" id="radar" viewBox="0 0 520 520" role="img" aria-label="Task radar by priority"></svg>
         <div class="legend">
-          <span><i style="background:var(--crit)"></i>Critical 70+</span>
-          <span><i style="background:var(--high)"></i>High 50–69</span>
-          <span><i style="background:var(--mid)"></i>Medium 30–49</span>
-          <span><i style="background:var(--low)"></i>Low &lt;30</span>
+          <span><i style="background:var(--crit)"></i>P1 Critical 70+</span>
+          <span><i style="background:var(--high)"></i>P2 High 50–69</span>
+          <span><i style="background:var(--mid)"></i>P3 Medium 30–49</span>
+          <span><i style="background:var(--low)"></i>P4 Low &lt;30</span>
           <span><i class="subk"></i>Subtask</span>
           <span><i class="sq"></i>Routine check due</span>
           <span><i class="ring"></i>Ring = space</span>
@@ -645,12 +645,12 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     <div class="field">
       <span class="lbl">Importance</span>
       <div class="segs" id="segImp"></div>
-      <div class="scale-hint"><span>Low impact</span><span>Critical to goals</span></div>
+      <div class="scale-hint"><span>1 · Critical to goals</span><span>5 · Low impact</span></div>
     </div>
     <div class="field">
       <span class="lbl">Urgency</span>
       <div class="segs" id="segUrg"></div>
-      <div class="scale-hint"><span>Can wait</span><span>Someone is waiting now</span></div>
+      <div class="scale-hint"><span>1 · Someone is waiting now</span><span>5 · Can wait</span></div>
     </div>
     <div class="field" id="effortField">
       <span class="lbl">Effort</span>
@@ -740,8 +740,8 @@ table.rep tr.clickable:hover td{background:var(--bg)}
           <select id="dEffort"><option value="0.5">30m</option><option value="1">1h</option><option value="2">2h</option><option value="4">4h</option><option value="8">1 day</option></select></div>
       </div>
       <div class="row2">
-        <div class="field"><label for="dImp">Importance</label><select id="dImp"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></div>
-        <div class="field"><label for="dUrg">Urgency</label><select id="dUrg"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></div>
+        <div class="field"><label for="dImp">Importance</label><select id="dImp"><option value="5">1 · highest</option><option value="4">2</option><option value="3" selected>3</option><option value="2">4</option><option value="1">5 · lowest</option></select></div>
+        <div class="field"><label for="dUrg">Urgency</label><select id="dUrg"><option value="5">1 · highest</option><option value="4">2</option><option value="3" selected>3</option><option value="2">4</option><option value="1">5 · lowest</option></select></div>
       </div>
       <div class="field">
         <label for="dSubs">Subtasks (optional)</label>
@@ -984,7 +984,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 (() => {
   const $ = id => document.getElementById(id);
   const DAY = 864e5;
-  const APP_VERSION = '0.21 POC';
+  const APP_VERSION = '0.22 POC';
   const FEEDBACK_EMAIL = 'gonzalezkevin70@gmail.com';
   // Product name lives here only: change these two lines to rebrand.
   const APP_NAME = 'Kairo', APP_TAGLINE = 'Strategic planner';
@@ -1202,7 +1202,8 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const openHours = modeOf(t) === 'steady' ? 0 : isLeaf(t) ? effortOf(t) : subsOf(t).filter(s => !s.done).reduce((a,s) => a + effortOf(s), 0);
     return {t, e, score, days, start, pressure, q, tier, openHours, risk: !!(S.res.get(t.id) || {}).risk};
   }
-  const tierName = {crit:'Critical', high:'High', mid:'Medium', low:'Low'};
+  const tierName = {crit:'P1 Critical', high:'P2 High', mid:'P3 Medium', low:'P4 Low'};
+  const lvl = v => `${6 - v} of 5`;   // stored 5 = highest, shown as 1
   const qName = {1:'Do now', 2:'Schedule', 3:'Quick win', 4:'If time allows'};
 
   function due(days, deadline){
@@ -1831,7 +1832,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const it = (k, v) => { const d = document.createElement('div'); const dt = document.createElement('dt'); dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; d.append(dt, dd); dl.append(d); };
     it('Effort', fmtH(pi.subs.length ? pi.subs.reduce((a,y) => a + effortOf(y), 0) : effortOf(t)));
     it('Left', fmtH(pi.left));
-    it('Importance', `${e.importance} of 5`);
+    it('Importance', lvl(e.importance));
     it('Planned', sp ? spaceWhen(sp) : 'work hours');
     if(e.client) it('Client', e.client);
     sum.append(sh, bar, dl); aside.append(sum);
@@ -2064,9 +2065,9 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const box = $(boxId);
     const a = document.createElement('label'); a.className = 'seg auto'; a.id = name + 'AutoL';
     a.innerHTML = `<input type="radio" name="${name}" id="${name}0" value="0"><span>Project</span>`; box.append(a);
-    for(let i=1;i<=5;i++){
+    for(let i=5;i>=1;i--){   // shown as 1 (highest) … 5 (lowest)
       const l = document.createElement('label'); l.className = 'seg';
-      l.innerHTML = `<input type="radio" name="${name}" id="${name}${i}" value="${i}"><span>${i}</span>`; box.append(l);
+      l.innerHTML = `<input type="radio" name="${name}" id="${name}${i}" value="${i}"><span>${6 - i}</span>`; box.append(l);
     }
   }
   buildSeg('segImp', 'imp'); buildSeg('segUrg', 'urg');
@@ -2589,8 +2590,8 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     else item('Effort', subs.length ? `${fmtH(subs.reduce((a,s) => a + effortOf(s), 0))} across ${subs.length} subtasks` : fmtH(effortOf(t)));
     if(e.space) item('Space', e.space.name + ' · planned ' + spaceWhen(e.space));
     if(isPayment(t)) item('Amount', money(t.amount));
-    item('Importance', `${e.importance} of 5` + (t.importance == null && p ? ' (project)' : ''));
-    item('Urgency', `${e.urgency} of 5` + (t.urgency == null && p ? ' (project)' : ''));
+    item('Importance', lvl(e.importance) + (t.importance == null && p ? ' (project)' : ''));
+    item('Urgency', lvl(e.urgency) + (t.urgency == null && p ? ' (project)' : ''));
     if(me && e.assignees.length) item('In charge', e.assignees.map(nameOf).join(', '));
     const nf = t.notify || {close: true, start: true, due: true, watchers: []};
     const on = [nf.close && 'when closed', nf.start && 'start-by date', nf.due && 'due date'].filter(Boolean);
