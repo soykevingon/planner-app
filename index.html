@@ -173,6 +173,97 @@ header.top>div:first-of-type{padding-right:56px}
 .acct-menu button{display:block;width:100%;text-align:left;border:none;background:none;color:var(--ink);font:500 14px var(--f-body);padding:9px 10px;border-radius:8px;cursor:pointer}
 .acct-menu button:hover,.acct-menu button:focus-visible{background:var(--bg)}
 .acct-menu .danger{color:var(--crit)}
+.chip i.sw,.stag i.sw,.mini i.sw{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:0}
+.stag{display:inline-flex;align-items:center;font:600 12px var(--f-body);color:var(--muted)}
+.mini.eve .hours{color:var(--muted)}
+.sp-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:8px;align-items:center;padding:6px 0;border-top:1px solid var(--line)}
+.sp-row input[type=color]{width:34px;height:34px;padding:2px;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer}
+.sp-row select{width:auto;padding:8px}
+.sp-cust{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:4px 0 2px 42px}
+.sp-days{display:flex;flex-wrap:wrap;gap:4px}
+.sp-days label{display:inline-flex;align-items:center;gap:4px;font-size:13px;border:1px solid var(--line);border-radius:7px;padding:3px 7px;cursor:pointer}
+.sp-days input{accent-color:var(--accent)}
+.sp-times{display:flex;gap:6px;align-items:center}
+.sp-times input{width:auto;padding:6px 8px}
+@media (max-width:480px){.sp-row{grid-template-columns:auto minmax(0,1fr) auto}.sp-row select{grid-column:2/4}}
+.pay{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px 12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.pay .amt{font:500 14px var(--f-mono);font-variant-numeric:tabular-nums}
+.pay.sched{opacity:.7}
+.btn.paid{border-color:#3b8a4c;color:#2b6b39}
+:root[data-theme="dark"] .btn.paid{color:#7fcf8e}
+.tab .ti{display:none}
+.hz-row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.seg-ctl{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.seg-ctl button{border:none;background:transparent;color:var(--muted);font:600 13px var(--f-body);border-radius:7px;padding:6px 10px;cursor:pointer}
+.seg-ctl button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.legend i.ring{background:transparent;border:2.5px solid var(--mid)}
+.road-box{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
+.road{min-width:520px}
+.road-head,.road-row{display:grid;grid-template-columns:190px minmax(0,1fr);align-items:center}
+.road-head{padding-bottom:6px;border-bottom:1px solid var(--line)}
+.road-months{display:grid}
+.road-months span{font:600 11px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-left:1px solid var(--line);padding-left:6px}
+.road-row{min-height:38px;border-bottom:1px solid color-mix(in srgb,var(--line) 55%,transparent)}
+.road-row:last-child{border-bottom:none}
+.road-lbl{display:flex;align-items:center;gap:7px;min-width:0;padding-right:8px;border:none;background:none;color:var(--ink);font:500 13px var(--f-body);text-align:left;cursor:pointer}
+.road-lbl span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.road-lbl i{flex:none;width:8px;height:8px;border-radius:2px}
+.road-track{position:relative;height:38px}
+.road-today{position:absolute;top:0;bottom:0;width:2px;background:var(--accent)}
+.road-bar{position:absolute;top:10px;height:18px;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding:0 5px;box-sizing:border-box;font:500 10.5px var(--f-mono);color:#fff;white-space:nowrap;overflow:hidden}
+.road-dia{position:absolute;top:13px;width:11px;height:11px;transform:translateX(-50%) rotate(45deg);background:#3b8a4c;border-radius:2px}
+.road-empty{color:var(--muted);font-size:13px;padding:12px 0}
+.proj-wrap{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start}
+.proj-side{flex:1 1 200px;max-width:240px;display:flex;flex-direction:column;gap:2px}
+.proj-main{flex:999 1 520px;min-width:0}
+@media (max-width:760px){.proj-side{display:none}}
+.ps-space{display:flex;align-items:center;gap:9px;width:100%;border:none;background:none;color:var(--ink);font:600 14px var(--f-body);padding:8px 10px;border-radius:9px;cursor:pointer;text-align:left}
+.ps-space[aria-pressed="true"]{background:var(--surface)}
+.ps-space i{width:10px;height:10px;border-radius:3px;flex:none}
+.ps-space b{margin-left:auto;font:500 12px var(--f-mono);color:var(--muted)}
+.ps-proj{display:block;width:100%;border:none;background:none;text-align:left;color:var(--muted);font:14px var(--f-body);padding:4px 10px 4px 29px;border-radius:7px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ps-proj:hover,.ps-space:hover{color:var(--accent)}
+.proj-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.proj-head .ph{font-family:var(--f-display);font-weight:700;font-size:26px;margin:0}
+.proj-head .hint{margin:4px 0 0}
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.pcard{display:flex;flex-direction:column;gap:11px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px;color:var(--ink);font:inherit;cursor:pointer}
+.pcard:hover{border-color:var(--muted)}
+.pcard .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pcard .nm{font:700 17px var(--f-display);line-height:1.25;overflow-wrap:anywhere}
+.pbar{height:8px;border-radius:99px;background:color-mix(in srgb,var(--line) 70%,transparent);overflow:hidden}
+.pbar i{display:block;height:100%;border-radius:99px}
+.pcard .meta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted)}
+.pcard .foot{display:flex;justify-content:space-between;gap:8px;padding-top:10px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.pcard .foot b{color:var(--ink);font-weight:600}
+.pcard.done{opacity:.7}
+.pill{font:600 12px var(--f-body);padding:3px 9px;border-radius:999px;white-space:nowrap;background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.pill.ok{background:color-mix(in srgb,var(--mid) 16%,transparent);color:var(--mid);border-color:transparent}
+.pill.risk{background:color-mix(in srgb,var(--crit) 14%,transparent);color:var(--crit);border-color:transparent}
+.pill.now{background:color-mix(in srgb,var(--high) 15%,transparent);color:var(--high);border-color:transparent}
+.pd-top{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.pd-crumb{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13.5px;color:var(--muted)}
+.pd-title{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.pd-title h2{margin:0;font:700 30px var(--f-display);letter-spacing:-.015em;line-height:1.15;overflow-wrap:anywhere}
+.pd-pills{display:flex;gap:6px;flex-wrap:wrap}
+.pd-grid{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.pd-main{flex:999 1 460px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.pd-aside{flex:1 1 240px;max-width:340px;display:flex;flex-direction:column;gap:12px}
+.pd-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.pd-card h3{margin:0 0 10px;font:700 15px var(--f-display)}
+.ptl{display:grid;gap:6px}
+.ptl div{display:flex;flex-direction:column;gap:6px;min-width:0}
+.ptl i{display:block;height:10px;border-radius:99px}
+.ptl span{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:640px){
+  div.tabs{position:fixed;left:0;right:0;bottom:0;z-index:12;margin:0;background:var(--surface);border-top:1px solid var(--line);border-bottom:none;justify-content:space-around;padding:4px 4px calc(6px + env(safe-area-inset-bottom,0px));gap:0}
+  .tabs .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;padding:7px 0 4px;border-bottom:none;margin:0}
+  .tabs .tab .ti{display:block;width:22px;height:22px}
+  .tabs .tab[aria-selected="true"]{color:var(--accent)}
+  .wrap{padding-bottom:104px}
+  .toast{bottom:calc(86px + env(safe-area-inset-bottom,0px))}
+  .pd-title h2{font-size:24px}
+}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:10px;font-size:14px;z-index:30}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px}
 .tab{border:none;background:none;font:600 15px var(--f-body);color:var(--muted);padding:10px 14px;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
@@ -300,7 +391,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     <div class="actions">
       <button class="btn" id="syncBtn" type="button">Sign in to sync</button>
       <button class="btn" id="feedbackBtn" type="button">Feedback</button>
-      <button class="btn" id="settingsBtn" type="button">Clients &amp; settings</button>
+      <button class="btn" id="settingsBtn" type="button">Settings</button>
       <button class="btn danger" id="addEmergBtn" type="button">+ Emergency</button>
       <button class="btn" id="addDailyBtn" type="button">+ Recurring</button>
       <button class="btn primary" id="addBtn" type="button">+ New task</button>
@@ -324,16 +415,19 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       <button class="chip" type="button" data-view="projects">Projects</button>
       <button class="chip" type="button" data-view="subtasks">Subtasks</button>
     </div>
-    <span class="flabel">Client</span>
+    <span class="flabel" id="spaceLabel">Space</span>
+    <div class="chips" id="spaceChips"></div>
+    <span class="flabel" id="clientLabel">Client</span>
     <div class="chips" id="clientChips"></div>
     <span class="flabel" id="peopleLabel" hidden>People</span>
     <div class="chips" id="peopleChips" hidden></div>
   </div>
 
   <div class="tabs" role="tablist">
-    <button class="tab" role="tab" id="tabToday" type="button" data-tab="today">Today</button>
-    <button class="tab" role="tab" id="tabRadar" type="button" data-tab="radar">Radar</button>
-    <button class="tab" role="tab" id="tabReports" type="button" data-tab="reports">Reports</button>
+    <button class="tab" role="tab" id="tabToday" type="button" data-tab="today"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Today</span></button>
+    <button class="tab" role="tab" id="tabRadar" type="button" data-tab="radar"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 12l6-6"/></svg><span>Radar</span></button>
+    <button class="tab" role="tab" id="tabProjects" type="button" data-tab="projects"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h7l2 2h9v10H3z"/></svg><span>Projects</span></button>
+    <button class="tab" role="tab" id="tabReports" type="button" data-tab="reports"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg><span>Reports</span></button>
   </div>
 
   <div id="viewToday">
@@ -367,16 +461,39 @@ table.rep tr.clickable:hover td{background:var(--bg)}
         </section>
       </div>
       <div>
+        <section class="group" id="payGroup" hidden>
+          <h2>Payments due <span class="count" id="cPay"></span></h2>
+          <p class="hint" id="payHint"></p>
+          <div class="list" id="lPay"></div>
+        </section>
         <section class="group">
           <h2>Routine checks <span class="count" id="cDaily2"></span></h2>
           <p class="hint" id="dailyHint2"></p>
           <div class="list" id="lDaily2"></div>
         </section>
         <section class="group">
-          <h2>Next workdays</h2>
+          <h2>Next days</h2>
           <p class="hint">Where the planner placed the rest of your work.</p>
           <div class="agenda" id="agenda"></div>
         </section>
+      </div>
+    </div>
+  </div>
+
+  <div id="viewProjects" hidden>
+    <div class="proj-wrap">
+      <aside class="proj-side" id="projSide" aria-label="Spaces and projects"></aside>
+      <div class="proj-main">
+        <div id="projList">
+          <div class="proj-head">
+            <div><h2 class="ph">Projects</h2><p class="hint">Every project gets a deadline. The planner tells you when it has to start.</p></div>
+            <button class="btn primary" id="addProjBtn" type="button">+ New project</button>
+          </div>
+          <div class="proj-grid" id="projGrid"></div>
+          <button class="linkbtn" id="projDoneToggle" type="button" style="margin-top:16px"></button>
+          <div class="proj-grid" id="projDoneGrid" hidden style="margin-top:12px"></div>
+        </div>
+        <div id="projDetail" hidden></div>
       </div>
     </div>
   </div>
@@ -413,6 +530,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   <div class="layout">
     <div class="radar-col">
       <div class="radar-box">
+        <div class="hz-row"><span class="flabel">Look ahead</span><div class="seg-ctl" id="horizonCtl" role="group" aria-label="Look ahead"></div></div>
         <svg class="radar" id="radar" viewBox="0 0 520 520" role="img" aria-label="Task radar by priority"></svg>
         <div class="legend">
           <span><i style="background:var(--crit)"></i>Critical 70+</span>
@@ -421,6 +539,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
           <span><i style="background:var(--low)"></i>Low &lt;30</span>
           <span><i class="subk"></i>Subtask</span>
           <span><i class="sq"></i>Routine check due</span>
+          <span><i class="ring"></i>Ring = space</span>
         </div>
         <div class="stats">
           <div class="stat"><b id="sDaily">0</b><span>Checks due</span></div>
@@ -433,6 +552,11 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     </div>
 
     <div class="list-col">
+      <section class="group" id="g-road">
+        <h2>Roadmap <span class="count" id="cRoad"></span></h2>
+        <p class="hint">Bars run from the planner’s start-by date to each deadline. Dashed bars are recurring work that will be created; diamonds are bills.</p>
+        <div class="road-box"><div class="road" id="roadmap"></div></div>
+      </section>
       <section class="group" id="g-daily">
         <h2>Recurring <span class="count" id="cDaily"></span></h2>
         <p class="hint" id="dailyHint"></p>
@@ -487,12 +611,22 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     </div>
     <div class="row2">
       <div class="field">
-        <label for="fClient">Client</label>
-        <input type="text" id="fClient" list="clientList" maxlength="40" placeholder="e.g. Acme Co.">
+        <label for="fSpace">Space</label>
+        <select id="fSpace"></select>
       </div>
       <div class="field">
         <label for="fParent">Part of project</label>
         <select id="fParent"></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label for="fClient">Client</label>
+        <input type="text" id="fClient" list="clientList" maxlength="40" placeholder="e.g. Acme Co.">
+      </div>
+      <div class="field">
+        <label for="fAmount">Payment amount</label>
+        <input type="number" id="fAmount" min="0" step="0.01" inputmode="decimal" placeholder="Only for bills">
       </div>
     </div>
     <div class="field" id="peopleField" hidden>
@@ -558,9 +692,19 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       <label for="dTitle">Name</label>
       <input type="text" id="dTitle" required maxlength="100" placeholder="e.g. Check ticket queue, Monthly patching, Quarterly review">
     </div>
+    <div class="row2">
+      <div class="field">
+        <label for="dSpace">Space</label>
+        <select id="dSpace"></select>
+      </div>
+      <div class="field">
+        <label for="dClient">Client</label>
+        <input type="text" id="dClient" list="clientList" maxlength="40" placeholder="e.g. Acme Co.">
+      </div>
+    </div>
     <div class="field">
-      <label for="dClient">Client</label>
-      <input type="text" id="dClient" list="clientList" maxlength="40" placeholder="e.g. Acme Co.">
+      <label for="dAmount">Payment amount (bills only)</label>
+      <input type="number" id="dAmount" min="0" step="0.01" inputmode="decimal" placeholder="e.g. rent or a card payment">
     </div>
     <div class="field">
       <span class="lbl">Repeats</span>
@@ -663,7 +807,28 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 <!-- Settings sheet -->
 <div class="scrim" id="sScrim" hidden>
   <div class="sheet" role="dialog" aria-labelledby="sTitle">
-    <h3 id="sTitle">Clients &amp; settings</h3>
+    <h3 id="sTitle">Settings</h3>
+    <div class="field">
+      <span class="lbl">Profile</span>
+      <div class="row2">
+        <div class="field"><label for="sName">Your name</label><input type="text" id="sName" maxlength="60" placeholder="Shown on your avatar"></div>
+        <div class="field"><label for="sPayDays">Remind me of bills</label><select id="sPayDays"><option value="1">1 day before</option><option value="2">2 days before</option><option value="3">3 days before</option><option value="5">5 days before</option><option value="7">1 week before</option></select></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="sEve">Free hours on weeknights</label><input type="number" id="sEve" min="0" max="6" step="0.5"></div>
+        <div class="field"><label for="sWkd">Free hours per weekend day</label><input type="number" id="sWkd" min="0" max="12" step="0.5"></div>
+      </div>
+      <span class="fnote">Spaces planned in evenings and weekends use this time, so they never eat your work focus hours.</span>
+    </div>
+    <div class="field">
+      <span class="lbl">Spaces</span>
+      <div id="spRows"></div>
+      <form id="spAdd" style="display:flex;gap:8px;margin-top:8px" autocomplete="off">
+        <input type="text" id="spNew" maxlength="40" placeholder="Add a space, e.g. Side project">
+        <button class="btn" type="submit">Add</button>
+      </form>
+      <span class="fnote">Each space decides when its work can be planned. Subtasks follow their project’s space.</span>
+    </div>
     <div class="field">
       <span class="lbl">Clients</span>
       <div id="clRows"></div>
@@ -786,6 +951,27 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     </form>
   </main>
 </div>
+<!-- Welcome (first run) -->
+<div class="scrim" id="obScrim" hidden>
+  <form class="sheet" id="obForm" autocomplete="off">
+    <h3>Welcome to <span class="ob-name">Kairo</span></h3>
+    <p class="fnote" style="margin:-6px 0 14px">A few things so the planner knows your time. You can change all of it later in Settings.</p>
+    <div class="field"><label for="obName">Your name</label><input type="text" id="obName" maxlength="60" required></div>
+    <div class="field"><span class="lbl">Work hours</span>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input type="time" id="obStart" value="08:30" style="width:auto" aria-label="Work starts"> <span class="fnote">to</span> <input type="time" id="obEnd" value="17:30" style="width:auto" aria-label="Work ends"> <span class="fnote">Monday to Friday</span></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="obFocus">Focus hours per workday</label><input type="number" id="obFocus" min="1" max="12" step="0.5" value="5"><span class="fnote">Time left after meetings and interruptions.</span></div>
+      <div class="field"><label for="obEve">Free hours on weeknights</label><input type="number" id="obEve" min="0" max="6" step="0.5" value="2"><span class="fnote">For school and personal spaces.</span></div>
+    </div>
+    <div class="field"><span class="lbl">Your spaces</span>
+      <div class="checks" id="obSpaces"></div>
+      <input type="text" id="obOther" maxlength="40" placeholder="Another space (optional)">
+      <span class="fnote">Work is planned in work hours, the rest in evenings and weekends. Finances holds bill reminders.</span>
+    </div>
+    <div class="sheet-actions"><div class="right"><button class="btn primary" type="submit">Start planning</button></div></div>
+  </form>
+</div>
 <datalist id="clientList"></datalist>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <div class="toast" id="toast" hidden></div>
@@ -794,7 +980,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 (() => {
   const $ = id => document.getElementById(id);
   const DAY = 864e5;
-  const APP_VERSION = '0.16 POC';
+  const APP_VERSION = '0.20 POC';
   const FEEDBACK_EMAIL = 'gonzalezkevin70@gmail.com';
   // Product name lives here only: change these two lines to rebrand.
   const APP_NAME = 'Kairo', APP_TAGLINE = 'Strategic planner';
@@ -804,14 +990,15 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   let sb = null, cloudUser = null, cloudMark = null, pending = {}, syncBusy = false, syncAgain = false, lastSyncAt = null, cloudErr = '', pushT = null;
   try { pending = JSON.parse(localStorage.getItem('pr-pending') || '{}'); } catch { pending = {}; }
   const EFFORTS = [[0.5,'30m'],[1,'1h'],[2,'2h'],[4,'4h'],[8,'1 day']];
-  let tasks = [], dailies = [], clientDocs = [], settings = {focusHours: 5, workStart: '08:30', workEnd: '17:30'};
+  let tasks = [], dailies = [], clientDocs = [], spaces = [], settings = {focusHours: 5, workStart: '08:30', workEnd: '17:30'};
   let allSettings = {}, planOverride, syncT, delivery = {};
   let me = null, userNs = null, profCache = {}, personFilter = 'mine', range = 'week', closingId = null, picked = [], downloadsNs = null;
   let store = null, editingId = null, dEditingId = null;
-  let view = 'all', clientFilter = 'all', tab = 'today';
+  let view = 'all', clientFilter = 'all', tab = 'today', spaceFilter = 'all', horizon = 90, projOpen = null;
   try { personFilter = localStorage.getItem('pr-person') || 'mine'; range = localStorage.getItem('pr-range') || 'week'; } catch {}
   try { view = localStorage.getItem('pr-view') || 'all'; clientFilter = localStorage.getItem('pr-client') || 'all'; tab = localStorage.getItem('pr-tab') || 'today'; } catch {}
-  if(['#radar','#today','#reports'].includes(location.hash)) tab = location.hash.slice(1);
+  try { spaceFilter = localStorage.getItem('pr-space') || 'all'; horizon = Number(localStorage.getItem('pr-horizon')) || 90; } catch {}
+  if(['#radar','#today','#reports','#projects'].includes(location.hash)) tab = location.hash.slice(1);
 
   /* ---------- dates (day offsets from today) ---------- */
   const today0 = () => { const d = new Date(); d.setHours(0,0,0,0); return d; };
@@ -860,8 +1047,51 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       deadline: t.deadline || (p && p.deadline) || null,
       client: (p ? p.client : t.client) || '',
       assignees: (t.assignees && t.assignees.length) ? t.assignees : ((p && p.assignees) || []),
+      space: spaceOf(t),
     };
   }
+
+  /* ---------- spaces ----------
+     Every top-level task, project and recurring item lives in a space (Work,
+     University…); subtasks follow their project. A space decides WHEN its work
+     can be planned: during work hours, in evenings and weekends, or any time. */
+  const DEFAULT_SPACES = [
+    {id: 'sp-work', name: 'Work', color: '#2f7d8c', planDuring: 'work'},
+    {id: 'sp-university', name: 'University', color: '#6a55c9', planDuring: 'evenings'},
+    {id: 'sp-personal', name: 'Personal', color: '#b8487a', planDuring: 'evenings'},
+    {id: 'sp-finances', name: 'Finances', color: '#3b8a4c', planDuring: 'any'},
+  ];
+  const SPACE_COLORS = ['#2f7d8c', '#6a55c9', '#b8487a', '#3b8a4c', '#d9781e', '#4f6fb8', '#8a6a2f', '#5d6878'];
+  const PLAN_DURING = {work: 'Work hours', evenings: 'Evenings & weekends', any: 'Any time', custom: 'Custom hours'};
+  const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  // a space with its own schedule: chosen weekdays, between start and end
+  const customDays = sp => Array.isArray(sp.days) && sp.days.length ? sp.days : [1, 2, 3, 4, 5];
+  const customWin = sp => { const a = toH(sp.start) ?? 18, b = toH(sp.end) ?? 21; return [a, Math.max(a + 0.5, b)]; };
+  const spaceWhen = sp => sp.planDuring === 'custom' ? `${customDays(sp).map(d => DOW[d]).join(', ')} ${fmtClock(customWin(sp)[0])}–${fmtClock(customWin(sp)[1])}` : PLAN_DURING[sp.planDuring || 'work'].toLowerCase();
+  const spacesSorted = () => [...spaces].sort((a,b) => (a.order ?? 0) - (b.order ?? 0) || (a.createdAt || 0) - (b.createdAt || 0));
+  const spaceById = id => id ? spaces.find(x => x.id === id) || null : null;
+  const defaultSpace = () => { const l = spacesSorted(); return l.find(x => x.planDuring === 'work') || l[0] || null; };
+  function spaceOf(t){ const p = t.parentId ? byId(t.parentId) : null; return spaceById(p ? p.spaceId : t.spaceId) || defaultSpace(); }
+  const poolsOf = t => { const sp = spaceOf(t), pd = sp ? sp.planDuring : 'work'; return pd === 'evenings' ? ['eve'] : pd === 'any' ? ['work', 'eve'] : pd === 'custom' ? ['sp:' + sp.id] : ['work']; };
+  const isPayment = t => t.amount !== undefined && t.amount !== null && t.amount !== '';
+  const money = v => { try { return new Intl.NumberFormat('en-US', {style: 'currency', currency: settings.currency || 'USD'}).format(Number(v) || 0); } catch { return '$' + (Number(v) || 0).toFixed(2); } };
+  const remindDays = () => Math.max(0, Number(settings.payRemindDays ?? 3) || 0);
+  // evening & weekend time: weekday evenings start 30 min after work and run to 10 PM; weekend days 9 AM–10 PM
+  const EVE_END = 22;
+  const eveHours = o => Math.max(0, Number(isWork(o) ? (settings.eveningHours ?? 2) : (settings.weekendHours ?? 4)) || 0);
+  const eveLeftToday = () => { const tot = eveHours(0), h = nowH(), st = isWork(0) ? window0()[1] + 0.5 : 9; if(h <= st) return tot; if(h >= EVE_END) return 0; return tot * (EVE_END - h) / (EVE_END - st); };
+  const customCap = (o, pool) => {
+    const sp = spaceById(pool.slice(3)); if(!sp || !customDays(sp).includes(offDate(o).getDay())) return 0;
+    const [a, b] = customWin(sp); if(o !== 0) return b - a;
+    const h = nowH(); return h <= a ? b - a : Math.max(0, b - h);
+  };
+  const capOf = (o, pool) => pool.startsWith('sp:') ? customCap(o, pool) : pool === 'work' ? (!isWork(o) ? 0 : o === 0 ? focusLeftToday() : Math.max(0, settings.focusHours)) : (o === 0 ? eveLeftToday() : eveHours(o));
+  const firstOf = pool => {
+    if(pool === 'work') return workLeft() > 1/60 ? 0 : nextW(1);
+    if(pool === 'eve') return eveLeftToday() > 1/60 ? 0 : 1;
+    for(let o = 0; o < 15; o++) if(capOf(o, pool) > 1/60) return o;
+    return 1;
+  };
 
   /* ---------- planner ----------
      Works backward from each deadline. Important work gets a safety buffer
@@ -870,30 +1100,36 @@ table.rep tr.clickable:hover td{background:var(--bg)}
      work spills earlier. Subtasks keep their order: an earlier subtask must be
      done by the day the next one starts. The earliest day an item lands on is
      its "start by" date, the false deadline that drives priority. */
-  let S = {res: new Map(), steady: new Map(), firstW: 0, left: () => 0};
+  let S = {res: new Map(), steady: new Map(), firstW: 0, firstE: 0, left: () => 0};
   function plan(){
-    const firstW = workLeft() > 1/60 ? 0 : nextW(1), cap = new Map();
-    const left = o => cap.has(o) ? cap.get(o) : (!isWork(o) ? 0 : o === 0 ? focusLeftToday() : Math.max(0, settings.focusHours));
+    const firstW = firstOf('work'), firstE = firstOf('eve'), firsts = {work: firstW, eve: firstE}, cap = new Map();
+    const firstP = pool => firsts[pool] ?? (firsts[pool] = firstOf(pool));
+    const left = (o, pool = 'work') => { const k = o + '|' + pool; return cap.has(k) ? cap.get(k) : capOf(o, pool); };
+    const take = (o, pool, h) => cap.set(o + '|' + pool, left(o, pool) - h);
     const res = new Map(), steady = new Map();
-    // 1. Emergencies take today's time first, whatever it costs
+    // 1. Emergencies take today's work time first, whatever it costs
     const mine = t => assignedTo(t, planFor());
     for(const t of tasks.filter(t => isOpen(t) && mine(t) && modeOf(t) === 'emergency')){
-      const h = effortOf(t); cap.set(firstW, left(firstW) - h);
-      res.set(t.id, {start: firstW, chunks: [[firstW, h]], planBy: firstW, risk: false, dd: daysTo(eff(t).deadline) ?? firstW, emergency: true});
+      const h = effortOf(t); take(firstW, 'work', h);
+      res.set(t.id, {start: firstW, chunks: [[firstW, h, 'work']], planBy: firstW, risk: false, dd: daysTo(eff(t).deadline) ?? firstW, emergency: true});
     }
-    // 2. Steady work reserves its weekly sessions
+    // 2. Steady work reserves its weekly sessions (in its space's time)
     for(const t of tasks.filter(t => isOpen(t) && mine(t) && modeOf(t) === 'steady')){
-      const days = steadyDays(t, firstW);
-      for(const [d, h] of days) cap.set(d, left(d) - h);
+      const pool = poolsOf(t)[0], days = steadyDays(t, firstP(pool)).map(([d, h]) => [d, h, pool]);
+      for(const [d, h] of days) take(d, pool, h);
       steady.set(t.id, days);
     }
     // 3. Deadline work, placed backward from each plan-by day
-    const items = tasks.filter(t => isLeaf(t) && mine(t) && modeOf(t) === 'normal').map(t => { const e = eff(t); return {t, e, dd: daysTo(e.deadline), hours: effortOf(t)}; }).filter(i => i.dd !== null);
+    const items = tasks.filter(t => isLeaf(t) && mine(t) && modeOf(t) === 'normal').map(t => { const e = eff(t); return {t, e, dd: daysTo(e.deadline), hours: effortOf(t), pools: poolsOf(t)}; }).filter(i => i.dd !== null);
     for(const i of items){
-      let p = Math.max(firstW, i.dd);
-      if(!isWork(p)) p = Math.max(firstW, prevW(p));
-      const buf = i.e.importance >= 5 ? 2 : i.e.importance >= 4 ? 1 : 0;
-      for(let b = 0; b < buf; b++){ const q = prevW(p); if(q < firstW) break; p = q; }
+      const workOnly = i.pools.length === 1 && i.pools[0] === 'work';
+      const back = o => workOnly ? prevW(o) : o - 1;
+      i.first = Math.min(...i.pools.map(firstP));
+      let p = Math.max(i.first, i.dd);
+      if(workOnly && !isWork(p)) p = Math.max(i.first, prevW(p));
+      const buf = isPayment(i.t) ? 0 : i.e.importance >= 5 ? 2 : i.e.importance >= 4 ? 1 : 0;
+      for(let b = 0; b < buf; b++){ const q = back(p); if(q < i.first) break; p = q; }
+      if(isPayment(i.t)) p = Math.max(i.first, Math.min(p, i.dd - remindDays()));
       i.planBy = p;
     }
     const chains = new Map();
@@ -904,18 +1140,21 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       pending.sort((a,b) => (b.planBy - a.planBy) || ((b.t.createdAt||0) - (a.t.createdAt||0)));
       const i = pending.shift();
       let rem = i.hours, d = i.planBy; const chunks = [];
-      while(rem > 1e-9 && d >= firstW){
-        const l = left(d);
-        if(l > 1e-9){ const h = Math.min(l, rem); cap.set(d, l - h); rem -= h; chunks.push([d, h]); }
-        d = prevW(d);
+      while(rem > 1e-9 && d >= i.first){
+        for(const pool of i.pools){
+          if(rem <= 1e-9) break;
+          const l = left(d, pool);
+          if(l > 1e-9){ const h = Math.min(l, rem); take(d, pool, h); rem -= h; chunks.push([d, h, pool]); }
+        }
+        d--;
       }
       let risk = false;
-      if(rem > 1e-9){ risk = true; const ex = chunks.find(c => c[0] === firstW); if(ex) ex[1] += rem; else chunks.push([firstW, rem]); cap.set(firstW, left(firstW) - rem); }
+      if(rem > 1e-9){ risk = true; const pool = i.pools[0], f = firstP(pool); const ex = chunks.find(c => c[0] === f && c[2] === pool); if(ex) ex[1] += rem; else chunks.push([f, rem, pool]); take(f, pool, rem); }
       const start = Math.min(...chunks.map(c => c[0]));
       res.set(i.t.id, {start, chunks, planBy: i.planBy, risk, dd: i.dd});
-      if(i.prev) i.prev.planBy = Math.max(firstW, Math.min(i.prev.planBy, start));
+      if(i.prev) i.prev.planBy = Math.max(i.prev.first, Math.min(i.prev.planBy, start));
     }
-    S = {res, steady, firstW, left};
+    S = {res, steady, firstW, firstE, firsts, left};
   }
   // Steady work: N sessions a week on spread-out weekdays, until the deadline.
   // Sessions already logged this week count; missed ones move to the next free weekday.
@@ -1032,7 +1271,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
           await store.save('tasks', id, {title: `${r.title} – ${p.label}`, client: r.client || '', parentId: null, assignees: r.owner ? [r.owner] : [],
             importance: Number(r.importance) || 3, urgency: Number(r.urgency) || 3, deadline, effort: Number(r.effort) || 1, mode: 'normal',
             notify: {close: true, start: true, due: true, watchers: []}, notes: '', done: false, doneAt: null, sessions: [],
-            createdAt: Date.now(), recurringId: r.id, example: false});
+            createdAt: Date.now(), recurringId: r.id, example: false, spaceId: r.spaceId || null, amount: r.amount ?? null});
           let i = 0;
           for(const sub of subs){
             await store.save('tasks', `${id}-s${i}`, {title: sub.title, client: '', parentId: id, assignees: [], importance: null, urgency: null, deadline: null,
@@ -1070,8 +1309,9 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   const planFor = () => planOverride !== undefined ? planOverride : (personFilter === 'all' || personFilter === 'mine') ? me : personFilter;
   const assignedTo = (t, uid) => { if(!uid) return true; const a = eff(t).assignees; return !a.length || a.includes(uid); };
   const personOk = t => personFilter === 'all' || assignedTo(t, planFor());
-  const vis = t => clientOk(eff(t).client) && personOk(t);
-  const dailyVis = d => clientOk(d.client || '') && (personFilter === 'all' || !me || !d.owner || d.owner === planFor());
+  const spaceOk = t => spaceFilter === 'all' || ((spaceOf(t) || {}).id === spaceFilter);
+  const vis = t => clientOk(eff(t).client) && personOk(t) && spaceOk(t);
+  const dailyVis = d => (spaceFilter === 'all' || ((spaceById(d.spaceId) || defaultSpace() || {}).id === spaceFilter)) && clientOk(d.client || '') && (personFilter === 'all' || !me || !d.owner || d.owner === planFor());
   function inView(x){
     const hasSubs = !x.t.parentId && subsOf(x.t).length > 0;
     if(view === 'projects') return !x.t.parentId;
@@ -1132,8 +1372,9 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     }
     for(const x of [...items].sort((a,b) => a.score - b.score)){
       const [cx, cy] = pos.get(x.t.id), isSub = !!x.t.parentId;
+      const ring = x.e.space ? x.e.space.color : 'var(--surface)';
       const dot = el('circle', {cx, cy, r: isSub ? 10 : (x.tier === 'crit' ? 13 : 12), class:'dot', 'data-id':x.t.id, tabindex:0,
-        fill:`var(--${x.tier})`, stroke: isSub ? 'var(--surface)' : 'none', 'stroke-width': isSub ? 2 : 0, 'stroke-dasharray': isSub ? '3 2' : ''});
+        fill:`var(--${x.tier})`, stroke: ring, 'stroke-width': 3, 'stroke-dasharray': isSub ? '3 2' : '', opacity: x.fade ? 0.4 : 1});
       dot.append(el('title', {}, `${x.t.title}${isSub ? ' (' + (parentOf(x.t)||{}).title + ')' : ''} — ${x.score}`));
       svg.append(dot);
       svg.append(el('text', {x:cx, y:cy+3.8, 'text-anchor':'middle', 'font-size':10.5, 'font-weight':600, fill:'#fff', 'pointer-events':'none', style:'font-family:var(--f-mono)'}, rankOf.get(x.t.id) || ''));
@@ -1158,7 +1399,9 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const meta = document.createElement('div'); meta.className = 't-meta';
     if(opts.why) meta.append(span(opts.why[0], 'why ' + opts.why[1]));
     if(opts.hours) meta.append(span(opts.hours, 'hours'));
+    if((!isSub || opts.showParent) && x.e.space && spaceFilter === 'all' && spaces.length > 1) meta.append(spaceTag(x.e.space));
     if((!isSub || opts.showParent) && x.e.client) meta.append(span(x.e.client, 'tag'));
+    if(isPayment(t)) meta.append(span(money(t.amount), 'hours'));
     if(opts.showParent && t.parentId && parentOf(t)) meta.append(span('↳ ' + parentOf(t).title));
     const as = isSub && !(t.assignees && t.assignees.length) ? [] : x.e.assignees;
     if(me && as.length && (as.length > 1 || as[0] !== me)) meta.append(whoChips(as));
@@ -1219,6 +1462,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     if(!isCheck(d)){
       sq.style.borderRadius = '50%';
       meta.append(span(freqText(d)));
+      if(d.amount != null) meta.append(span(money(d.amount), 'hours'));
       const np = nextPeriod(d);
       if(np){ const lead = Number(d.lead) || 3, st = new Date(np.due); st.setDate(st.getDate() - lead);
         meta.append(span(`Next: ${fmt(np.due)} · task appears ${fmt(st)}`)); }
@@ -1246,7 +1490,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 
   /* ---------- low-hanging fruit & right now ---------- */
   const LHF_MAX = 1, LHF_MIN_SCORE = 40;
-  const isLHF = x => isLeaf(x.t) && modeOf(x.t) === 'normal' && effortOf(x.t) <= LHF_MAX && x.score >= LHF_MIN_SCORE;
+  const isLHF = x => isLeaf(x.t) && modeOf(x.t) === 'normal' && !isPayment(x.t) && effortOf(x.t) <= LHF_MAX && x.score >= LHF_MIN_SCORE;
   const density = x => x.score / Math.max(0.25, effortOf(x.t));
   const myOpenLeaves = () => tasks.filter(t => isLeaf(t) && vis(t) && assignedTo(t, planFor())).map(calc);
   const pinnedNext = () => settings.nextUp && settings.nextUp.date === dayKey() ? byId(settings.nextUp.id) : null;
@@ -1262,9 +1506,9 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     if(em) return {x: em.x, why: 'Emergency. Everything else waits.'};
     const pin = pinnedNext();
     if(pin && isOpen(pin)) return {x: calc(pin), why: 'You picked this for now.', pinned: true};
-    const all = myOpenLeaves().filter(x => modeOf(x.t) === 'normal');
+    const all = myOpenLeaves().filter(x => modeOf(x.t) === 'normal' && poolsOf(x.t).includes('work'));
     const fits = all.filter(x => effortOf(x.t) <= left + 1e-9).sort((a,b) => (b.score - a.score) || (effortOf(a.t) - effortOf(b.t)));
-    const top = plan.find(p => modeOf(p.x.t) !== 'steady');
+    const top = plan.find(p => modeOf(p.x.t) !== 'steady' && p.pool !== 'eve');
     if(top && effortOf(top.x.t) <= left + 1e-9) return {x: top.x, why: `Top of today’s plan, and it fits in the ${fmtH(left)} left.`};
     if(fits.length){
       const f = fits[0];
@@ -1276,38 +1520,52 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   }
 
   /* ---------- today plan ---------- */
+  // the evening shown with today's plan: tonight (or this weekend day) when there's time left, else the plan day's
+  const dayFor = pool => pool === 'work' ? S.firstW : ((S.firsts && S.firsts[pool] !== undefined ? S.firsts[pool] : firstOf(pool)) === 0 ? 0 : S.firstW);
+  const eveDay = () => dayFor('eve');
   function todayPlan(){
-    const fw = S.firstW, out = [], used = new Set();
+    const fw = S.firstW, ed = eveDay(), out = [], used = new Set();
+    const onDay = chunks => {
+      const m = chunks.filter(c => c[0] === dayFor(c[2]));
+      if(!m.length) return null;
+      const eve = m.every(c => c[2] !== 'work');
+      return {h: m.reduce((a,c) => a + c[1], 0), eve, day: eve ? m[0][0] : fw, pool: m[0][2]};
+    };
+    const eveTag = m => { if(m.pool && m.pool.startsWith('sp:')){ const sp = spaceById(m.pool.slice(3)); if(sp){ const [a, b] = customWin(sp); return `${sp.name} time ${fmtClock(a)}–${fmtClock(b)} · `; } } return isWork(m.day) ? 'Evening · ' : 'Weekend · '; };
     for(const [id, r] of S.res){
       const t = byId(id); if(!t || !vis(t)) continue;
-      const ch = r.chunks.find(c => c[0] === fw); if(!ch) continue;
-      const x = calc(t), total = effortOf(t);
+      const m = onDay(r.chunks); if(!m) continue;
+      const x = calc(t), total = effortOf(t), day = m.day;
       let why;
       if(r.emergency) why = ['Emergency · drop everything', 'risk'];
-      else if(r.risk) why = ['At risk · not enough focus time before the deadline', 'risk'];
+      else if(isPayment(t)) why = [`Payment due ${fmtOff(r.dd)}`, r.dd <= 1 ? 'due' : 'start'];
+      else if(r.risk) why = ['At risk · not enough time before the deadline', 'risk'];
       else if(r.dd < 0) why = ['Overdue', 'due'];
-      else if(r.dd <= fw) why = [fw === 0 ? 'Due today' : 'Due ' + fmtOff(fw), 'due'];
-      else why = [`Start ${fw === 0 ? 'today' : fmtOff(fw)} to be ready for ${fmtOff(r.dd)}`, 'start'];
-      out.push({x, h: ch[1], total, why, order: r.emergency ? -1 : r.risk ? 0 : r.dd <= fw ? 1 : 2});
+      else if(r.dd <= day) why = [day === 0 ? 'Due today' : 'Due ' + fmtOff(day), 'due'];
+      else why = [`Start ${day === 0 ? 'today' : fmtOff(day)} to be ready for ${fmtOff(r.dd)}`, 'start'];
+      if(m.eve) why = [eveTag(m) + why[0], why[1]];
+      out.push({x, h: m.h, total, why, pool: m.eve ? 'eve' : 'work', day, order: r.emergency ? -1 : r.risk ? 0 : r.dd <= day ? 1 : 2});
       used.add(id);
     }
     for(const [id, days] of S.steady){
       const t = byId(id); if(!t || !vis(t)) continue;
-      const ch = days.find(c => c[0] === fw); if(!ch) continue;
-      out.push({x: calc(t), h: ch[1], total: ch[1], why: ['Steady · session today', 'steady'], order: 1.5, steady: true});
+      const m = onDay(days); if(!m) continue;
+      out.push({x: calc(t), h: m.h, total: m.h, why: [(m.eve ? eveTag(m) : '') + 'Steady · session today', 'steady'], pool: m.eve ? 'eve' : 'work', day: m.day, order: 1.5, steady: true});
       used.add(id);
     }
-    out.sort((a,b) => a.order - b.order || b.x.score - a.x.score);
-    let free = S.left(fw);
+    out.sort((a,b) => (a.pool === 'eve') - (b.pool === 'eve') || a.order - b.order || b.x.score - a.x.score);
+    let free = S.left(fw, 'work');
     if(free >= 0.5){
-      const cands = tasks.filter(t => isLeaf(t) && modeOf(t) === 'normal' && !used.has(t.id) && vis(t) && assignedTo(t, planFor())).map(calc).sort((a,b) => b.score - a.score);
+      const cands = tasks.filter(t => isLeaf(t) && modeOf(t) === 'normal' && !used.has(t.id) && vis(t) && assignedTo(t, planFor()) && poolsOf(t).includes('work')).map(calc).sort((a,b) => b.score - a.score);
+      const at = out.findIndex(p => p.pool === 'eve'), extra = [];
       for(const x of cands){
         if(free < 0.5) break;
         if(x.score < 30) break;
         const h = Math.min(free, effortOf(x.t));
-        out.push({x, h, total: effortOf(x.t), why: ['Pulled ahead · top priority with free time', 'pull'], order: 3});
+        extra.push({x, h, total: effortOf(x.t), why: ['Pulled ahead · top priority with free time', 'pull'], pool: 'work', order: 3});
         free -= h;
       }
+      out.splice(at < 0 ? out.length : at, 0, ...extra);
     }
     return out;
   }
@@ -1320,11 +1578,19 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     else if(nowH() < ws) $('timeLeft').textContent = `Starts at ${fmtClock(ws)}`;
     else if(wl <= 1/60) $('timeLeft').textContent = `Done at ${fmtClock(we)}`;
     else $('timeLeft').textContent = `${fmtH(wl)} left · until ${fmtClock(we)}`;
-    const nu = (isWork(0) && wl > 1/60) ? nextUp(plan) : null;
+    let nu = (isWork(0) && wl > 1/60) ? nextUp(plan) : null;
+    // after work: the top evening/weekend item for the time left today
+    if(!nu && !(isWork(0) && wl > 1/60)){
+      const ev = plan.find(p => p.pool === 'eve' && p.day === 0 && !p.steady) || plan.find(p => p.pool === 'eve' && p.day === 0);
+      if(ev){ const sp = spaceOf(ev.x.t);
+        nu = {x: ev.x, why: `Outside work hours: this is the top item for ${sp ? sp.name : 'your other spaces'} today.`};
+        $('timeLeft').textContent = sp && sp.planDuring === 'custom' ? `${sp.name} · until ${fmtClock(customWin(sp)[1])}` : `${isWork(0) ? 'Evening' : 'Weekend'} · ${fmtH(eveLeftToday())} left`; }
+    }
     if(nu){
       const t = nu.x.t, p = parentOf(t);
       const tt = document.createElement('div'); tt.className = 'now-title'; tt.textContent = (p ? p.title + ' › ' : '') + t.title;
       const meta = document.createElement('div'); meta.className = 't-meta';
+      if(nu.x.e.space) meta.append(spaceTag(nu.x.e.space));
       if(nu.x.e.client) meta.append(span(nu.x.e.client, 'tag'));
       meta.append(span(fmtH(effortOf(t)), 'hours'), span('Priority ' + nu.x.score));
       const why = document.createElement('div'); why.className = 'now-why'; why.textContent = nu.why;
@@ -1347,10 +1613,12 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     $('cLow').textContent = low.length;
     fillList('lLow', low.map(x => taskRow(x, '', !!x.t.parentId, {prefix:'low-', showParent:true, compact:true, hours: fmtH(effortOf(x.t)) + (isWork(0) && effortOf(x.t) <= wl ? ' · fits now' : ''), doNow: isWork(0) && wl > 1/60})),
       'No quick tasks right now. Tasks of 1h or less with priority 40+ show here.');
-    const planned = plan.reduce((a,p) => a + p.h, 0), capH = fw === 0 ? focusLeftToday() : settings.focusHours;
+    const planned = plan.filter(p => p.pool !== 'eve').reduce((a,p) => a + p.h, 0), capH = fw === 0 ? focusLeftToday() : settings.focusHours;
+    const evePlanned = plan.filter(p => p.pool === 'eve').reduce((a,p) => a + p.h, 0), ed = eveDay();
     $('capUsed').textContent = fmtH(planned);
     $('capOf').textContent = fw === 0 ? `of ${fmtH(capH)} focus time left today` : `of ${fmtH(capH)} focus time planned`;
-    $('planDay').textContent = fw === 0 ? '' : 'Next workday: ' + fmt(offDate(fw));
+    $('planDay').textContent = [fw === 0 ? '' : 'Next workday: ' + fmt(offDate(fw)),
+      evePlanned ? `Outside work hours: ${fmtH(evePlanned)} planned` : ''].filter(Boolean).join(' · ');
     $('capFill').style.width = (capH ? Math.min(100, planned / capH * 100) : 100) + '%';
     $('capBar').classList.toggle('over', planned > capH + 1e-9);
     $('planTitle').firstChild.textContent = fw === 0 ? 'Today’s plan ' : `${offDate(fw).toLocaleDateString('en-US',{weekday:'long'})}’s plan `;
@@ -1368,32 +1636,286 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const eb = $('emergBanner'); eb.hidden = !em.length;
     if(em.length){ const risk = [...S.res.values()].filter(r => r.risk).length;
       eb.textContent = `Emergency active: ${em.map(t => t.title).join(', ')}. Everything else moved to make room` + (risk ? `; ${risk} item${risk===1?'':'s'} now at risk.` : '.'); }
+    renderPayments();
     $('cDaily2').textContent = dailyItems.filter(i => isCheck(i.d)).length;
     $('dailyHint2').textContent = isWeekday() ? 'Monday to Friday. Resets every morning.' : 'Weekend. Checks resume Monday.';
     fillList('lDaily2', dailyItems.filter(i => isCheck(i.d)).map(i => dailyRow(i, 'daily2-')), 'No routine checks. Add one with “+ Recurring”.');
-    // agenda: next 4 workdays after the plan day
+    // agenda: the next 4 days after the plan day (weekends only when something is planned)
     const ag = $('agenda'); ag.textContent = '';
-    let o = fw;
-    for(let n = 0; n < 4; n++){
-      o = nextW(o + 1);
+    let o = fw, shown = 0;
+    for(let k = 0; k < 21 && shown < 4; k++){
+      o++;
       const rows = [];
-      for(const [id, r] of S.res){ const t = byId(id); if(!t || !vis(t)) continue; const ch = r.chunks.find(c => c[0] === o); if(ch) rows.push({t, h: ch[1], r}); }
-      for(const [id, days] of S.steady){ const t = byId(id); if(!t || !vis(t)) continue; const ch = days.find(c => c[0] === o); if(ch) rows.push({t, h: ch[1], r: {dd: -1}}); }
-      rows.sort((a,b) => a.r.dd - b.r.dd);
+      const addRows = (t, chunks, dd) => { const m = chunks.filter(c => c[0] === o && !(c[2] !== 'work' && dayFor(c[2]) === o && o !== fw)); if(m.length) rows.push({t, h: m.reduce((a,c) => a + c[1], 0), eve: m.every(c => c[2] !== 'work'), dd}); };
+      for(const [id, r] of S.res){ const t = byId(id); if(t && vis(t)) addRows(t, r.chunks, r.dd); }
+      for(const [id, days] of S.steady){ const t = byId(id); if(t && vis(t)) addRows(t, days, -1); }
+      if(!isWork(o) && !rows.length) continue;
+      shown++;
+      rows.sort((a,b) => (a.eve - b.eve) || (a.dd - b.dd));
       const box = document.createElement('div'); box.className = 'day';
-      const h3 = document.createElement('h3'); h3.append(span(fmt(offDate(o))), span(fmtH(rows.reduce((a,b) => a + b.h, 0)) + ' / ' + fmtH(settings.focusHours)));
+      const wh = rows.filter(r => !r.eve).reduce((a,b) => a + b.h, 0), eh = rows.filter(r => r.eve).reduce((a,b) => a + b.h, 0);
+      const h3 = document.createElement('h3');
+      h3.append(span(fmt(offDate(o))), span(isWork(o) ? fmtH(wh) + ' / ' + fmtH(settings.focusHours) + (eh ? ' · +' + fmtH(eh) + ' after work' : '') : 'weekend · ' + fmtH(eh)));
       box.append(h3);
       if(!rows.length) box.append(span('Open', 'mini empty-day'));
       for(const r of rows){
-        const m = document.createElement('div'); m.className = 'mini'; m.tabIndex = 0;
-        const p = parentOf(r.t);
-        m.append(span((p ? p.title + ' › ' : '') + r.t.title, 'mtitle'), span(fmtH(r.h), 'hours'));
+        const m = document.createElement('div'); m.className = 'mini' + (r.eve ? ' eve' : ''); m.tabIndex = 0;
+        const p = parentOf(r.t), sp = spaceOf(r.t);
+        const title = span((p ? p.title + ' › ' : '') + r.t.title, 'mtitle');
+        if(sp){ const sw = document.createElement('i'); sw.className = 'sw'; sw.style.background = sp.color; title.prepend(sw); }
+        m.append(title, span(fmtH(r.h), 'hours'));
         m.addEventListener('click', () => openDetails(r.t));
         m.addEventListener('keydown', e => { if(e.key === 'Enter') openDetails(r.t); });
         box.append(m);
       }
       ag.append(box);
     }
+  }
+
+  // bills: open payment tasks due within 30 days, plus scheduled ones whose task isn't created yet
+  function renderPayments(){
+    const rows = [];
+    for(const t of tasks.filter(t => isOpen(t) && isPayment(t) && vis(t))){
+      const dd = daysTo(eff(t).deadline);
+      if(dd !== null && dd > 30) continue;
+      rows.push({t, dd: dd ?? 999});
+    }
+    for(const r of dailies.filter(r => r.amount != null && !isCheck(r) && dailyVis(r))){
+      const np = nextPeriod(r); if(!np) continue;
+      const dd = Math.round((np.due - today0()) / DAY); if(dd > 30) continue;
+      const st = new Date(np.due); st.setDate(st.getDate() - (Number(r.lead) || 3));
+      rows.push({r, np, dd, st});
+    }
+    rows.sort((a,b) => a.dd - b.dd);
+    $('payGroup').hidden = !rows.length; $('cPay').textContent = rows.length;
+    $('payHint').textContent = `Bills due in the next 30 days. Each one is planned ${remindDays()} day${remindDays() === 1 ? '' : 's'} before it’s due.`;
+    fillList('lPay', rows.map(x => {
+      const row = document.createElement('div'); row.className = 'pay' + (x.r ? ' sched' : '');
+      const body = document.createElement('div'); body.className = 't-body';
+      const title = document.createElement('div'); title.className = 't-title'; title.textContent = x.t ? x.t.title : x.r.title;
+      const meta = document.createElement('div'); meta.className = 't-meta';
+      if(x.t){ const d = due(x.dd === 999 ? null : x.dd, eff(x.t).deadline); meta.append(span(d.txt, d.cls)); }
+      else meta.append(span(`Due ${fmt(x.np.due)} · appears ${fmt(x.st)}`));
+      body.append(title, meta);
+      const amt = span(money(x.t ? x.t.amount : x.r.amount), 'amt');
+      row.append(body, amt);
+      if(x.t){
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'btn sm paid'; b.textContent = 'Mark paid';
+        b.addEventListener('click', () => markPaid(x.t)); row.append(b);
+        body.style.cursor = 'pointer'; body.addEventListener('click', () => openDetails(x.t));
+      } else row.append(span('Scheduled', 'fnote'));
+      return row;
+    }), '');
+  }
+  async function markPaid(t){
+    const data = {...t, done: true, doneAt: Date.now(), closeout: {spent: Math.min(effortOf(t), 0.25), comment: 'Paid ' + money(t.amount), closedBy: me || null}}; delete data.id;
+    try { await store.save('tasks', t.id, data); toast(`${t.title}: paid`); scheduleSync(); } catch(e){ fail(e); }
+  }
+
+  /* ---------- projects ---------- */
+  const isProject = t => !t.parentId && (!!t.isProject || tasks.some(x => x.parentId === t.id));
+  function projectInfo(t){
+    const subs = subsOf(t).sort((a,b) => (a.createdAt || 0) - (b.createdAt || 0)), done = subs.filter(x => x.done).length, x = calc(t);
+    const risk = subs.some(x2 => !x2.done && (S.res.get(x2.id) || {}).risk) || x.risk;
+    let st;
+    if(t.done) st = ['Done', ''];
+    else if(x.days !== null && x.days < 0) st = ['Overdue', 'risk'];
+    else if(risk) st = ['At risk', 'risk'];
+    else if(done > 0 || (x.start !== null && x.start <= 0)) st = ['In progress', 'ok'];
+    else if(x.start !== null && x.start <= weekEndOff()) st = ['Start this week', 'now'];
+    else if(x.start !== null) st = ['Not started', ''];
+    else st = [x.days === null ? 'No deadline' : 'Not planned', ''];
+    const startTxt = t.done ? (t.doneAt ? 'Closed ' + fmt(new Date(t.doneAt)) : '') : x.start !== null ? (x.start <= 0 ? 'Working on it' : 'Start by ' + fmtOff(x.start)) : (subs.length ? '' : 'Add tasks to plan it');
+    const left = subs.length ? subs.filter(y => !y.done).reduce((a,y) => a + effortOf(y), 0) : (t.done ? 0 : effortOf(t));
+    return {x, subs, done, total: subs.length, pct: subs.length ? done / subs.length : (t.done ? 1 : 0), st, startTxt, left};
+  }
+  let showDoneProj = false;
+  function projCard(t){
+    const pi = projectInfo(t), sp = spaceOf(t);
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'pcard' + (t.done ? ' done' : '');
+    const top = document.createElement('div'); top.className = 'top';
+    top.append(sp ? spaceTag(sp) : span(''), span(pi.st[0], 'pill ' + pi.st[1]));
+    const nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = t.title;
+    const bar = document.createElement('div'); bar.className = 'pbar'; const fill = document.createElement('i'); fill.style.width = Math.round(pi.pct * 100) + '%'; fill.style.background = sp ? sp.color : 'var(--mid)'; bar.append(fill);
+    const meta = document.createElement('div'); meta.className = 'meta';
+    meta.append(span(pi.total ? `${pi.done} of ${pi.total} tasks` : 'No tasks yet'), span(pi.left ? fmtH(pi.left) + ' left' : '', 'hours'));
+    const foot = document.createElement('div'); foot.className = 'foot';
+    const dl = document.createElement('span'); dl.append('Due '); const bb = document.createElement('b'); bb.textContent = pi.x.e.deadline ? fmt(parseD(pi.x.e.deadline)) : '—'; dl.append(bb);
+    foot.append(dl, span(pi.startTxt, pi.st[1] === 'risk' ? 'late' : pi.st[1] === 'now' ? 'startby' : ''));
+    b.append(top, nm, bar, meta, foot);
+    b.addEventListener('click', () => openProject(t.id));
+    return b;
+  }
+  function openProject(id){ projOpen = id; tab = 'projects'; try { localStorage.setItem('pr-tab', tab); } catch {} renderTabs(); renderProjects(); window.scrollTo({top: 0}); }
+  $('addProjBtn').addEventListener('click', () => openForm(null, null, 'project'));
+  $('projDoneToggle').addEventListener('click', () => { showDoneProj = !showDoneProj; renderProjects(); });
+  function renderProjects(){
+    const all = tasks.filter(t => isProject(t) && personOk(t) && clientOk(eff(t).client));
+    // side: spaces with their open projects
+    const side = $('projSide'); side.textContent = '';
+    const sbtn = (id, label, color, n) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'ps-space'; b.setAttribute('aria-pressed', spaceFilter === id);
+      const i = document.createElement('i'); i.style.background = color || 'var(--ink)'; b.append(i, document.createTextNode(label)); const c = document.createElement('b'); c.textContent = n; b.append(c);
+      b.addEventListener('click', () => setSpaceFilter(id)); side.append(b); };
+    sbtn('all', 'All spaces', null, all.filter(t => !t.done).length);
+    for(const sp of spacesSorted()){
+      const mine = all.filter(t => !t.done && (spaceOf(t) || {}).id === sp.id);
+      sbtn(sp.id, sp.name, sp.color, mine.length);
+      for(const t of mine.slice(0, 8)){ const a = document.createElement('button'); a.type = 'button'; a.className = 'ps-proj'; a.textContent = t.title; a.title = t.title; a.addEventListener('click', () => openProject(t.id)); side.append(a); }
+    }
+    const pt = projOpen ? byId(projOpen) : null;
+    $('projList').hidden = !!pt; $('projDetail').hidden = !pt;
+    if(pt){ renderProjectDetail(pt); return; }
+    const vis2 = all.filter(t => spaceOk(t));
+    const key = t => { const x = calc(t); return [x.start ?? 9999, x.days ?? 9999]; };
+    const open = vis2.filter(t => !t.done).sort((a,b) => { const ka = key(a), kb = key(b); return ka[0] - kb[0] || ka[1] - kb[1]; });
+    const done = vis2.filter(t => t.done).sort((a,b) => (b.doneAt || 0) - (a.doneAt || 0));
+    fillList('projGrid', open.map(projCard), 'No projects here yet. A project groups tasks under one deadline: “+ New project”, then add its tasks.');
+    $('projDoneToggle').hidden = !done.length;
+    $('projDoneToggle').textContent = showDoneProj ? 'Hide completed projects' : `Show ${done.length} completed project${done.length === 1 ? '' : 's'}`;
+    $('projDoneGrid').hidden = !showDoneProj;
+    if(showDoneProj) fillList('projDoneGrid', done.map(projCard), '');
+  }
+  function renderProjectDetail(t){
+    const box = $('projDetail'); box.textContent = '';
+    const pi = projectInfo(t), sp = spaceOf(t), e = pi.x.e;
+    const topEl = document.createElement('div'); topEl.className = 'pd-top';
+    const crumb = document.createElement('div'); crumb.className = 'pd-crumb';
+    const back = document.createElement('button'); back.type = 'button'; back.className = 'linkbtn'; back.textContent = '← Projects';
+    back.addEventListener('click', () => { projOpen = null; renderProjects(); });
+    crumb.append(back); if(sp) crumb.append(spaceTag(sp)); if(e.client) crumb.append(span(e.client, 'tag'));
+    const tt = document.createElement('div'); tt.className = 'pd-title';
+    const h = document.createElement('h2'); h.textContent = t.title;
+    const acts = document.createElement('div'); acts.className = 'actions';
+    const mk = (txt, cls, fn) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn ' + cls; b.textContent = txt; b.addEventListener('click', fn); acts.append(b); };
+    mk('Edit project', '', () => openForm(t));
+    if(!t.done) mk(pi.total && pi.done === pi.total ? 'Close project' : 'Close', '', () => openClose(t));
+    if(!t.done) mk('+ Task', 'primary', () => openForm(null, t.id));
+    tt.append(h, acts);
+    const pills = document.createElement('div'); pills.className = 'pd-pills';
+    pills.append(span(pi.st[0], 'pill ' + pi.st[1]), span(e.deadline ? 'Due ' + fmt(parseD(e.deadline)) : 'No deadline', 'pill'));
+    if(!t.done && pi.x.start !== null && pi.x.start > 0) pills.append(span('Start by ' + fmtOff(pi.x.start), 'pill now'));
+    if(t.recurringId) pills.append(span('Repeats', 'pill'));
+    topEl.append(crumb, tt, pills);
+    box.append(topEl);
+    // timeline: each task's planned days, in order
+    if(pi.subs.length){
+      const card = document.createElement('div'); card.className = 'pd-card'; card.style.marginBottom = '16px';
+      const h3 = document.createElement('h3'); h3.textContent = 'Timeline'; card.append(h3);
+      const tl = document.createElement('div'); tl.className = 'ptl'; tl.style.gridTemplateColumns = `repeat(${Math.min(pi.subs.length, 6)}, minmax(0, 1fr))`;
+      for(const x2 of pi.subs.slice(0, 12)){
+        const r = S.res.get(x2.id), d = document.createElement('div'), i = document.createElement('i');
+        i.style.background = x2.done ? (sp ? sp.color : 'var(--mid)') : r && r.risk ? 'var(--crit)' : 'color-mix(in srgb, ' + (sp ? sp.color : 'var(--mid)') + ' 35%, transparent)';
+        let when = x2.done ? 'Done' : 'Not planned';
+        if(!x2.done && r){ const days = r.chunks.map(c => c[0]), a = Math.min(...days), b = Math.max(...days); when = a === b ? fmtOff(a) : fmtOff(a) + '–' + fmtOff(b); }
+        const lab = span(`${when} · ${x2.title}`); lab.title = lab.textContent;
+        d.append(i, lab); tl.append(d);
+      }
+      card.append(tl); box.append(card);
+    }
+    const grid = document.createElement('div'); grid.className = 'pd-grid';
+    const main = document.createElement('div'); main.className = 'pd-main';
+    const h2b = document.createElement('h3'); h2b.style.cssText = 'margin:0 0 2px;font:700 18px var(--f-display)'; h2b.textContent = `Tasks · ${pi.done}/${pi.total}`;
+    main.append(h2b);
+    if(!pi.subs.length){ const em = document.createElement('div'); em.className = 'empty'; em.textContent = 'No tasks yet. Break the project into steps so the planner can schedule each one.'; main.append(em); }
+    pi.subs.forEach((x2, i) => main.append(taskRow(calc(x2), x2.done ? '' : String(i + 1), false, {prefix: 'pd-', compact: true})));
+    if(!t.done){ const add = document.createElement('button'); add.type = 'button'; add.className = 'addsub'; add.textContent = '+ Add task'; add.addEventListener('click', () => openForm(null, t.id)); main.append(add); }
+    const aside = document.createElement('div'); aside.className = 'pd-aside';
+    const sum = document.createElement('div'); sum.className = 'pd-card';
+    const sh = document.createElement('h3'); sh.textContent = 'Summary';
+    const bar = document.createElement('div'); bar.className = 'pbar'; const f = document.createElement('i'); f.style.width = Math.round(pi.pct * 100) + '%'; f.style.background = sp ? sp.color : 'var(--mid)'; bar.append(f);
+    const dl = document.createElement('dl'); dl.className = 'det-grid'; dl.style.marginTop = '12px';
+    const it = (k, v) => { const d = document.createElement('div'); const dt = document.createElement('dt'); dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; d.append(dt, dd); dl.append(d); };
+    it('Effort', fmtH(pi.subs.length ? pi.subs.reduce((a,y) => a + effortOf(y), 0) : effortOf(t)));
+    it('Left', fmtH(pi.left));
+    it('Importance', `${e.importance} of 5`);
+    it('Planned', sp ? spaceWhen(sp) : 'work hours');
+    if(e.client) it('Client', e.client);
+    sum.append(sh, bar, dl); aside.append(sum);
+    if(t.recurringId){
+      const r = dailies.find(d => d.id === t.recurringId), np = r ? nextPeriod(r) : null;
+      if(np){ const c = document.createElement('div'); c.className = 'pd-card'; const ch = document.createElement('h3'); ch.textContent = 'Next in the series';
+        const st = new Date(np.due); st.setDate(st.getDate() - (Number(r.lead) || 3));
+        c.append(ch, span(`${r.title} – ${np.label}: created ${fmt(st)}, due ${fmt(np.due)}.`, 'fnote')); aside.append(c); }
+    }
+    if(t.notes){ const c = document.createElement('div'); c.className = 'pd-card'; const ch = document.createElement('h3'); ch.textContent = 'Notes'; const n = document.createElement('div'); n.className = 'det-notes'; n.textContent = t.notes; c.append(ch, n); aside.append(c); }
+    grid.append(main, aside); box.append(grid);
+  }
+
+  /* ---------- radar look-ahead & roadmap ---------- */
+  function renderHorizon(){
+    const box = $('horizonCtl'); box.textContent = '';
+    for(const [d, l] of [[7, 'Week'], [30, '30 days'], [90, '90 days'], [180, '6 months']]){
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = l; b.setAttribute('aria-pressed', horizon === d);
+      b.addEventListener('click', () => { horizon = d; try { localStorage.setItem('pr-horizon', d); } catch {} render(); }); box.append(b);
+    }
+  }
+  function renderRoadmap(){
+    const box = $('roadmap'); box.textContent = '';
+    const months = horizon <= 30 ? 2 : horizon <= 90 ? 4 : 6, t0 = today0();
+    const W0 = new Date(t0.getFullYear(), t0.getMonth(), 1), W1 = new Date(t0.getFullYear(), t0.getMonth() + months, 1), span0 = (W1 - W0) / DAY;
+    const pc = d => Math.max(0, Math.min(100, ((d - W0) / DAY) / span0 * 100));
+    const head = document.createElement('div'); head.className = 'road-head'; head.append(document.createElement('span'));
+    const mh = document.createElement('div'); mh.className = 'road-months'; mh.style.gridTemplateColumns = `repeat(${months}, minmax(0, 1fr))`;
+    for(let k = 0; k < months; k++){ const m = new Date(W0.getFullYear(), W0.getMonth() + k, 1); mh.append(span(m.toLocaleDateString('en-US', {month: 'short'}))); }
+    head.append(mh); box.append(head);
+    const track = () => { const tr = document.createElement('div'); tr.className = 'road-track';
+      tr.style.backgroundImage = 'linear-gradient(90deg, color-mix(in srgb, var(--line) 60%, transparent) 1px, transparent 1px)'; tr.style.backgroundSize = (100 / months) + '% 100%';
+      const td = document.createElement('div'); td.className = 'road-today'; td.style.left = pc(t0) + '%'; tr.append(td); return tr; };
+    const rows = [];
+    for(const t of tasks.filter(t => isProject(t) && isOpen(t) && vis(t))){
+      const x = calc(t); if(x.days === null) continue;
+      const st = Math.min(x.start ?? 0, x.days), first = Math.max(0, st);
+      if(first > horizon) continue;
+      const pi = projectInfo(t);
+      rows.push({label: t.title, color: (spaceOf(t) || {}).color || 'var(--mid)', a: offDate(first), b: parseD(x.e.deadline), risk: pi.st[1] === 'risk', id: t.id, sort: first});
+    }
+    // recurring work that will be created later in the window
+    for(const r of dailies.filter(r => !isCheck(r) && r.amount == null && dailyVis(r) && ['monthly', 'quarterly'].includes(freqOf(r)))){
+      const seen = new Set();
+      for(let k = 0; k <= months; k++){
+        for(const p of periodsAround(r, new Date(t0.getFullYear(), t0.getMonth() + k, 1))){
+          if(seen.has(p.key) || p.due < t0 || p.due >= W1 || byId(`rec-${r.id}-${p.key}`)) continue;
+          seen.add(p.key);
+          const a = new Date(p.due); a.setDate(a.getDate() - (Number(r.lead) || 3));
+          if((a - t0) / DAY > horizon) continue;
+          rows.push({label: `${r.title} – ${p.label}`, color: (spaceById(r.spaceId) || defaultSpace() || {}).color || 'var(--mid)', a, b: p.due, auto: true, sort: (a - t0) / DAY});
+        }
+      }
+    }
+    rows.sort((a,b) => a.sort - b.sort);
+    $('cRoad').textContent = rows.length;
+    for(const r of rows.slice(0, 14)){
+      const row = document.createElement('div'); row.className = 'road-row';
+      const lb = document.createElement('button'); lb.type = 'button'; lb.className = 'road-lbl'; lb.title = r.label;
+      const i = document.createElement('i'); i.style.background = r.color; lb.append(i, span(r.label));
+      if(r.id) lb.addEventListener('click', () => openProject(r.id)); else lb.style.cursor = 'default';
+      const tr = track(), bar = document.createElement('div'); bar.className = 'road-bar';
+      const L = pc(r.a), Wd = Math.max(1.6, pc(r.b) - L + (100 / span0));
+      bar.style.left = L + '%'; bar.style.width = Math.min(100 - L, Wd) + '%';
+      const col = r.risk ? 'var(--crit)' : r.color;
+      if(r.auto){ bar.style.border = '1.5px dashed ' + col; bar.style.color = col; } else bar.style.background = col;
+      bar.textContent = Wd >= 7 ? (r.b.getMonth() + 1) + '/' + r.b.getDate() : ''; bar.title = `${r.label}: ${fmt(r.a)} → ${fmt(r.b)}`;
+      tr.append(bar); row.append(lb, tr); box.append(row);
+    }
+    // bills: open payment tasks and scheduled recurring payments
+    const pays = [];
+    for(const t of tasks.filter(t => isOpen(t) && isPayment(t) && vis(t) && t.deadline)) pays.push({d: parseD(t.deadline), title: `${t.title} · ${money(t.amount)}`});
+    for(const r of dailies.filter(r => r.amount != null && !isCheck(r) && dailyVis(r))){
+      const seen = new Set();
+      for(let k = 0; k <= months; k++) for(const p of periodsAround(r, new Date(t0.getFullYear(), t0.getMonth() + k, 1))){
+        if(seen.has(p.key) || p.due < t0 || p.due >= W1 || byId(`rec-${r.id}-${p.key}`)) continue;
+        seen.add(p.key); pays.push({d: p.due, title: `${r.title} · ${money(r.amount)}`});
+      }
+    }
+    const inH = pays.filter(x => (x.d - t0) / DAY <= horizon);
+    if(inH.length){
+      const row = document.createElement('div'); row.className = 'road-row';
+      const lb = document.createElement('span'); lb.className = 'road-lbl'; const i = document.createElement('i'); i.style.background = '#3b8a4c'; lb.append(i, span('Bills'));
+      const tr = track();
+      for(const x of inH){ const dm = document.createElement('span'); dm.className = 'road-dia'; dm.style.left = pc(x.d) + '%'; dm.title = `${x.title} · ${fmt(x.d)}`; tr.append(dm); }
+      row.append(lb, tr); box.append(row);
+    }
+    if(!rows.length && !inH.length){ const e = document.createElement('div'); e.className = 'road-empty'; e.textContent = 'No projects with deadlines in this window. Create one in Projects.'; box.append(e); }
   }
 
   /* ---------- render ---------- */
@@ -1407,6 +1929,17 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     mk('all', 'All');
     cs.forEach(c => mk(c, c));
     if(tasks.some(t => !eff(t).client)) mk('__none', 'No client');
+    $('clientLabel').hidden = box.hidden = !cs.length;
+    // spaces
+    if(spaceFilter !== 'all' && !spaceById(spaceFilter)) spaceFilter = 'all';
+    const sb2 = $('spaceChips'); sb2.textContent = '';
+    const sm = (val, label, color) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip';
+      if(color){ const i = document.createElement('i'); i.className = 'sw'; i.style.background = color; b.append(i); }
+      b.append(document.createTextNode(label));
+      b.setAttribute('aria-pressed', spaceFilter === val); b.addEventListener('click', () => setSpaceFilter(val)); sb2.append(b); };
+    sm('all', 'All');
+    spacesSorted().forEach(x => sm(x.id, x.name, x.color));
+    $('spaceLabel').hidden = sb2.hidden = !spaces.length;
     const pl = $('peopleChips'); pl.textContent = '';
     const ppl = [...new Set(tasks.flatMap(t => t.assignees || []))].filter(id => id !== me);
     const showPeople = !!me && (ppl.length > 0 || personFilter !== 'mine');
@@ -1419,9 +1952,11 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     }
     $('clientList').textContent = ''; cs.forEach(c => { const o = document.createElement('option'); o.value = c; $('clientList').append(o); });
   }
+  function setSpaceFilter(v){ spaceFilter = v; projOpen = null; try { localStorage.setItem('pr-space', v); } catch {} render(); }
+  const spaceTag = sp => { const s2 = document.createElement('span'); s2.className = 'stag'; const i = document.createElement('i'); i.className = 'sw'; i.style.background = sp.color; s2.append(i, document.createTextNode(sp.name)); return s2; };
   function renderTabs(){
     document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === tab));
-    $('viewToday').hidden = tab !== 'today'; $('viewRadar').hidden = tab !== 'radar'; $('viewReports').hidden = tab !== 'reports';
+    $('viewToday').hidden = tab !== 'today'; $('viewRadar').hidden = tab !== 'radar'; $('viewReports').hidden = tab !== 'reports'; $('viewProjects').hidden = tab !== 'projects';
     document.querySelector('.filters').querySelectorAll('.flabel')[0].hidden = tab !== 'radar';
     $('viewChips').hidden = tab !== 'radar';
   }
@@ -1435,7 +1970,11 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const ranked = open.filter(inView).sort((a,b) => b.score - a.score);
     const rankOf = new Map(); ranked.forEach((x,i) => rankOf.set(x.t.id, String(i+1)));
     const dailyItems = dailies.filter(dailyVis).sort((a,b) => (a.createdAt||0) - (b.createdAt||0)).map(d => ({d, s: dailyState(d)}));
-    drawRadar(ranked, rankOf, dailyItems.filter(i => isCheck(i.d)));
+    const when = x => x.start ?? x.days;
+    const radarItems = ranked.filter(x => when(x) === null ? horizon >= 90 : when(x) <= horizon).map(x => ({...x, fade: horizon > 7 && when(x) !== null && when(x) > 7}));
+    drawRadar(radarItems, rankOf, dailyItems.filter(i => isCheck(i.d)));
+    renderHorizon(); renderRoadmap();
+    renderProjects();
 
     const we = weekEndOff();
     const inWeek = x => x.score >= 70 || modeOf(x.t) !== 'normal' || (x.pressure !== null && x.pressure <= we);
@@ -1468,7 +2007,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 
   /* ---------- interactions ---------- */
   document.querySelectorAll('#viewChips .chip').forEach(c => c.addEventListener('click', () => { view = c.dataset.view; try{localStorage.setItem('pr-view', view);}catch{} render(); }));
-  document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => { tab = b.dataset.tab; try{localStorage.setItem('pr-tab', tab);}catch{} renderTabs(); }));
+  document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => { tab = b.dataset.tab; if(tab === 'projects'){ projOpen = null; renderProjects(); } try{localStorage.setItem('pr-tab', tab);}catch{} renderTabs(); }));
   document.querySelectorAll('#rangeChips .chip').forEach(c => c.addEventListener('click', () => { range = c.dataset.range; try{localStorage.setItem('pr-range', range);}catch{} renderReports(); }));
   $('rFrom').addEventListener('change', renderReports); $('rTo').addEventListener('change', renderReports);
   const jump = row => {
@@ -1555,8 +2094,8 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const pid = $('fParent').value, p = pid ? byId(pid) : null;
     $('impAutoL').hidden = !p; $('urgAutoL').hidden = !p;
     if(!p){ if(getRadio('imp') === 0) setRadio('imp', 3); if(getRadio('urg') === 0) setRadio('urg', 3); }
-    $('fClient').disabled = !!p;
-    if(p) $('fClient').value = p.client || '';
+    $('fClient').disabled = !!p; $('fSpace').disabled = !!p;
+    if(p){ $('fClient').value = p.client || ''; $('fSpace').value = (spaceOf(p) || {}).id || ''; }
     const note = $('dateNote');
     if(p && p.deadline){ note.hidden = false; note.textContent = `Project due ${fmt(parseD(p.deadline))}. Leave empty to use it; later dates are capped.`; $('fDate').max = p.deadline; }
     else if(p){ note.hidden = false; note.textContent = 'Leave empty to follow the project.'; $('fDate').removeAttribute('max'); }
@@ -1572,8 +2111,11 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       deadline: $('fDate').value || null, client: pid ? '' : $('fClient').value.trim(), notes: $('fNotes').value.trim(), effort: getEffort(),
       assignees: [...picked],
       notify: {close: $('nClose').checked, start: $('nStart').checked, due: $('nDue').checked, watchers: parseEmails($('nWatchers').value)},
-      mode: getMode(), weeklyHours: Math.min(20, Math.max(0.5, Number($('fWeekly').value) || 3)), sessionHours: Number($('fSession').value) || 1};
+      mode: getMode(), weeklyHours: Math.min(20, Math.max(0.5, Number($('fWeekly').value) || 3)), sessionHours: Number($('fSession').value) || 1,
+      spaceId: pid ? null : ($('fSpace').value || null), amount: $('fAmount').value === '' ? null : Math.max(0, Number($('fAmount').value) || 0), isProject: formProject};
   }
+  let formProject = false;
+  function fillSpaceSelect(sel, val){ sel.textContent = ''; for(const x of spacesSorted()){ const o = document.createElement('option'); o.value = x.id; o.textContent = x.name; sel.append(o); } if(!spaces.length){ const o = document.createElement('option'); o.value = ''; o.textContent = 'No spaces yet'; sel.append(o); } sel.value = val || ((defaultSpace() || {}).id || ''); }
   function updatePreview(){
     const d = draft(), fake = {...(editingId ? byId(editingId) : {}), ...d, id: editingId || '__draft', done:false};
     const prev = tasks, prevS = S;
@@ -1649,7 +2191,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   }
   $('exportBtn').addEventListener('click', async () => {
     const strip = arr => arr.map(x => ({...x}));
-    const data = {app: 'priority-radar', version: APP_VERSION, exportedAt: new Date().toISOString(), tasks: strip(tasks), daily: strip(dailies), clients: strip(clientDocs), settings};
+    const data = {app: 'priority-radar', version: APP_VERSION, exportedAt: new Date().toISOString(), tasks: strip(tasks), daily: strip(dailies), clients: strip(clientDocs), spaces: strip(spaces), settings};
     try { await saveFile(`kairo-backup-${dayKey()}.json`, JSON.stringify(data, null, 2), 'application/json'); toast('Backup exported'); }
     catch(e){ if(!e || e.code !== 'cancelled') toast('Couldn’t export the backup'); }
   });
@@ -1674,6 +2216,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       }
       for(const t of d.tasks){ const {id, ...rest} = t; if(id) await store.save('tasks', id, rest); }
       for(const x of (d.daily || [])){ const {id, ...rest} = x; if(id) await store.save('daily', id, rest); }
+      for(const x of (d.spaces || [])){ const {id, ...rest} = x; if(id) await store.save('spaces', id, rest); }
       for(const c of (d.clients || [])){ if(c.name && !clientDoc(c.name)) await store.add('clients', {name: c.name, createdAt: c.createdAt || Date.now()}); }
       if(d.settings){ settings = {...settings, ...d.settings}; await store.saveSettings(settings); }
       toast(replace ? 'Backup restored' : 'Backup added'); render();
@@ -1703,8 +2246,96 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     catch { toast('Copy isn’t available here. Use Open email.'); }
   });
 
+  /* ---------- spaces on first use ---------- */
+  let spacesChecked = false;
+  async function ensureSpaces(){
+    if(spacesChecked || !store || !dataReady || !store.apply) return;
+    spacesChecked = true;
+    if(spaces.length) return;
+    if(!tasks.length && !dailies.length && !settings.onboarded){ openOnboarding(); return; }
+    // existing data from before spaces: add the standard ones; old tasks fall into Work
+    for(const [i, x] of DEFAULT_SPACES.entries()){ const {id, ...rest} = x; await store.save('spaces', id, {...rest, order: i, createdAt: Date.now()}); }
+  }
+  function openOnboarding(){
+    const box = $('obSpaces'); box.textContent = '';
+    for(const x of DEFAULT_SPACES){ const l = document.createElement('label'); const c = document.createElement('input'); c.type = 'checkbox'; c.checked = true; c.value = x.id; l.append(c, document.createTextNode(' ' + x.name)); box.append(l); }
+    document.querySelector('#obForm .ob-name').textContent = APP_NAME;
+    $('obName').value = settings.displayName || (cloudUser && cloudUser.email ? cloudUser.email.split('@')[0] : '');
+    $('obScrim').hidden = false; setTimeout(() => $('obName').focus(), 30);
+  }
+  $('obForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const a = toH($('obStart').value), b = toH($('obEnd').value);
+    if(a === null || b === null || b <= a){ toast('Work must end after it starts'); return; }
+    const picks = [...$('obSpaces').querySelectorAll('input:checked')].map(c => c.value), other = $('obOther').value.trim();
+    if(!picks.length && !other){ toast('Pick at least one space'); return; }
+    $('obScrim').hidden = true;
+    settings = {...settings, displayName: $('obName').value.trim(), workStart: toHM(a), workEnd: toHM(b),
+      focusHours: Math.min(12, Math.max(1, Number($('obFocus').value) || 5)), eveningHours: Math.min(6, Math.max(0, Number($('obEve').value) || 0)), onboarded: true};
+    try {
+      await store.saveSettings(settings);
+      let i = 0;
+      for(const x of DEFAULT_SPACES) if(picks.includes(x.id)){ const {id, ...rest} = x; await store.save('spaces', id, {...rest, order: i++, createdAt: Date.now()}); }
+      if(other) await store.save('spaces', 'sp-' + other.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 24) + '-' + Date.now().toString(36), {name: other, color: SPACE_COLORS[4], planDuring: 'evenings', order: i, createdAt: Date.now()});
+      renderSync(); toast('You’re set. Add your first task or project.');
+    } catch(err){ fail(err); }
+  });
+
   /* ---------- clients & settings ---------- */
+  function renderSpaceRows(){
+    const box = $('spRows'); box.textContent = '';
+    if(document.activeElement !== $('sName')) $('sName').value = settings.displayName || '';
+    if(document.activeElement !== $('sEve')) $('sEve').value = settings.eveningHours ?? 2;
+    if(document.activeElement !== $('sWkd')) $('sWkd').value = settings.weekendHours ?? 4;
+    $('sPayDays').value = String(remindDays() || 3);
+    if(!spaces.length){ const e = document.createElement('div'); e.className = 'fnote'; e.textContent = 'No spaces yet.'; box.append(e); }
+    for(const x of spacesSorted()){
+      const row = document.createElement('div'); row.className = 'sp-row';
+      const col = document.createElement('input'); col.type = 'color'; col.value = x.color || '#5d6878'; col.setAttribute('aria-label', x.name + ' color');
+      const name = document.createElement('input'); name.type = 'text'; name.value = x.name; name.maxLength = 40; name.setAttribute('aria-label', 'Space name');
+      const sel = document.createElement('select'); sel.setAttribute('aria-label', 'When to plan ' + x.name);
+      for(const [k, v] of Object.entries(PLAN_DURING)){ const o = document.createElement('option'); o.value = k; o.textContent = v; sel.append(o); }
+      sel.value = x.planDuring || 'work';
+      const cust = document.createElement('div'); cust.className = 'sp-cust'; cust.hidden = sel.value !== 'custom';
+      const days = document.createElement('div'); days.className = 'sp-days';
+      for(const d of [1, 2, 3, 4, 5, 6, 0]){
+        const l = document.createElement('label'); const c = document.createElement('input'); c.type = 'checkbox'; c.value = d; c.checked = customDays(x).includes(d);
+        c.addEventListener('change', () => { const v = [...days.querySelectorAll('input:checked')].map(i => Number(i.value)); if(!v.length){ c.checked = true; return; } save({days: v}); });
+        l.append(c, document.createTextNode(DOW[d])); days.append(l);
+      }
+      const [ca, cb] = customWin(x);
+      const t1 = document.createElement('input'); t1.type = 'time'; t1.value = toHM(ca); t1.setAttribute('aria-label', x.name + ' starts');
+      const t2 = document.createElement('input'); t2.type = 'time'; t2.value = toHM(cb); t2.setAttribute('aria-label', x.name + ' ends');
+      const saveWin = () => { const a = toH(t1.value), b = toH(t2.value); if(a === null || b === null || b <= a){ toast('End time must be after the start time'); return; } save({start: toHM(a), end: toHM(b)}); };
+      t1.addEventListener('change', saveWin); t2.addEventListener('change', saveWin);
+      const times = document.createElement('div'); times.className = 'sp-times'; times.append(t1, span('to', 'fnote'), t2);
+      cust.append(days, times);
+      const n = tasks.filter(t => !t.parentId && (spaceOf(t) || {}).id === x.id).length + dailies.filter(d => (spaceById(d.spaceId) || defaultSpace() || {}).id === x.id).length;
+      const del = document.createElement('button'); del.type = 'button'; del.className = 'btn sm danger'; del.textContent = 'Remove';
+      del.hidden = n > 0 || spaces.length < 2; del.title = 'Only empty spaces can be removed';
+      const save = patch => { const {id, ...rest} = x; store.save('spaces', id, {...rest, ...patch}).catch(fail); };
+      col.addEventListener('change', () => save({color: col.value}));
+      name.addEventListener('change', () => { const v = name.value.trim(); if(v) save({name: v}); else name.value = x.name; });
+      sel.addEventListener('change', () => { cust.hidden = sel.value !== 'custom'; save({planDuring: sel.value}); toast(`${x.name}: planned ${spaceWhen({...x, planDuring: sel.value})}`); });
+      del.addEventListener('click', () => { store.remove('spaces', x.id).catch(fail); if(spaceFilter === x.id) setSpaceFilter('all'); });
+      row.append(col, name, sel, del, cust); box.append(row);
+    }
+  }
+  $('spAdd').addEventListener('submit', async e => {
+    e.preventDefault(); const v = $('spNew').value.trim(); if(!v) return;
+    if(spaces.some(x => x.name.toLowerCase() === v.toLowerCase())){ toast('That space already exists'); return; }
+    $('spNew').value = '';
+    const id = 'sp-' + v.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 24) + '-' + Date.now().toString(36);
+    try { await store.save('spaces', id, {name: v, color: SPACE_COLORS[spaces.length % SPACE_COLORS.length], planDuring: 'evenings', order: spaces.length, createdAt: Date.now()}); toast('Space added'); } catch(err){ fail(err); }
+  });
+  const saveProfile = async patch => { settings = {...settings, ...patch}; render(); renderSync(); try { await store.saveSettings(settings); } catch(e){ fail(e); } };
+  $('sName').addEventListener('change', () => saveProfile({displayName: $('sName').value.trim()}));
+  $('sEve').addEventListener('change', () => saveProfile({eveningHours: Math.min(6, Math.max(0, Number($('sEve').value) || 0))}));
+  $('sWkd').addEventListener('change', () => saveProfile({weekendHours: Math.min(12, Math.max(0, Number($('sWkd').value) || 0))}));
+  $('sPayDays').addEventListener('change', () => saveProfile({payRemindDays: Number($('sPayDays').value) || 3}));
+
   function renderClientRows(){
+    renderSpaceRows();
     const box = $('clRows'); box.textContent = '';
     const all = clients();
     if(!all.length){ const e = document.createElement('div'); e.className = 'fnote'; e.textContent = 'No clients yet.'; box.append(e); }
@@ -1797,6 +2428,9 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     $('formTitle').textContent = t ? (t.parentId ? 'Edit subtask' : 'Edit task') : (parentId ? 'New subtask' : 'New task');
     fillParents(t ? t.id : null);
     $('fParent').value = t ? (t.parentId || '') : (parentId || '');
+    formProject = t ? !!t.isProject : preset === 'project';
+    fillSpaceSelect($('fSpace'), t ? t.spaceId : (spaceFilter !== 'all' ? spaceFilter : ''));
+    $('fAmount').value = t && isPayment(t) ? t.amount : '';
     $('fParent').disabled = !!hasSubs;
     $('fTitle').value = t ? t.title : '';
     $('fClient').value = t ? (t.client || '') : (clientFilter !== 'all' && clientFilter !== '__none' ? clientFilter : '');
@@ -1809,6 +2443,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     $('mode' + ({normal:'Normal', steady:'Steady', emergency:'Emergency'})[t ? modeOf(t) : 'normal']).checked = true;
     $('fWeekly').value = t && t.weeklyHours ? t.weeklyHours : 3;
     $('fSession').value = String(t && t.sessionHours ? t.sessionHours : 1);
+    if(preset === 'project') $('formTitle').textContent = 'New project';
     if(preset === 'emergency'){ $('modeEmergency').checked = true; setRadio('imp', 5); setRadio('urg', 5); setEffort(2); $('fDate').value = dayKey(); $('formTitle').textContent = 'New emergency'; }
     $('delBtn').hidden = !t; $('confirmDel').hidden = true;
     const nf = (t && t.notify) || {close: true, start: true, due: true, watchers: []};
@@ -1921,6 +2556,8 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     if(!t.done && x.start !== null && x.days !== null && x.start < x.days && modeOf(t) === 'normal') item('Start by', fmtOff(x.start));
     if(modeOf(t) === 'steady') item('Sessions', `${fmtH(Number(t.weeklyHours) || 3)} a week in ${fmtH(Number(t.sessionHours) || 1)} sessions · ${weekSessionsDone(t)} this week`);
     else item('Effort', subs.length ? `${fmtH(subs.reduce((a,s) => a + effortOf(s), 0))} across ${subs.length} subtasks` : fmtH(effortOf(t)));
+    if(e.space) item('Space', e.space.name + ' · planned ' + spaceWhen(e.space));
+    if(isPayment(t)) item('Amount', money(t.amount));
     item('Importance', `${e.importance} of 5` + (t.importance == null && p ? ' (project)' : ''));
     item('Urgency', `${e.urgency} of 5` + (t.urgency == null && p ? ' (project)' : ''));
     if(me && e.assignees.length) item('In charge', e.assignees.map(nameOf).join(', '));
@@ -2136,6 +2773,8 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     $('dFormTitle').textContent = d ? 'Edit recurring work' : 'New recurring work';
     $('dTitle').value = d ? d.title : '';
     $('dClient').value = d ? (d.client || '') : '';
+    fillSpaceSelect($('dSpace'), d ? d.spaceId : (spaceFilter !== 'all' ? spaceFilter : ''));
+    $('dAmount').value = d && d.amount != null ? d.amount : '';
     $({hours:'fqHours', daily:'fqDaily', weekly:'fqWeekly', monthly:'fqMonthly', quarterly:'fqQuarterly'}[d ? freqOf(d) : 'daily']).checked = true;
     $('dHours').value = d && d.everyHours ? d.everyHours : 2;
     $('dWeekday').value = String(d && d.weekday ? d.weekday : 5);
@@ -2159,7 +2798,8 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const title = $('dTitle').value.trim(); if(!title) return;
     const f = getFreq(), hours = Math.min(8, Math.max(1, Math.round(Number($('dHours').value) || 2)));
     const base = dEditingId ? dailies.find(d => d.id === dEditingId) : null;
-    const data = {title, client: $('dClient').value.trim(), freq: f, everyHours: f === 'hours' ? hours : 0, ...(['hours','daily'].includes(f) ? {} : draftRec()),
+    const amt = $('dAmount').value === '' ? null : Math.max(0, Number($('dAmount').value) || 0);
+    const data = {title, client: $('dClient').value.trim(), spaceId: $('dSpace').value || null, amount: amt, freq: f, everyHours: f === 'hours' ? hours : 0, ...(['hours','daily'].includes(f) ? {} : draftRec()),
       spawned: base ? (base.spawned || []) : [], log: base ? (base.log || null) : null, createdAt: base ? base.createdAt : Date.now(), owner: base ? (base.owner || me || null) : (me || null)};
     const id = dEditingId; closeDaily();
     try {
@@ -2219,10 +2859,10 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   }
   const fsSupported = 'showSaveFilePicker' in window && 'showOpenFilePicker' in window;
   let localOutbox = [];
-  const snapshot = () => ({app: 'priority-radar', version: APP_VERSION, savedAt: new Date().toISOString(), tasks, daily: dailies, clients: clientDocs, settings, delivery, outbox: localOutbox});
+  const snapshot = () => ({app: 'priority-radar', version: APP_VERSION, savedAt: new Date().toISOString(), tasks, daily: dailies, clients: clientDocs, spaces, settings, delivery, outbox: localOutbox});
   function applySnapshot(d){
     tasks = Array.isArray(d.tasks) ? d.tasks : []; dailies = Array.isArray(d.daily) ? d.daily : [];
-    clientDocs = Array.isArray(d.clients) ? d.clients : [];
+    clientDocs = Array.isArray(d.clients) ? d.clients : []; spaces = Array.isArray(d.spaces) ? d.spaces : spaces;
     settings = {focusHours: 5, workStart: '08:30', workEnd: '17:30', ...(d.settings || {})};
     delivery = d.delivery || {};
     localOutbox = Array.isArray(d.outbox) ? d.outbox : localOutbox;
@@ -2275,7 +2915,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   async function localStore(){
     const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k) || d); } catch { return JSON.parse(d); } };
     tasks = load('pr-tasks', '[]'); dailies = load('pr-daily', '[]'); settings = {focusHours: 5, workStart: '08:30', workEnd: '17:30', ...load('pr-settings', '{}')};
-    clientDocs = load('pr-clients', '[]');
+    clientDocs = load('pr-clients', '[]'); spaces = load('pr-spaces', '[]');
     try { delivery = JSON.parse(localStorage.getItem('pr-delivery') || '{}'); } catch {}
     try { localOutbox = JSON.parse(localStorage.getItem('pr-outbox') || '[]'); } catch {}
     if(fsSupported){
@@ -2290,12 +2930,12 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     }
     const mark = (c, id, d, del) => { if(cloudMark) cloudMark(c, id, d, del); };
     const persist = () => {
-      try { localStorage.setItem('pr-tasks', JSON.stringify(tasks)); localStorage.setItem('pr-daily', JSON.stringify(dailies)); localStorage.setItem('pr-settings', JSON.stringify(settings)); localStorage.setItem('pr-clients', JSON.stringify(clientDocs)); localStorage.setItem('pr-outbox', JSON.stringify(localOutbox.slice(-500))); } catch {}
+      try { localStorage.setItem('pr-tasks', JSON.stringify(tasks)); localStorage.setItem('pr-daily', JSON.stringify(dailies)); localStorage.setItem('pr-settings', JSON.stringify(settings)); localStorage.setItem('pr-clients', JSON.stringify(clientDocs)); localStorage.setItem('pr-spaces', JSON.stringify(spaces)); localStorage.setItem('pr-outbox', JSON.stringify(localOutbox.slice(-500))); } catch {}
       if(!fileError) scheduleFileSave(); else if(fileHandle) dirtyOffline = true;
       render();
     };
-    const arr = c => c === 'tasks' ? tasks : c === 'clients' ? clientDocs : c === 'outbox' ? localOutbox : dailies;
-    const setArr = (c, v) => { if(c === 'tasks') tasks = v; else if(c === 'clients') clientDocs = v; else if(c === 'outbox') localOutbox = v.slice(-500); else dailies = v; };
+    const arr = c => c === 'tasks' ? tasks : c === 'clients' ? clientDocs : c === 'spaces' ? spaces : c === 'outbox' ? localOutbox : dailies;
+    const setArr = (c, v) => { if(c === 'tasks') tasks = v; else if(c === 'clients') clientDocs = v; else if(c === 'spaces') spaces = v; else if(c === 'outbox') localOutbox = v.slice(-500); else dailies = v; };
     return {
       add: async (c, d) => { const id = 'l' + Date.now().toString(36) + Math.random().toString(36).slice(2,6); setArr(c, [...arr(c), {id, ...d}]); persist(); mark(c, id, d); },
       save: async (c, id, d) => { if(c === 'config'){ delivery = d; try { localStorage.setItem('pr-delivery', JSON.stringify(d)); } catch {} if(!fileError) scheduleFileSave(); mark(c, id, d); return; } setArr(c, arr(c).some(t => t.id === id) ? arr(c).map(t => t.id === id ? {id, ...d} : t) : [...arr(c), {id, ...d}]); persist(); mark(c, id, d); },
@@ -2305,7 +2945,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       apply: (c, id, d, del) => {
         if(c === 'settings'){ if(!del && d) settings = {focusHours: 5, workStart: '08:30', workEnd: '17:30', ...d}; return; }
         if(c === 'config'){ delivery = del ? {} : (d || {}); try { localStorage.setItem('pr-delivery', JSON.stringify(delivery)); } catch {} return; }
-        if(!['tasks', 'daily', 'clients', 'outbox'].includes(c)) return;
+        if(!['tasks', 'daily', 'clients', 'spaces', 'outbox'].includes(c)) return;
         const cur = arr(c);
         if(del) setArr(c, cur.filter(t => t.id !== id));
         else setArr(c, cur.some(t => t.id === id) ? cur.map(t => t.id === id ? {...d, id} : t) : [...cur, {...d, id}]);
@@ -2320,7 +2960,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
      other devices are pulled. Each record is one row in the "items" table
      (id = "<collection>:<id>"). A change still waiting on this device wins
      over the cloud copy; otherwise the most recent save wins. */
-  const KINDS = ['tasks', 'daily', 'clients', 'outbox', 'settings', 'config'];
+  const KINDS = ['tasks', 'daily', 'clients', 'spaces', 'outbox', 'settings', 'config'];
   const seenRows = new Set();
   const savePending = () => { try { localStorage.setItem('pr-pending', JSON.stringify(pending)); } catch {} };
   function queueChange(kind, id, d, del){
@@ -2363,6 +3003,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       if(maxTs) try { localStorage.setItem('pr-lastpull', maxTs); } catch {}
       if(changed) store.flush();
       lastSyncAt = Date.now();
+      if(!spacesChecked) ensureSpaces();
     } catch(e){ cloudErr = (e && e.message) || 'Sync failed'; }
     finally {
       syncBusy = false; renderSync();
@@ -2382,7 +3023,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     else txt = lastSyncAt ? `Synced ${fmtT(lastSyncAt)}` : 'Synced';
     b.textContent = txt;
     $('acctWrap').hidden = !cloudUser;
-    if(cloudUser){ $('acctBtn').textContent = (cloudUser.email || '?')[0].toUpperCase(); $('acctEmail').textContent = 'Signed in as ' + cloudUser.email; }
+    if(cloudUser){ $('acctBtn').textContent = (settings.displayName || cloudUser.email || '?')[0].toUpperCase(); $('acctEmail').textContent = (settings.displayName ? settings.displayName + ' · ' : 'Signed in as ') + cloudUser.email; }
     else closeAcct();
     b.classList.toggle('primary', !!sb && !cloudUser);
     b.classList.toggle('danger', !!cloudErr);
@@ -2517,13 +3158,14 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const n = Object.keys(pending).length;
     if(n && !confirm(`${n} change${n === 1 ? '' : 's'} haven’t uploaded yet and will be lost. Sign out anyway?`)) return;
     try { await sb.auth.signOut(); } catch {}
-    try { ['pr-tasks','pr-daily','pr-settings','pr-clients','pr-outbox','pr-delivery','pr-pending','pr-lastpull'].forEach(k => localStorage.removeItem(k)); } catch {}
+    try { ['pr-tasks','pr-daily','pr-settings','pr-clients','pr-spaces','pr-outbox','pr-delivery','pr-pending','pr-lastpull'].forEach(k => localStorage.removeItem(k)); } catch {}
     location.reload();
   });
   $('cloudUpload').addEventListener('click', () => {
     tasks.forEach(t => queueChange('tasks', t.id, t));
     dailies.forEach(d => queueChange('daily', d.id, d));
     clientDocs.forEach(c => queueChange('clients', c.id, c));
+    spaces.forEach(x => queueChange('spaces', x.id, x));
     queueChange('settings', 'main', settings);
     if(delivery && Object.keys(delivery).length) queueChange('config', 'delivery', delivery);
     toast(`${tasks.length + dailies.length + clientDocs.length} items queued for upload`);
@@ -2544,6 +3186,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     try { db = window.claude && window.claude.use ? await window.claude.use('db') : null; } catch { db = null; }
     if(!db){
       store = await localStore(); dataReady = true; render(); await initCloud(); renderFileBar(); spawnRecurring();
+      if(!GATE || !sb) ensureSpaces();
       return;
     }
     $('lScrim').hidden = true;   // Claude-hosted version handles its own access
@@ -2558,6 +3201,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     };
     db.collection('config').doc('delivery').onSnapshot(snap => { delivery = snap.exists ? snap.data() : {}; if(!$('sScrim').hidden) renderClientRows(); }, () => {});
     db.collection('clients').onSnapshot(snap => { clientDocs = snap.docs.map(d => ({id: d.id, ...d.data()})); render(); }, () => {});
+    db.collection('spaces').onSnapshot(snap => { spaces = snap.docs.map(d => ({id: d.id, ...d.data()})); render(); }, () => {});
     const lost = () => { const b = $('banner'); b.hidden = false; b.textContent = 'Lost the connection to your tasks. Reload the page.'; };
     db.collection('tasks').onSnapshot(snap => { tasks = snap.docs.map(d => ({id: d.id, ...d.data()})); render(); }, lost);
     let gotT = false, gotD = false;
