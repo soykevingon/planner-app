@@ -464,7 +464,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     <h3 id="formTitle">New task</h3>
     <div class="field">
       <label for="fTitle">Task</label>
-      <input type="text" id="fTitle" required maxlength="140" placeholder="e.g. QBR CICA">
+      <input type="text" id="fTitle" required maxlength="140" placeholder="e.g. Quarterly client review">
     </div>
     <div class="field">
       <span class="lbl">Type</span>
@@ -488,7 +488,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     <div class="row2">
       <div class="field">
         <label for="fClient">Client</label>
-        <input type="text" id="fClient" list="clientList" maxlength="40" placeholder="e.g. CICA">
+        <input type="text" id="fClient" list="clientList" maxlength="40" placeholder="e.g. Acme Co.">
       </div>
       <div class="field">
         <label for="fParent">Part of project</label>
@@ -556,11 +556,11 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     <h3 id="dFormTitle">New recurring work</h3>
     <div class="field">
       <label for="dTitle">Name</label>
-      <input type="text" id="dTitle" required maxlength="100" placeholder="e.g. Check ticket queue, Monthly patching, QBR">
+      <input type="text" id="dTitle" required maxlength="100" placeholder="e.g. Check ticket queue, Monthly patching, Quarterly review">
     </div>
     <div class="field">
       <label for="dClient">Client</label>
-      <input type="text" id="dClient" list="clientList" maxlength="40" placeholder="e.g. CICA">
+      <input type="text" id="dClient" list="clientList" maxlength="40" placeholder="e.g. Acme Co.">
     </div>
     <div class="field">
       <span class="lbl">Repeats</span>
@@ -598,7 +598,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       <div class="field">
         <label for="dSubs">Subtasks (optional)</label>
         <textarea id="dSubs" rows="4" placeholder="One per line, effort after a bar:&#10;Coordinate date with client | 30m&#10;IT review | 4h&#10;Build presentation | 2h&#10;Present to client | 1h"></textarea>
-        <span class="fnote">With subtasks, effort comes from them. Each period gets its own task, named like “QBR CICA – Q4 2026”.</span>
+        <span class="fnote">With subtasks, effort comes from them. Each period gets its own task, named like “Quarterly review – Q4 2026”.</span>
       </div>
       <div class="fnote" id="nextNote"></div>
     </div>
@@ -794,7 +794,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 (() => {
   const $ = id => document.getElementById(id);
   const DAY = 864e5;
-  const APP_VERSION = '0.15 POC';
+  const APP_VERSION = '0.16 POC';
   const FEEDBACK_EMAIL = 'gonzalezkevin70@gmail.com';
   // Product name lives here only: change these two lines to rebrand.
   const APP_NAME = 'Kairo', APP_TAGLINE = 'Strategic planner';
