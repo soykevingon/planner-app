@@ -914,14 +914,13 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     <div class="field"><label for="fbBad">What’s missing or confusing</label><textarea id="fbBad" maxlength="2000"></textarea></div>
     <div class="field"><label for="fbRole">Your role (optional)</label><input type="text" id="fbRole" maxlength="80" placeholder="e.g. MSP technician, student, project manager"></div>
     <div class="field">
-      <span class="lbl">Send it to</span>
-      <span class="fnote"><span id="fbTo"></span> · copy the feedback below and email it, or use the email button.</span>
+      <span class="fnote">Sent privately to the app’s owner (<span id="fbTo"></span>). Other users can’t see it.</span>
     </div>
     <div class="sheet-actions">
       <div class="right">
         <button class="btn" type="button" id="fbCancel">Close</button>
         <a class="btn" id="fbMail" href="#" target="_blank" rel="noopener">Open email</a>
-        <button class="btn primary" type="submit">Copy feedback</button>
+        <button class="btn primary" type="submit" id="fbSend">Send feedback</button>
       </div>
     </div>
   </form>
@@ -984,7 +983,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 (() => {
   const $ = id => document.getElementById(id);
   const DAY = 864e5;
-  const APP_VERSION = '0.22 POC';
+  const APP_VERSION = '0.25 POC';
   const FEEDBACK_EMAIL = 'gonzalezkevin70@gmail.com';
   // Product name lives here only: change these two lines to rebrand.
   const APP_NAME = 'Kairo', APP_TAGLINE = 'Strategic planner';
@@ -1001,7 +1000,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   let view = 'all', clientFilter = 'all', tab = 'today', spaceFilter = 'all', horizon = 90, projOpen = null;
   try { personFilter = localStorage.getItem('pr-person') || 'mine'; range = localStorage.getItem('pr-range') || 'week'; } catch {}
   try { view = localStorage.getItem('pr-view') || 'all'; clientFilter = localStorage.getItem('pr-client') || 'all'; tab = localStorage.getItem('pr-tab') || 'today'; } catch {}
-  try { spaceFilter = localStorage.getItem('pr-space') || 'all'; horizon = Number(localStorage.getItem('pr-horizon')) || 90; } catch {}
+  try { spaceFilter = localStorage.getItem('pr-space') || 'all'; { const hz = localStorage.getItem('pr-horizon'); horizon = hz === null ? 90 : Number(hz) || 0; } } catch {}
   if(['#radar','#today','#reports','#projects'].includes(location.hash)) tab = location.hash.slice(1);
 
   /* ---------- dates (day offsets from today) ---------- */
@@ -1847,16 +1846,22 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   }
 
   /* ---------- radar look-ahead & roadmap ---------- */
+  const ALL_TIME = 100000;   // "All": everything open, however far out
   function renderHorizon(){
     const box = $('horizonCtl'); box.textContent = '';
-    for(const [d, l] of [[7, 'Week'], [30, '30 days'], [90, '90 days'], [180, '6 months']]){
+    for(const [d, l] of [[0, 'Today'], [7, 'Week'], [30, '30 days'], [90, '90 days'], [180, '6 months'], [ALL_TIME, 'All time']]){
       const b = document.createElement('button'); b.type = 'button'; b.textContent = l; b.setAttribute('aria-pressed', horizon === d);
       b.addEventListener('click', () => { horizon = d; try { localStorage.setItem('pr-horizon', d); } catch {} render(); }); box.append(b);
     }
   }
   function renderRoadmap(){
     const box = $('roadmap'); box.textContent = '';
-    const months = horizon <= 30 ? 2 : horizon <= 90 ? 4 : 6, t0 = today0();
+    const t0 = today0();
+    let months = horizon <= 30 ? 2 : horizon <= 90 ? 4 : 6;
+    if(horizon >= ALL_TIME){   // stretch the roadmap to the furthest deadline (up to 2 years)
+      const far = Math.max(0, ...tasks.filter(t => isOpen(t) && vis(t) && isProject(t)).map(t => daysTo(eff(t).deadline) ?? 0));
+      const end = offDate(far); months = Math.min(24, Math.max(6, (end.getFullYear() - t0.getFullYear()) * 12 + end.getMonth() - t0.getMonth() + 1));
+    }
     const W0 = new Date(t0.getFullYear(), t0.getMonth(), 1), W1 = new Date(t0.getFullYear(), t0.getMonth() + months, 1), span0 = (W1 - W0) / DAY;
     const pc = d => Math.max(0, Math.min(100, ((d - W0) / DAY) / span0 * 100));
     const head = document.createElement('div'); head.className = 'road-head'; head.append(document.createElement('span'));
@@ -1976,7 +1981,8 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const rankOf = new Map(); ranked.forEach((x,i) => rankOf.set(x.t.id, String(i+1)));
     const dailyItems = dailies.filter(dailyVis).sort((a,b) => (a.createdAt||0) - (b.createdAt||0)).map(d => ({d, s: dailyState(d)}));
     const when = x => x.start ?? x.days;
-    const radarItems = ranked.filter(x => when(x) === null ? horizon >= 90 : when(x) <= horizon).map(x => ({...x, fade: horizon > 7 && when(x) !== null && when(x) > 7}));
+    const hzDays = horizon === 0 ? S.firstW : horizon;   // "Today" after hours means the next workday's plan
+    const radarItems = ranked.filter(x => when(x) === null ? horizon >= 90 : when(x) <= hzDays).map(x => ({...x, fade: horizon > 7 && when(x) !== null && when(x) > 7}));
     drawRadar(radarItems, rankOf, dailyItems.filter(i => isCheck(i.d)));
     renderHorizon(); renderRoadmap();
     renderProjects();
@@ -2247,8 +2253,21 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   $('fbScrim').addEventListener('click', e => { if(e.target === $('fbScrim')) $('fbScrim').hidden = true; });
   $('fbForm').addEventListener('submit', async e => {
     e.preventDefault();
-    try { await navigator.clipboard.writeText(feedbackText()); toast('Feedback copied. Paste it in an email or chat.'); }
-    catch { toast('Copy isn’t available here. Use Open email.'); }
+    const good = $('fbGood').value.trim(), bad = $('fbBad').value.trim();
+    if(!good && !bad){ toast('Write a line about what works or what’s missing'); return; }
+    // saved to the feedback table: anyone signed in can send, only the owner reads it (in Supabase)
+    if(sb && cloudUser && navigator.onLine){
+      $('fbSend').disabled = true;
+      try {
+        const {error} = await sb.from('feedback').insert({
+          email: cloudUser.email || null, rating: (document.querySelector('input[name="fbrate"]:checked') || {}).value || null,
+          works: good || null, missing: bad || null, role: $('fbRole').value.trim() || null, app_version: APP_VERSION,
+          usage: `${tasks.filter(t => !t.done).length} open, ${tasks.filter(t => t.done).length} closed, ${spaces.length} spaces`});
+        if(!error){ $('fbScrim').hidden = true; $('fbGood').value = $('fbBad').value = ''; toast('Thanks! Feedback sent.'); return; }
+      } catch {} finally { $('fbSend').disabled = false; }
+    }
+    try { await navigator.clipboard.writeText(feedbackText()); toast('Couldn’t send it right now, so it was copied. Paste it in an email.'); }
+    catch { toast('Couldn’t send it. Use Open email.'); }
   });
 
   /* ---------- spaces on first use ---------- */
