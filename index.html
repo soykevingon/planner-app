@@ -169,9 +169,10 @@ header.top{position:relative}
 .acct-sync{display:flex;align-items:center;gap:8px;padding:6px 10px 8px;font-size:13px;color:var(--muted);border-bottom:1px solid var(--line);margin-bottom:4px}
 .acct-sync .sdot{position:static;border:none;width:9px;height:9px;flex:none}
 .newwrap{position:relative;display:inline-flex}
-.new-menu{min-width:270px}
-.new-menu button{display:flex;flex-direction:column;gap:1px}
-.new-menu small{font-size:12.5px;color:var(--muted);font-weight:400}
+.acct-menu.new-menu{min-width:260px;max-width:calc(100vw - 32px)}
+.acct-menu.new-menu button{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.acct-menu.new-menu small{display:block;font-size:12.5px;color:var(--muted);font-weight:400;white-space:normal}
+@media (max-width:640px){.acct-menu.new-menu{left:0;right:auto}}
 .new-menu b.danger{color:var(--crit)}
 .btn .ico{width:16px;height:16px;vertical-align:-3px;margin-right:6px}
 #filterBtn[aria-expanded="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
@@ -1120,7 +1121,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 (() => {
   const $ = id => document.getElementById(id);
   const DAY = 864e5;
-  const APP_VERSION = '0.30 POC';
+  const APP_VERSION = '0.31 POC';
   const FEEDBACK_EMAIL = 'gonzalezkevin70@gmail.com';
   // Product name lives here only: change these two lines to rebrand.
   const APP_NAME = 'Kairo', APP_TAGLINE = 'Strategic planner';
