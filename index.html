@@ -306,6 +306,26 @@ details.more .more-body{padding:4px 14px 2px}
 .file svg{width:16px;height:16px;color:var(--muted)}
 .file.pending{border-style:dashed}
 .file-btn{cursor:pointer}
+.list-scope{margin:0 0 10px;padding:8px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:12.5px}
+.icon-btn .ico{margin-right:6px}
+@media (max-width:640px){.hide-sm{display:none}.icon-btn .ico{margin-right:0}}
+.search-scrim{align-items:flex-start;padding-top:8vh}
+.search-sheet{max-width:640px;padding:14px}
+.search-box{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);padding:2px 4px 12px}
+.search-box svg{width:20px;height:20px;color:var(--muted);flex:none}
+.search-box input{border:none;background:none;font-size:17px;padding:6px 0;flex:1;min-width:0}
+.search-box input:focus{outline:none}
+.q-done{font-weight:500;font-size:13px;white-space:nowrap}
+.q-results{max-height:60vh;overflow:auto;padding-top:6px}
+.q-group{font:600 11.5px var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 8px 4px}
+.q-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;border:none;background:none;color:var(--ink);padding:9px 8px;border-radius:9px;cursor:pointer;font:inherit}
+.q-item:hover,.q-item:focus-visible,.q-item.sel{background:var(--bg)}
+.q-item .qt{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q-item .qm{font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q-item .sw{width:10px;height:10px;border-radius:3px}
+.q-item mark{background:color-mix(in srgb,var(--accent) 30%,transparent);color:inherit;border-radius:3px;padding:0 1px}
+.q-item.done .qt{text-decoration:line-through;color:var(--muted)}
+.q-empty{color:var(--muted);padding:18px 8px;font-size:14px}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:10px;font-size:14px;z-index:30}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px}
 .tab{border:none;background:none;font:600 15px var(--f-body);color:var(--muted);padding:10px 14px;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
@@ -440,12 +460,14 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       <p class="sub"><span id="today"></span> · <span id="appVersion"></span></p>
     </div>
     <div class="actions">
+      <button class="btn icon-btn" id="searchBtn" type="button" aria-label="Search tasks and projects" title="Search ( / )"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="hide-sm">Search</span></button>
       <button class="btn" id="filterBtn" type="button" aria-expanded="false" aria-controls="filterBar"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span id="filterTxt">Filter</span></button>
       <span class="newwrap" id="newWrap">
         <button class="btn primary" id="newBtn" type="button" aria-haspopup="menu" aria-expanded="false">+ New</button>
         <div class="acct-menu new-menu" id="newMenu" role="menu" hidden>
           <button type="button" role="menuitem" id="addBtn"><b>Task</b><small>One thing to get done</small></button>
           <button type="button" role="menuitem" id="addProjMenu"><b>Project</b><small>A goal with its own tasks and deadline</small></button>
+          <button type="button" role="menuitem" id="addEmailMenu"><b>From an email</b><small>Paste an email, it becomes a task</small></button>
           <button type="button" role="menuitem" id="addDailyBtn"><b>Recurring</b><small>Checks, monthly work, bills</small></button>
           <button type="button" role="menuitem" id="addEmergBtn"><b class="danger">Emergency</b><small>Drop everything, it goes first today</small></button>
         </div>
@@ -627,6 +649,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
         <p class="hint" id="dailyHint"></p>
         <div class="list" id="lDaily"></div>
       </section>
+      <p class="hint list-scope" id="listScope"></p>
       <section class="group" id="g-week">
         <h2>Must do this week <span class="count" id="cWeek"></span></h2>
         <p class="hint" id="weekHint"></p>
@@ -1124,6 +1147,25 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     </div></div>
   </div>
 </div>
+<!-- Search -->
+<div class="scrim search-scrim" id="qScrim" hidden>
+  <div class="sheet search-sheet" role="dialog" aria-label="Search">
+    <div class="search-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="search" id="qInput" placeholder="Search tasks, projects, notes, clients…" autocomplete="off" aria-label="Search">
+      <label class="check-line q-done"><input type="checkbox" id="qDone"> Include done</label></div>
+    <div class="q-results" id="qResults" role="listbox"></div>
+    <p class="fnote" style="margin:8px 2px 0">Enter opens the first result · Esc closes · press / anywhere to search</p>
+  </div>
+</div>
+<!-- Task from an email -->
+<div class="scrim" id="emScrim" hidden>
+  <form class="sheet" id="emForm" autocomplete="off">
+    <h3>Task from an email</h3>
+    <p class="fnote" style="margin:-6px 0 12px">Copy the email (or forward it to yourself and copy it) and paste it here. Kairo takes the subject as the task name and keeps the email as notes.</p>
+    <div class="field"><label for="emText">Email</label><textarea id="emText" rows="9" placeholder="Subject: Printer down in accounting&#10;From: Ana &lt;ana@example.com&gt;&#10;&#10;Hi, the printer stopped working…"></textarea></div>
+    <div class="sheet-actions"><div class="right"><button class="btn" type="button" id="emCancel">Cancel</button><button class="btn primary" type="submit">Create task</button></div></div>
+  </form>
+</div>
 <datalist id="clientList"></datalist>
 <script src="supabase.js"></script>
 <div class="toast" id="toast" hidden></div>
@@ -1132,7 +1174,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 (() => {
   const $ = id => document.getElementById(id);
   const DAY = 864e5;
-  const APP_VERSION = '0.32 POC';
+  const APP_VERSION = '0.33 POC';
   const FEEDBACK_EMAIL = 'gonzalezkevin70@gmail.com';
   // Product name lives here only: change these two lines to rebrand.
   const APP_NAME = 'Kairo', APP_TAGLINE = 'Strategic planner';
@@ -1477,6 +1519,21 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   const spaceOk = t => spaceFilter === 'all' || ((spaceOf(t) || {}).id === spaceFilter);
   const vis = t => clientOk(eff(t).client) && personOk(t) && spaceOk(t);
   const dailyVis = d => (spaceFilter === 'all' || ((spaceById(d.spaceId) || defaultSpace() || {}).id === spaceFilter)) && clientOk(d.client || '') && (personFilter === 'all' || !me || !d.owner || d.owner === planFor());
+  /* Order used by the radar numbers and the lists beside it:
+       1 Emergency · 2 Overdue · 3 Late (ready-by passed) · 4 At risk ·
+       5 Must start today · 6 the rest by start-by date · 7 no deadline.
+     Ties: earlier start-by, then higher priority, then the quicker task. */
+  function orderOf(x){
+    const subs = !x.t.parentId ? subsOf(x.t).filter(isOpen).map(calc) : [];
+    const all = [x, ...subs];
+    const bucketOf = y => modeOf(y.t) === 'emergency' ? 0 : (y.days !== null && y.days < 0) ? 1 : y.late ? 2 : y.risk ? 3
+      : (y.start !== null && y.start <= 0) ? 4 : y.days !== null ? 5 : 6;
+    const wh = y => y.start ?? y.ready ?? y.days ?? 9999;
+    return {b: Math.min(...all.map(bucketOf)), w: Math.min(...all.map(wh)), s: Math.max(...all.map(y => y.score)), h: x.openHours || 0};
+  }
+  const byOrder = (a, b) => { const A = a._o || (a._o = orderOf(a)), B = b._o || (b._o = orderOf(b)); return A.b - B.b || A.w - B.w || B.s - A.s || A.h - B.h; };
+  const BUCKET = ['Emergency', 'Overdue', 'Late', 'At risk', 'Start today', '', ''];
+
   function inView(x){
     const hasSubs = !x.t.parentId && subsOf(x.t).length > 0;
     if(view === 'projects') return !x.t.parentId;
@@ -1612,10 +1669,10 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     row.addEventListener('mouseleave', () => hl(t.id, false));
     return row;
   }
-  function projectBlock(x, rankOf){
+  function projectBlock(x, rankOf, keep){
     const wrap = document.createElement('div'); wrap.className = 'project';
     wrap.append(taskRow(x, rankOf.get(x.t.id), false));
-    const subs = subsOf(x.t).map(calc).sort((a,b) => (a.t.done - b.t.done) || (b.score - a.score));
+    const subs = subsOf(x.t).map(calc).filter(y => !keep || (isOpen(y.t) && keep(y))).sort((a,b) => (a.t.done - b.t.done) || byOrder(a, b));
     for(const s of subs) wrap.append(taskRow(s, rankOf.get(s.t.id), true));
     return wrap;
   }
@@ -2164,25 +2221,34 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const ahRow = x => taskRow(x, '', !!x.t.parentId, {prefix: 'ah-', compact: true, showParent: true, why: ['After hours · ' + fmtWhen(ahWhen(x.t)), 'steady'], hours: fmtH(remOf(x.t))});
     $('ahGroup').hidden = !ah.length; $('cAH').textContent = ah.length; fillList('lAH', ah.slice(0, 8).map(ahRow), '');
     $('g-ah').hidden = !ah.length; $('cAH2').textContent = ah.length; fillList('lAH2', ah.map(ahRow), '');
-    const ranked = open.filter(inView).sort((a,b) => b.score - a.score);
+    const ranked = open.filter(inView).sort(byOrder);
     const rankOf = new Map(); ranked.forEach((x,i) => rankOf.set(x.t.id, String(i+1)));
     const dailyItems = dailies.filter(dailyVis).sort((a,b) => (a.createdAt||0) - (b.createdAt||0)).map(d => ({d, s: dailyState(d)}));
     const when = x => x.start ?? x.days;
     const hzDays = horizon === 0 ? S.firstW : horizon;   // "Today" after hours means the next workday's plan
-    const radarItems = ranked.filter(x => when(x) === null ? horizon >= 90 : when(x) <= hzDays).map(x => ({...x, fade: horizon > 7 && when(x) !== null && when(x) > 7}));
+    const inHz = x => when(x) === null ? horizon >= 90 : when(x) <= hzDays;
+    const radarItems = ranked.filter(inHz).map(x => ({...x, fade: horizon > 7 && when(x) !== null && when(x) > 7}));
     drawRadar(radarItems, rankOf, dailyItems.filter(i => isCheck(i.d)));
     renderHorizon(); renderRoadmap();
     renderProjects();
 
     const we = weekEndOff();
     const inWeek = x => x.score >= 70 || modeOf(x.t) !== 'normal' || (x.pressure !== null && x.pressure <= we);
-    const top = open.filter(x => !x.t.parentId || !byId(x.t.parentId)).sort((a,b) => b.score - a.score);
+    const onRadar = x => inView(x) && inHz(x);
+    const subsOn = x => subsOf(x.t).filter(t => isOpen(t) && plannable(t)).map(calc).filter(y => vis(y.t) && inHz(y));
+    const top = open.filter(x => !x.t.parentId || !byId(x.t.parentId))
+      .filter(x => view === 'subtasks' ? false : (onRadar(x) || subsOn(x).length > 0))
+      .sort(byOrder);
+    // "Subtasks" view lists the tasks themselves, not their projects
+    if(view === 'subtasks') top.push(...open.filter(x => onRadar(x) && !subsOf(x.t).length).sort(byOrder));
     const weekL = [], nextL = [];
     for(const x of top){
-      const subs = subsOf(x.t).filter(isOpen).map(calc);
+      const subs = view === 'projects' ? [] : subsOn(x);
       (inWeek(x) || subs.some(inWeek) ? weekL : nextL).push(x);
     }
-    const node = x => subsOf(x.t).length ? projectBlock(x, rankOf) : taskRow(x, rankOf.get(x.t.id), false);
+    const node = x => view !== 'subtasks' && subsOf(x.t).length ? projectBlock(x, rankOf, view === 'projects' ? () => false : y => inHz(y)) : taskRow(x, rankOf.get(x.t.id), view === 'subtasks' && !!x.t.parentId, {showParent: view === 'subtasks'});
+    const hzName = {0: 'Today', 7: 'This week', 30: '30 days', 90: '90 days', 180: '6 months'}[horizon] || 'All time';
+    $('listScope').textContent = `Same as the radar: ${hzName}` + (view !== 'all' ? ` · ${view === 'projects' ? 'projects only' : 'tasks only'}` : '') + (spaceFilter !== 'all' && spaceById(spaceFilter) ? ` · ${spaceById(spaceFilter).name}` : '') + '. Ordered by what needs action first.';
     fillList('lDaily', dailyItems.map(i => dailyRow(i, 'daily-')), 'Nothing recurring yet. Add checks, weekly, monthly or quarterly work from “+ New → Recurring”.');
     fillList('lWeek', weekL.map(node), 'Nothing needs to start this week.');
     fillList('lNext', nextL.map(node), 'Nothing scheduled for later.');
@@ -2706,6 +2772,95 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     } catch(e){ fail(e); }
     finally { $('imGo').disabled = false; $('imGo').textContent = 'Import'; }
   });
+
+  /* ---------- search ---------- */
+  const fold = v => String(v || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  let qSel = 0, qItems = [];
+  function openSearch(){ $('qScrim').hidden = false; $('qInput').value = ''; qSel = 0; runSearch(); setTimeout(() => $('qInput').focus(), 20); }
+  function closeSearch(){ $('qScrim').hidden = true; }
+  function hlText(el, text, words){
+    const f = fold(text); let i = 0; const marks = [];
+    for(const w of words){ let j = f.indexOf(w); while(j >= 0){ marks.push([j, j + w.length]); j = f.indexOf(w, j + w.length); } }
+    marks.sort((a,b) => a[0] - b[0]);
+    for(const [a, b] of marks){ if(a < i) continue; el.append(document.createTextNode(text.slice(i, a))); const m = document.createElement('mark'); m.textContent = text.slice(a, b); el.append(m); i = b; }
+    el.append(document.createTextNode(text.slice(i)));
+  }
+  function runSearch(){
+    const words = fold($('qInput').value).split(/\s+/).filter(Boolean), withDone = $('qDone').checked;
+    const box = $('qResults'); box.textContent = ''; qItems = [];
+    if(!words.length){ box.append(Object.assign(document.createElement('div'), {className: 'q-empty', textContent: 'Type to search names, notes, clients, projects, custom fields and file names.'})); return; }
+    const hay = t => { const p = parentOf(t), sp = spaceOf(t);
+      return fold([t.title, t.notes, eff(t).client, p && p.title, sp && sp.name, ...(t.fields || []).flatMap(f => [f.k, f.v]), ...(t.attachments || []).map(a => a.name), t.closeout && t.closeout.comment].filter(Boolean).join(' \n ')); };
+    const hit = t => { const h = hay(t); return words.every(w => h.includes(w)); };
+    const score = t => (words.every(w => fold(t.title).includes(w)) ? 0 : 1) + (t.done ? 2 : 0);
+    const found = tasks.filter(t => (withDone || !t.done) && hit(t)).sort((a,b) => score(a) - score(b) || (calc(b).score - calc(a).score));
+    const projs = found.filter(t => isProject(t)), tks = found.filter(t => !isProject(t));
+    const recs = dailies.filter(d => words.every(w => fold([d.title, d.client].join(' ')).includes(w)));
+    const group = (label, list, mk) => { if(!list.length) return; box.append(Object.assign(document.createElement('div'), {className: 'q-group', textContent: `${label} · ${list.length}`})); list.slice(0, 25).forEach(x => box.append(mk(x))); };
+    const item = (title, meta, color, done, go) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'q-item' + (done ? ' done' : ''); b.setAttribute('role', 'option');
+      const sw = document.createElement('i'); sw.className = 'sw'; sw.style.background = color || 'var(--line)';
+      const mid = document.createElement('div'); mid.style.minWidth = '0';
+      const t1 = document.createElement('div'); t1.className = 'qt'; hlText(t1, title, words);
+      const t2 = document.createElement('div'); t2.className = 'qm'; t2.textContent = meta;
+      mid.append(t1, t2); b.append(sw, mid);
+      b.addEventListener('click', () => { closeSearch(); go(); });
+      qItems.push(b); return b;
+    };
+    const metaOf = t => { const x = calc(t), p = parentOf(t), bits = [];
+      if(t.done) bits.push('Done'); else if(x.late) bits.push('Late'); else if(x.days !== null) bits.push(x.days < 0 ? 'Overdue' : 'Due ' + fmt(parseD(x.e.deadline)));
+      if(p) bits.push('in ' + p.title); if(x.e.client) bits.push(x.e.client); if(t.afterHours) bits.push('After hours');
+      const inNotes = words.some(w => fold(t.notes).includes(w) && !fold(t.title).includes(w)); if(inNotes) bits.push('match in notes');
+      return bits.join(' · '); };
+    group('Projects', projs, t => item(t.title, metaOf(t), (spaceOf(t) || {}).color, t.done, () => openProject(t.id)));
+    group('Tasks', tks, t => item(t.title, metaOf(t), (spaceOf(t) || {}).color, t.done, () => openDetails(t)));
+    group('Recurring', recs, d => item(d.title, freqText(d), (spaceById(d.spaceId) || defaultSpace() || {}).color, false, () => openDaily(d)));
+    if(!qItems.length) box.append(Object.assign(document.createElement('div'), {className: 'q-empty', textContent: withDone ? 'Nothing matches.' : 'Nothing open matches. Try “Include done”.'}));
+    qSel = 0; markSel();
+  }
+  const markSel = () => qItems.forEach((b, i) => b.classList.toggle('sel', i === qSel));
+  $('searchBtn').addEventListener('click', openSearch);
+  $('qInput').addEventListener('input', runSearch); $('qDone').addEventListener('change', runSearch);
+  $('qInput').addEventListener('keydown', e => {
+    if(e.key === 'ArrowDown'){ e.preventDefault(); qSel = Math.min(qItems.length - 1, qSel + 1); markSel(); qItems[qSel] && qItems[qSel].scrollIntoView({block: 'nearest'}); }
+    else if(e.key === 'ArrowUp'){ e.preventDefault(); qSel = Math.max(0, qSel - 1); markSel(); qItems[qSel] && qItems[qSel].scrollIntoView({block: 'nearest'}); }
+    else if(e.key === 'Enter'){ e.preventDefault(); if(qItems[qSel]) qItems[qSel].click(); }
+  });
+  $('qScrim').addEventListener('click', e => { if(e.target === $('qScrim')) closeSearch(); });
+  document.addEventListener('keydown', e => {
+    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement || {}).tagName || '') || (document.activeElement || {}).isContentEditable;
+    if(!typing && (e.key === '/' || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')) && $('lScrim').hidden){ e.preventDefault(); openSearch(); }
+    else if(e.key === 'Escape' && !$('qScrim').hidden) closeSearch();
+  });
+
+  /* ---------- task from an email ----------
+     Paste an email (desktop) or share it from the mail app to Kairo (Android,
+     installed app). The subject becomes the task, the email goes to notes. */
+  function emailToTask(subject, body){
+    let title = String(subject || '').trim(), text = String(body || '').replace(/\r/g, '').trim();
+    const sm = text.match(/^\s*(?:subject|asunto)\s*:\s*(.+)$/im);
+    if(!title && sm) title = sm[1].trim();
+    if(!title){ const first = text.split('\n').find(l => l.trim() && !/^\s*(from|de|to|para|cc|sent|enviado|date|fecha)\s*:/i.test(l)); title = (first || 'Email follow-up').trim(); }
+    title = title.replace(/^\s*((re|fw|fwd|rv|tr)\s*:\s*)+/i, '').slice(0, 140);
+    const from = (text.match(/^\s*(?:from|de)\s*:\s*(.+)$/im) || [])[1];
+    openForm(null);
+    $('fTitle').value = title;
+    $('fNotes').value = (from && !/^\s*(from|de)\s*:/im.test(text) ? 'From: ' + from.trim() + '\n\n' : '') + text.slice(0, 1900);
+    $('fMore').open = true; updatePreview();
+    toast('Check the deadline and effort, then save');
+  }
+  $('addEmailMenu').addEventListener('click', () => { $('emText').value = ''; $('emScrim').hidden = false; setTimeout(() => $('emText').focus(), 30); });
+  $('emCancel').addEventListener('click', () => { $('emScrim').hidden = true; });
+  $('emScrim').addEventListener('click', e => { if(e.target === $('emScrim')) $('emScrim').hidden = true; });
+  $('emForm').addEventListener('submit', e => { e.preventDefault(); const v = $('emText').value; if(!v.trim()){ toast('Paste an email first'); return; } $('emScrim').hidden = true; emailToTask('', v); });
+  // shared from another app (Android share sheet → Kairo)
+  let sharedIn = null;
+  { const q = new URLSearchParams(location.search);
+    if(q.has('share_title') || q.has('share_text') || q.has('share_url')){
+      sharedIn = {title: q.get('share_title') || '', text: [q.get('share_text'), q.get('share_url')].filter(Boolean).join('\n\n')};
+      history.replaceState(null, '', location.pathname);
+    } }
+  function takeShared(){ if(!sharedIn || !dataReady || !$('lScrim').hidden) return; const s2 = sharedIn; sharedIn = null; emailToTask(s2.title, s2.text); }
 
   /* ---------- feedback ---------- */
   ['Not yet', 'A little', 'Useful', 'Very useful'].forEach((lab, i) => {
@@ -3385,7 +3540,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     try { await store.save('daily', d.id, data); toast('Last check removed'); } catch(e){ fail(e); }
   }
 
-  document.addEventListener('keydown', e => { if(e.key !== 'Escape') return; if(!$('scrim').hidden) closeForm(); if(!$('dScrim').hidden) closeDaily(); if(!$('cScrim').hidden) closeClose(); $('sScrim').hidden = true; $('fbScrim').hidden = true; $('imScrim').hidden = true; if(!$('lScrim').hidden && !authGate && authMode !== 'recover') hideLogin(); closeDetails(); });
+  document.addEventListener('keydown', e => { if(e.key !== 'Escape') return; if(!$('scrim').hidden) closeForm(); if(!$('dScrim').hidden) closeDaily(); if(!$('cScrim').hidden) closeClose(); $('sScrim').hidden = true; $('fbScrim').hidden = true; $('imScrim').hidden = true; $('emScrim').hidden = true; if(!$('lScrim').hidden && !authGate && authMode !== 'recover') hideLogin(); closeDetails(); });
 
   let toastT;
   function toast(msg){ const t = $('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 1800); }
@@ -3734,6 +3889,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   const hideLogin = () => { $('lScrim').hidden = true; authGate = false; };
   const gated = () => GATE && !!sb && !cloudUser;
   function setCloudUser(u){
+    setTimeout(() => takeShared(), 400);
     const was = cloudUser && cloudUser.id; cloudUser = u || null;
     if(gated()) showLogin(true);
     else if($('lScrim').classList.contains('checking')){ $('lScrim').classList.remove('checking'); $('lScrim').hidden = true; }
@@ -3846,6 +4002,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     if(!db){
       store = await localStore(); dataReady = true; render(); await initCloud(); renderFileBar(); spawnRecurring();
       if(!GATE || !sb) ensureSpaces();
+      setTimeout(() => takeShared(), 300);
       return;
     }
     $('lScrim').hidden = true;   // Claude-hosted version handles its own access
@@ -3875,7 +4032,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   })();
 
   setInterval(spawnRecurring, 10 * 60 * 1000);
-  setInterval(() => { if($('scrim').hidden && $('dScrim').hidden && $('cScrim').hidden && $('sScrim').hidden && $('fbScrim').hidden && $('imScrim').hidden && $('vScrim').hidden && $('lScrim').hidden) render(); }, 60 * 1000);
+  setInterval(() => { if($('scrim').hidden && $('dScrim').hidden && $('cScrim').hidden && $('sScrim').hidden && $('fbScrim').hidden && $('imScrim').hidden && $('emScrim').hidden && $('qScrim').hidden && $('vScrim').hidden && $('lScrim').hidden) render(); }, 60 * 1000);
 })();
 </script>
 </body></html>
