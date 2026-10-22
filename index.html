@@ -326,6 +326,9 @@ details.more .more-body{padding:4px 14px 2px}
 .q-item mark{background:color-mix(in srgb,var(--accent) 30%,transparent);color:inherit;border-radius:3px;padding:0 1px}
 .q-item.done .qt{text-decoration:line-through;color:var(--muted)}
 .q-empty{color:var(--muted);padding:18px 8px;font-size:14px}
+.shared-badge{display:inline-flex;align-items:center;gap:4px;margin-left:8px;padding:1px 7px 1px 5px;border-radius:999px;background:color-mix(in srgb,var(--mid) 15%,transparent);color:var(--mid);font:600 11.5px var(--f-body);vertical-align:2px;white-space:nowrap}
+.shared-badge svg{width:14px;height:14px}
+.chip .shared-badge,.ps-space .shared-badge{margin-left:6px;padding:0;background:none}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:10px;font-size:14px;z-index:30}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px}
 .tab{border:none;background:none;font:600 15px var(--f-body);color:var(--muted);padding:10px 14px;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
@@ -778,6 +781,16 @@ table.rep tr.clickable:hover td{background:var(--bg)}
             <input type="range" id="fProg" min="0" max="100" step="10" value="0">
           </div>
         </div>
+        <div class="field task-only">
+          <label for="fReady">Be ready</label>
+          <select id="fReady">
+            <option value="auto">Automatic (by size of the task)</option>
+            <option value="due">On the due date (no buffer)</option>
+            <option value="1">1 day before</option><option value="2">2 days before</option><option value="3">3 days before</option>
+            <option value="7">1 week before</option><option value="14">2 weeks before</option>
+          </select>
+          <span class="fnote" id="fReadyNote"></span>
+        </div>
         <div class="field">
           <span class="lbl">Custom fields</span>
           <div id="fFields" class="cf-list"></div>
@@ -954,9 +967,9 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       <span class="lbl">Profile</span>
       <div class="row2">
         <div class="field"><label for="sName">Your name</label><input type="text" id="sName" maxlength="60" placeholder="Shown on your avatar"></div>
-        <div class="field"><label for="sReady">Be ready before deadlines</label><select id="sReady"><option value="0">On the deadline</option><option value="1">1 day before</option><option value="2">2 days before</option><option value="3">3 days before</option><option value="5">5 days before</option><option value="7">1 week before</option><option value="10">10 days before</option><option value="14">2 weeks before</option></select></div>
+        <div class="field"><label for="sReady">Buffer for big tasks</label><select id="sReady"><option value="0">On the deadline</option><option value="1">1 day before</option><option value="2">2 days before</option><option value="3">3 days before</option><option value="5">5 days before</option><option value="7">1 week before</option><option value="10">10 days before</option><option value="14">2 weeks before</option></select></div>
       </div>
-      <span class="fnote">Kairo plans every task to be done by its “Ready by” date, so nothing is left for the last day. Past it, a task shows as Late.</span>
+      <span class="fnote">Automatic “Ready by” dates: under 2h of work, none (just the due date) · 2–4h, 1 day before · 4–8h, 2 days · a full day of work or more, this buffer. Change it per task in More options. Past its Ready by, a task shows as Late.</span>
       <div class="row2">
         <div class="field"><label for="sPayDays">Remind me of bills</label><select id="sPayDays"><option value="1">1 day before</option><option value="2">2 days before</option><option value="3">3 days before</option><option value="5">5 days before</option><option value="7">1 week before</option></select></div>
       </div>
@@ -1174,7 +1187,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 (() => {
   const $ = id => document.getElementById(id);
   const DAY = 864e5;
-  const APP_VERSION = '0.33 POC';
+  const APP_VERSION = '0.34 POC';
   const FEEDBACK_EMAIL = 'gonzalezkevin70@gmail.com';
   // Product name lives here only: change these two lines to rebrand.
   const APP_NAME = 'Kairo', APP_TAGLINE = 'Strategic planner';
@@ -1237,7 +1250,17 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   const remOf = t => effortOf(t) * (1 - progOf(t) / 100) + travelOf(t);
   // be ready N days before the real deadline (Settings); bills use their own reminder
   const readyLead = () => Math.max(0, Number(settings.readyLead ?? 7) || 0);
-  const leadOf = t => isPayment(t) ? remindDays() : readyLead();
+  /* How many days before the deadline a task should be READY.
+     Automatic: small work needs no buffer; bigger work gets more, up to the
+     Settings maximum. A task can override it (on the due date / N days). */
+  function leadOf(t){
+    if(isPayment(t)) return remindDays();
+    if(t.readyMode === 'due') return 0;
+    if(t.readyMode === 'days') return Math.max(0, Number(t.readyDays) || 0);
+    if(modeOf(t) !== 'normal' || t.afterHours || t.isProject) return 0;
+    const h = effortOf(t), max = readyLead();
+    return h < 2 ? 0 : h < 4 ? Math.min(max, 1) : h < 8 ? Math.min(max, 2) : max;
+  }
   const ahWhen = t => t.ahAt ? new Date(t.ahAt) : (eff(t).deadline ? parseD(eff(t).deadline) : null);
   const fmtWhen = d => d ? d.toLocaleString('en-US', {weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'}) : 'No date';
   const modeOf = t => t.mode || 'normal';
@@ -1516,9 +1539,9 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   const planFor = () => planOverride !== undefined ? planOverride : (personFilter === 'all' || personFilter === 'mine') ? me : personFilter;
   const assignedTo = (t, uid) => { if(!uid) return true; const a = eff(t).assignees; return !a.length || a.includes(uid); };
   const personOk = t => personFilter === 'all' || assignedTo(t, planFor());
-  const spaceOk = t => spaceFilter === 'all' || ((spaceOf(t) || {}).id === spaceFilter);
+  const spaceOk = t => spaceFilter === 'all' || (spaceFilter === '__shared' ? !!(spaceOf(t) || {}).shared : (spaceOf(t) || {}).id === spaceFilter);
   const vis = t => clientOk(eff(t).client) && personOk(t) && spaceOk(t);
-  const dailyVis = d => (spaceFilter === 'all' || ((spaceById(d.spaceId) || defaultSpace() || {}).id === spaceFilter)) && clientOk(d.client || '') && (personFilter === 'all' || !me || !d.owner || d.owner === planFor());
+  const dailyVis = d => (spaceFilter === 'all' || (spaceFilter === '__shared' ? !!(spaceById(d.spaceId) || {}).shared : (spaceById(d.spaceId) || defaultSpace() || {}).id === spaceFilter)) && clientOk(d.client || '') && (personFilter === 'all' || !me || !d.owner || d.owner === planFor());
   /* Order used by the radar numbers and the lists beside it:
        1 Emergency · 2 Overdue · 3 Late (ready-by passed) · 4 At risk ·
        5 Must start today · 6 the rest by start-by date · 7 no deadline.
@@ -1618,6 +1641,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     cb.addEventListener('change', () => opts.onCheck ? opts.onCheck(cb.checked) : toggleDone(t, cb.checked));
     const body = document.createElement('div'); body.className = 't-body';
     const title = document.createElement('div'); title.className = 't-title'; title.textContent = t.title;
+    { const ss = sharedSpaceOf(t); if(ss) title.append(shareBadge(ss, t, true)); }
     const meta = document.createElement('div'); meta.className = 't-meta';
     if(opts.why) meta.append(span(opts.why[0], 'why ' + opts.why[1]));
     if(opts.hours) meta.append(span(opts.hours, 'hours'));
@@ -1967,6 +1991,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const top = document.createElement('div'); top.className = 'top';
     top.append(sp ? spaceTag(sp) : span(''), span(pi.st[0], 'pill ' + pi.st[1]));
     const nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = t.title;
+    { const ss = sharedSpaceOf(t); if(ss) nm.append(shareBadge(ss, t, true)); }
     const bar = document.createElement('div'); bar.className = 'pbar'; const fill = document.createElement('i'); fill.style.width = Math.round(pi.pct * 100) + '%'; fill.style.background = sp ? sp.color : 'var(--mid)'; bar.append(fill);
     const meta = document.createElement('div'); meta.className = 'meta';
     meta.append(span(pi.total ? `${pi.done} of ${pi.total} tasks` : 'No tasks yet'), span(pi.left ? fmtH(pi.left) + ' left' : '', 'hours'));
@@ -1986,6 +2011,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const side = $('projSide'); side.textContent = '';
     const sbtn = (id, label, color, n) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'ps-space'; b.setAttribute('aria-pressed', spaceFilter === id);
       const i = document.createElement('i'); i.style.background = color || 'var(--ink)'; b.append(i, document.createTextNode(label)); const c = document.createElement('b'); c.textContent = n; b.append(c);
+      const sp0 = spaceById(id); if(sp0 && sp0.shared){ b.insertBefore(shareBadge(sp0), b.lastChild); b.title = sharedTip(sp0); }
       b.addEventListener('click', () => setSpaceFilter(id)); side.append(b); };
     sbtn('all', 'All spaces', null, all.filter(t => !t.done).length);
     for(const sp of spacesSorted()){
@@ -2171,14 +2197,16 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     if(tasks.some(t => !eff(t).client)) mk('__none', 'No client');
     $('clientLabel').hidden = box.hidden = !cs.length;
     // spaces
-    if(spaceFilter !== 'all' && !spaceById(spaceFilter)) spaceFilter = 'all';
+    if(spaceFilter !== 'all' && spaceFilter !== '__shared' && !spaceById(spaceFilter)) spaceFilter = 'all';
     const sb2 = $('spaceChips'); sb2.textContent = '';
     const sm = (val, label, color) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip';
       if(color){ const i = document.createElement('i'); i.className = 'sw'; i.style.background = color; b.append(i); }
       b.append(document.createTextNode(label));
+      const sp0 = spaceById(val); if(sp0 && sp0.shared){ b.append(shareBadge(sp0)); b.title = sharedTip(sp0); }
       b.setAttribute('aria-pressed', spaceFilter === val); b.addEventListener('click', () => setSpaceFilter(val)); sb2.append(b); };
     sm('all', 'All');
     spacesSorted().forEach(x => sm(x.id, x.name, x.color));
+    if(spaces.some(x => x.shared)) sm('__shared', 'All shared', null);
     $('spaceLabel').hidden = sb2.hidden = !spaces.length;
     const pl = $('peopleChips'); pl.textContent = '';
     const ppl = [...new Set(tasks.flatMap(t => t.assignees || []))].filter(id => id !== me);
@@ -2390,11 +2418,12 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       spaceId: pid ? null : ($('fSpace').value || null), amount: formProject || $('fAmount').value === '' ? null : Math.max(0, Number($('fAmount').value) || 0), isProject: formProject,
       ...(formProject ? {parentId: null, mode: 'normal', effort: 0, subtaskDays: Number($('fSubDays').value) || null, afterHours: false, location: '', travelMin: 0}
         : {afterHours: $('fAH').checked, ahAt: $('fAH').checked ? ($('fAHAt').value || null) : null, location: $('fLoc').value, travelMin: Number($('fTravel').value) || 0,
-           progress: editingId ? Number($('fProg').value) || 0 : 0}),
+           progress: editingId ? Number($('fProg').value) || 0 : 0,
+           readyMode: $('fReady').value === 'auto' ? 'auto' : $('fReady').value === 'due' ? 'due' : 'days', readyDays: /^\d+$/.test($('fReady').value) ? Number($('fReady').value) : null}),
       fields: readFieldRows()};
   }
   let formProject = false;
-  function fillSpaceSelect(sel, val){ sel.textContent = ''; for(const x of spacesSorted()){ const o = document.createElement('option'); o.value = x.id; o.textContent = x.name; sel.append(o); } if(!spaces.length){ const o = document.createElement('option'); o.value = ''; o.textContent = 'No spaces yet'; sel.append(o); } sel.value = val || ((defaultSpace() || {}).id || ''); }
+  function fillSpaceSelect(sel, val){ sel.textContent = ''; for(const x of spacesSorted()){ const o = document.createElement('option'); o.value = x.id; o.textContent = x.name; sel.append(o); } if(!spaces.length){ const o = document.createElement('option'); o.value = ''; o.textContent = 'No spaces yet'; sel.append(o); } sel.value = (val && spaceById(val)) ? val : ((defaultSpace() || {}).id || ''); }
   function updatePreview(){
     const d = draft(), fake = {...(editingId ? byId(editingId) : {}), ...d, id: editingId || '__draft', done:false};
     const prev = tasks, prevS = S;
@@ -2408,6 +2437,9 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     else if(isLHF(x)) txt += ' · Low-hanging fruit';
     if(d.mode === 'normal' && x.risk) txt += ' · At risk'; else if(d.mode === 'normal' && x.start !== null && x.days !== null && x.start < x.days) txt += ' · Start by ' + fmtOff(x.start);
     $('pText').textContent = txt;
+    const lead = d.mode === 'normal' && !d.afterHours ? leadOf({...d, effort: d.effort}) : 0;
+    $('fReadyNote').textContent = !d.deadline ? 'Set a deadline to get a Ready by date.'
+      : lead ? `Ready by ${fmt(new Date(parseD(d.deadline).getTime() - lead * DAY))} · due ${fmt(parseD(d.deadline))}` : 'No buffer: it just needs to be done by the due date.';
   }
   /* ---------- custom fields ---------- */
   function renderFieldRows(list){
@@ -3004,7 +3036,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     if(spaces.some(x => x.name.toLowerCase() === v.toLowerCase())){ toast('That space already exists'); return; }
     $('spNew').value = '';
     const id = 'sp-' + v.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 24) + '-' + Date.now().toString(36);
-    try { await store.save('spaces', id, {name: v, color: SPACE_COLORS[spaces.length % SPACE_COLORS.length], planDuring: 'evenings', order: spaces.length, createdAt: Date.now()}); toast('Space added'); } catch(err){ fail(err); }
+    try { await store.save('spaces', id, {name: v, color: SPACE_COLORS[spaces.length % SPACE_COLORS.length], planDuring: 'evenings', order: spaces.length, createdAt: Date.now()}); renderClientRows(); toast('Space added'); } catch(err){ fail(err); }
   });
   const saveProfile = async patch => { settings = {...settings, ...patch}; render(); renderSync(); try { await store.saveSettings(settings); } catch(e){ fail(e); } };
   $('sName').addEventListener('change', () => saveProfile({displayName: $('sName').value.trim()}));
@@ -3114,6 +3146,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     $('projSubField').hidden = !formProject; $('fSubDays').value = t && t.subtaskDays ? String(t.subtaskDays) : '';
     $('fAH').checked = !!(t && t.afterHours); $('whenWork').checked = !$('fAH').checked; $('fAHAt').value = t && t.ahAt ? t.ahAt : ''; syncWhen();
     $('fLoc').value = t && t.location ? t.location : ''; $('fTravel').value = String(t && t.travelMin ? t.travelMin : 0);
+    $('fReady').value = !t || !t.readyMode || t.readyMode === 'auto' ? 'auto' : t.readyMode === 'due' ? 'due' : String(t.readyDays || 1);
     $('fProg').value = t ? progOf(t) : 0; $('fProgV').textContent = $('fProg').value + '%'; $('fProgField').hidden = !t;
     renderFieldRows(t && t.fields ? t.fields : []);
     pendingFiles = []; renderFormFiles(t);
@@ -3267,6 +3300,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     if(t.location) item('Where', ({remote: 'Remote', onsite: 'On-site', hybrid: 'Hybrid'})[t.location] + (travelOf(t) ? ` · ${fmtH(travelOf(t))} travel` : ''));
     for(const f of (t.fields || [])) if(f && f.k) item(f.k, f.v);
     if(e.space) item('Space', e.space.name + ' · planned ' + spaceWhen(e.space));
+    { const ss = sharedSpaceOf(t); if(ss){ const ms = (shareMembers.get(ss.id) || []).map(m => m.user_id === (cloudUser || {}).id ? 'You' : m.email); item('Shared with', ms.length ? ms.join(', ') : 'Members of ' + ss.name); item('Added by', t._owner ? (memberEmail(t._owner) || 'Another member') : 'You'); } }
     if(isPayment(t)) item('Amount', money(t.amount));
     item('Importance', lvl(e.importance) + (t.importance == null && p ? ' (project)' : ''));
     item('Urgency', lvl(e.urgency) + (t.urgency == null && p ? ' (project)' : ''));
@@ -3764,10 +3798,25 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     if(spaceFilter === old) setSpaceFilter(nid);
     return spaceById(nid);
   }
+  const memberEmail = uid => { for(const list of shareMembers.values()){ const m = list.find(x => x.user_id === uid); if(m) return m.email; } return null; };
+  const sharedSpaceOf = t => { const sp = spaceOf(t); return sp && sp.shared ? sp : null; };
+  function sharedTip(sp, t){
+    const ms = (shareMembers.get(sp.id) || []).map(m => m.user_id === (cloudUser || {}).id ? 'you' : m.email);
+    let tip = `Shared space “${sp.name}”` + (ms.length ? ` · ${ms.join(', ')}` : '') + (sp._owner ? ` · shared by ${memberEmail(sp._owner) || 'someone else'}` : '');
+    if(t) tip += t._owner ? ` · added by ${memberEmail(t._owner) || 'another member'}` : ' · added by you';
+    return tip;
+  }
+  const SHARE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.6-3.2 3-5 6-5s5.4 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16.5 14.2c2.4.2 4 1.7 4.5 4.3"/></svg>';
+  function shareBadge(sp, t, withText){
+    const b = document.createElement('span'); b.className = 'shared-badge'; b.innerHTML = SHARE_ICON;
+    if(withText) b.append(document.createTextNode(t && t._owner ? 'Shared · ' + ((memberEmail(t._owner) || '').split('@')[0] || 'member') : 'Shared'));
+    b.title = sharedTip(sp, t); b.setAttribute('aria-label', b.title); return b;
+  }
   async function loadMembers(sid){
     if(!sb) return;
     const {data, error} = await sb.from('space_members').select('user_id,email').eq('space_id', sid).order('added_at');
     shareMembers.set(sid, error ? [] : data); if(!$('sScrim').hidden) renderClientRows();
+    clearTimeout(loadMembers.t); loadMembers.t = setTimeout(render, 50);
   }
   async function removeMember(sid, uid){
     const {error} = await sb.from('space_members').delete().eq('space_id', sid).eq('user_id', uid);
@@ -3805,6 +3854,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
         seenRows.add(key);
       };
       changed += await syncMemberships(take);
+      if(sharingReady) for(const sp of spaces.filter(x => x.shared)) if(!shareMembers.has(sp.id)) loadMembers(sp.id);
       for(let page = 0; ; page++){
         let q = sb.from('items').select('id,kind,data,deleted,updated_at,user_id').order('updated_at').order('id').range(page * 1000, page * 1000 + 999);
         if(from) q = q.gte('updated_at', from);
