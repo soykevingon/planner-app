@@ -109,7 +109,7 @@ section.group{margin-bottom:28px;scroll-margin-top:16px}
 .field>label,.field>.lbl{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media (max-width:420px){.row2{grid-template-columns:1fr}}
-input[type=text],input[type=email],input[type=password],input[type=date],input[type=number],select,textarea{font:15px var(--f-body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;min-width:0}
+input[type=text],input[type=search],input[type=email],input[type=password],input[type=date],input[type=number],select,textarea{font:15px var(--f-body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;min-width:0}
 textarea{min-height:60px;resize:vertical}
 .segs{display:flex;gap:6px}
 label.seg{flex:1}
@@ -362,6 +362,37 @@ details.more .more-body{padding:4px 14px 2px}
 .cal-item.task{border-left-style:dashed;background:transparent;border:1px dashed var(--line);border-left:3px dashed var(--high)}
 .cal-item.ah{border-left-color:#6a55c9}
 .cal-empty{color:var(--muted);font-size:12.5px}
+.help-q{display:inline-grid;place-items:center;width:18px;height:18px;margin-left:6px;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--muted);font:600 11px var(--f-body);cursor:pointer;vertical-align:1px;flex:none}
+.help-q:hover{color:var(--accent);border-color:var(--accent)}
+.help-sheet{max-width:720px;min-height:min(560px,90vh);display:flex;flex-direction:column}
+.h-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.h-head h3{flex:1;margin:0;font-family:var(--f-display);font-size:20px;min-width:0}
+.h-lang{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.h-lang button{border:0;background:none;color:var(--muted);font:600 12px var(--f-body);padding:5px 9px;cursor:pointer}
+.h-lang button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+#hSearch{width:100%;margin-bottom:14px}
+@media (max-width:520px){.help-sheet.reading #hTitle{display:none}.help-sheet.reading .h-head{justify-content:space-between}}
+.h-group{font:600 12px var(--f-body);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:16px 0 6px}
+.h-group:first-child{margin-top:0}
+.h-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
+.h-item{display:block;width:100%;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:10px 12px;cursor:pointer;font:inherit}
+.h-item:hover,.h-item:focus-visible{border-color:var(--accent)}
+.h-item b{display:block;font-weight:600;font-size:14.5px}
+.h-item span{display:block;color:var(--muted);font-size:13px;line-height:1.35;margin-top:2px}
+.h-empty{color:var(--muted);padding:18px 2px}
+#hArt{font-size:15px;line-height:1.6}
+#hArt h4{font-family:var(--f-display);font-size:22px;margin:0 0 10px;line-height:1.2}
+#hArt ol,#hArt ul{padding-left:22px;margin:8px 0 12px}
+#hArt li{margin:4px 0}
+#hArt p{margin:8px 0}
+#hArt a{color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+#hArt .tip{background:color-mix(in srgb,var(--mid) 10%,transparent);border-left:3px solid var(--mid);border-radius:6px;padding:9px 12px;margin:12px 0;font-size:14px}
+#hArt kbd{font:500 12px var(--f-mono);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 5px;background:var(--bg)}
+.h-related{margin-top:18px;padding-top:12px;border-top:1px solid var(--line)}
+.h-related .h-group{margin-top:0}
+.h-related a{display:inline-block;margin:0 14px 6px 0}
+.h-foot{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+#hList{margin-bottom:14px}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:10px;font-size:14px;z-index:30}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px}
 .tab{border:none;background:none;font:600 15px var(--f-body);color:var(--muted);padding:10px 14px;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
@@ -485,6 +516,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
           <div class="acct-sync"><i class="sdot" id="syncDot2"></i><span id="acctSyncTxt"></span></div>
           <button type="button" role="menuitem" id="syncBtn">Sync now</button>
           <button type="button" role="menuitem" id="settingsBtn">Settings</button>
+          <button type="button" role="menuitem" id="helpBtn">Help &amp; how-tos</button>
           <button type="button" role="menuitem" id="importAppBtn">Import from another app</button>
           <button type="button" role="menuitem" id="feedbackBtn">Send feedback</button>
           <button type="button" role="menuitem" id="acctPass">Change password</button>
@@ -632,7 +664,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     <div class="cal-head">
       <div class="cal-nav"><button class="btn sm" type="button" id="calPrev" aria-label="Previous week">‹</button><button class="btn sm" type="button" id="calToday">Today</button><button class="btn sm" type="button" id="calNext" aria-label="Next week">›</button></div>
       <h2 id="calRange"></h2>
-      <div class="cal-tools"><span class="fnote" id="calNotifTxt"></span><button class="btn sm" type="button" id="calNotifBtn" hidden>Turn on reminders</button><button class="btn sm" type="button" id="calNew">+ Event</button></div>
+      <div class="cal-tools"><span class="fnote" id="calNotifTxt"></span><button class="help-q" type="button" data-help="calendar" aria-label="Help: calendar and voice" title="How this works">?</button><button class="btn sm" type="button" id="calNotifBtn" hidden>Turn on reminders</button><button class="btn sm" type="button" id="calNew">+ Event</button></div>
     </div>
     <div class="cal-week" id="calWeek"></div>
   </div>
@@ -669,7 +701,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   <div class="layout">
     <div class="radar-col">
       <div class="radar-box">
-        <div class="hz-row"><span class="flabel">Look ahead</span><div class="seg-ctl" id="horizonCtl" role="group" aria-label="Look ahead"></div></div>
+        <div class="hz-row"><span class="flabel">Look ahead</span><button class="help-q" type="button" data-help="radar" aria-label="Help: the Radar" title="How this works">?</button><div class="seg-ctl" id="horizonCtl" role="group" aria-label="Look ahead"></div></div>
         <svg class="radar" id="radar" viewBox="0 0 520 520" role="img" aria-label="Task radar by priority"></svg>
         <div class="legend">
           <span><i style="background:var(--crit)"></i>P1 Critical 70+</span>
@@ -843,7 +875,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
             <option value="1">1 day before</option><option value="2">2 days before</option><option value="3">3 days before</option>
             <option value="7">1 week before</option><option value="14">2 weeks before</option>
           </select>
-          <span class="fnote" id="fReadyNote"></span>
+          <span class="fnote"><span id="fReadyNote"></span> <button class="help-q" type="button" data-help="ready" aria-label="Help: Ready by" title="How this works">?</button></span>
         </div>
         <div class="field">
           <span class="lbl">Custom fields</span>
@@ -1034,7 +1066,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       <span class="fnote">Spaces planned in evenings and weekends use this time, so they never eat your work focus hours.</span>
     </div>
     <div class="field">
-      <span class="lbl">Spaces</span>
+      <span class="lbl">Spaces <button class="help-q" type="button" data-help="spaces" aria-label="Help: spaces" title="How this works">?</button></span>
       <div id="spRows"></div>
       <form id="spAdd" style="display:flex;gap:8px;margin-top:8px" autocomplete="off">
         <input type="text" id="spNew" maxlength="40" placeholder="Add a space, e.g. Side project">
@@ -1182,7 +1214,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       <input type="text" id="obOther" maxlength="40" placeholder="Another space (optional)">
       <span class="fnote">Work is planned in work hours, the rest in evenings and weekends. Finances holds bill reminders.</span>
     </div>
-    <div class="sheet-actions"><div class="right"><button class="btn primary" type="submit">Start planning</button></div></div>
+    <div class="sheet-actions"><button class="btn" type="button" data-help="start">Read the 5-minute guide</button><div class="right"><button class="btn primary" type="submit">Start planning</button></div></div>
   </form>
 </div>
 <!-- Import from another app -->
@@ -1267,14 +1299,31 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   </form>
 </div>
 <datalist id="clientList"></datalist>
+<div class="scrim" id="hScrim" hidden>
+  <div class="sheet help-sheet" role="dialog" aria-labelledby="hTitle">
+    <div class="h-head">
+      <button class="btn sm" type="button" id="hBack" hidden>‹ <span id="hBackTxt"></span></button>
+      <h3 id="hTitle"></h3>
+      <div class="h-lang" role="group" aria-label="Language"><button type="button" data-lang="en">EN</button><button type="button" data-lang="es">ES</button></div>
+      <button class="btn sm" type="button" id="hClose" aria-label="Close">✕</button>
+    </div>
+    <div id="hList">
+      <input type="search" id="hSearch" autocomplete="off">
+      <div id="hItems"></div>
+    </div>
+    <article id="hArt" hidden></article>
+    <div class="h-foot"><span id="hStuck"></span> <button class="btn sm" type="button" id="hAsk"></button></div>
+  </div>
+</div>
 <script src="supabase.js"></script>
+<script src="help.js"></script>
 <div class="toast" id="toast" hidden></div>
 
 <script>
 (() => {
   const $ = id => document.getElementById(id);
   const DAY = 864e5;
-  const APP_VERSION = '0.35 POC';
+  const APP_VERSION = '0.36 POC';
   const FEEDBACK_EMAIL = 'gonzalezkevin70@gmail.com';
   // Product name lives here only: change these two lines to rebrand.
   const APP_NAME = 'Kairo', APP_TAGLINE = 'Strategic planner';
@@ -4402,6 +4451,81 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   $('lRemember').addEventListener('change', () => { try { localStorage.setItem('pr-remember', $('lRemember').checked ? '1' : '0'); } catch {} });
   $('lForgot').addEventListener('click', () => setAuthMode('forgot'));
   $('lCancel').addEventListener('click', () => { if(authMode === 'forgot') setAuthMode('signin'); else hideLogin(); });
+  /* ---------- Help & how-tos ---------- */
+  let helpLang = (() => { try { const v = localStorage.getItem('pr-help-lang'); if(v) return v; } catch {} return /^es\b/i.test(navigator.language || '') ? 'es' : 'en'; })();
+  let helpCur = null;
+  const helpData = () => (window.KAIRO_HELP || {})[helpLang] || (window.KAIRO_HELP || {}).en;
+  const stripTags = h => String(h).replace(/<[^>]+>/g, ' ');
+  function openHelp(id){
+    closeAcct(); closeNew();
+    if(!window.KAIRO_HELP){ toast('Help isn’t available offline yet. Reload once with internet.'); return; }
+    $('hScrim').hidden = false; $('hSearch').value = '';
+    showHelp(id && helpData().articles.some(a => a.id === id) ? id : null);
+    if(!id) setTimeout(() => $('hSearch').focus(), 30);
+  }
+  function closeHelp(){ $('hScrim').hidden = true; }
+  function showHelp(id){
+    const H = helpData(); helpCur = id;
+    document.querySelectorAll('.h-lang button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === helpLang)));
+    $('hTitle').textContent = H.ui.title; $('hSearch').placeholder = H.ui.search; $('hSearch').setAttribute('aria-label', H.ui.search);
+    $('hBackTxt').textContent = H.ui.back; $('hStuck').textContent = H.ui.stuck; $('hAsk').textContent = H.ui.ask;
+    $('hBack').hidden = !id; $('hList').hidden = !!id; $('hArt').hidden = !id;
+    $('hScrim').querySelector('.sheet').classList.toggle('reading', !!id);
+    if(id){
+      const a = H.articles.find(x => x.id === id);
+      $('hArt').innerHTML = `<h4></h4>${a.body}`; $('hArt').querySelector('h4').textContent = a.title;
+      const links = [...a.body.matchAll(/data-go="([\w-]+)"/g)].map(m => m[1]);
+      const same = H.articles.filter(x => x.group === a.group && x.id !== a.id).map(x => x.id);
+      const rel = [...new Set([...links, ...same])].filter(x => x !== a.id).slice(0, 4);
+      if(rel.length){
+        const box = document.createElement('div'); box.className = 'h-related';
+        const g = document.createElement('div'); g.className = 'h-group'; g.textContent = H.ui.related; box.append(g);
+        for(const r of rel){ const x = H.articles.find(y => y.id === r); if(!x) continue; const l = document.createElement('a'); l.dataset.go = r; l.textContent = x.title; box.append(l); }
+        $('hArt').append(box);
+      }
+      $('hScrim').querySelector('.sheet').scrollTop = 0;
+    } else renderHelpList();
+  }
+  function renderHelpList(){
+    const H = helpData(), q = fold($('hSearch').value).trim(), box = $('hItems'); box.textContent = '';
+    const words = q.split(/\s+/).filter(Boolean);
+    const hit = a => { const hay = fold(a.title + ' ' + a.sum + ' ' + a.tags + ' ' + stripTags(a.body)); return words.every(w => hay.includes(w)); };
+    const score = a => { const t = fold(a.title + ' ' + a.tags); return words.filter(w => t.includes(w)).length; };
+    const item = a => { const b = document.createElement('button'); b.type = 'button'; b.className = 'h-item'; b.dataset.go = a.id;
+      const t = document.createElement('b'); t.textContent = a.title; const s0 = document.createElement('span'); s0.textContent = a.sum; b.append(t, s0); return b; };
+    if(words.length){
+      const found = H.articles.filter(hit).sort((a, b) => score(b) - score(a));
+      if(!found.length){ const e = document.createElement('div'); e.className = 'h-empty'; e.textContent = H.ui.none; box.append(e); return; }
+      const grid = document.createElement('div'); grid.className = 'h-grid'; found.forEach(a => grid.append(item(a))); box.append(grid); return;
+    }
+    for(const [gid, gname] of H.groups){
+      const list = H.articles.filter(a => a.group === gid); if(!list.length) continue;
+      const g = document.createElement('div'); g.className = 'h-group'; g.textContent = gname;
+      const grid = document.createElement('div'); grid.className = 'h-grid'; list.forEach(a => grid.append(item(a)));
+      box.append(g, grid);
+    }
+  }
+  const HELP_DO = {settings: () => $('settingsBtn').click(), new: () => $('addBtn').click(), search: () => openSearch(), import: () => $('importAppBtn').click(),
+    feedback: () => $('feedbackBtn').click(), calendar: () => $('tabCal').click(), radar: () => $('tabRadar').click(), projects: () => $('tabProjects').click(), today: () => $('tabToday').click()};
+  $('helpBtn').addEventListener('click', () => openHelp());
+  $('hClose').addEventListener('click', closeHelp);
+  $('hBack').addEventListener('click', () => { showHelp(null); $('hSearch').focus(); });
+  $('hAsk').addEventListener('click', () => { closeHelp(); $('feedbackBtn').click(); });
+  $('hScrim').addEventListener('click', e => {
+    if(e.target === $('hScrim')){ closeHelp(); return; }
+    const go = e.target.closest('[data-go]'); if(go){ e.preventDefault(); showHelp(go.dataset.go); return; }
+    const d = e.target.closest('[data-do]'); if(d && HELP_DO[d.dataset.do]){ closeHelp(); HELP_DO[d.dataset.do](); return; }
+    const l = e.target.closest('[data-lang]'); if(l){ helpLang = l.dataset.lang; try { localStorage.setItem('pr-help-lang', helpLang); } catch {} showHelp(helpCur); }
+  });
+  $('hSearch').addEventListener('input', renderHelpList);
+  $('hSearch').addEventListener('keydown', e => { if(e.key === 'Enter'){ const f = $('hItems').querySelector('.h-item'); if(f){ e.preventDefault(); showHelp(f.dataset.go); } } });
+  document.addEventListener('click', e => { const h = e.target.closest('[data-help]'); if(h && !h.closest('#hScrim')){ e.preventDefault(); e.stopPropagation(); openHelp(h.dataset.help); } }, true);
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && !$('hScrim').hidden){ e.stopImmediatePropagation(); if(helpCur) showHelp(null); else closeHelp(); return; }
+    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test((e.target || {}).tagName || '') || (e.target || {}).isContentEditable;
+    if(e.key === '?' && !typing && $('lScrim').hidden && $('hScrim').hidden){ e.preventDefault(); openHelp(); }
+  }, true);
+
   function closeAcct(){ $('acctMenu').hidden = true; $('acctBtn').setAttribute('aria-expanded', 'false'); }
   $('acctBtn').addEventListener('click', e => { e.stopPropagation(); closeNew(); const open = $('acctMenu').hidden; $('acctMenu').hidden = !open; $('acctBtn').setAttribute('aria-expanded', String(open)); if(open){ const f = $('acctMenu').querySelector('button:not([hidden])'); if(f) f.focus(); } });
   document.addEventListener('click', e => { if(!e.target.closest('#acctWrap')) closeAcct(); });
