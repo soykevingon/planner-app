@@ -61,6 +61,8 @@
     <div class="chips" id="clientChips" data-mod="clients"></div>
   </div>
 
+  <aside class="side">
+  <div class="side-brand" aria-hidden="true"><img src="logo.png" alt="" width="34" height="34"><b>Kairo</b></div>
   <div class="tabs" role="tablist">
     <button class="tab" role="tab" id="tabToday" type="button" data-tab="today"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Today</span></button>
     <button class="tab" role="tab" id="tabRadar" type="button" data-tab="radar"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 12l6-6"/></svg><span>Radar</span></button>
@@ -68,10 +70,20 @@
     <button class="tab" role="tab" id="tabCal" type="button" data-tab="calendar"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span>Calendar</span></button>
     <button class="tab" role="tab" id="tabReports" type="button" data-tab="reports"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg><span>Reports</span></button>
   </div>
+  <div class="side-spaces" id="sideSpaces" role="group" aria-label="Spaces"></div>
+  </aside>
 
   <div id="viewToday">
     <header class="day-head"><span class="eyebrow" id="dayHello"></span><h2 id="dayTitle"></h2><p id="dayMsg" role="status"></p></header>
     <div class="space-chips" id="todaySpaces" role="group" aria-label="Space" hidden></div>
+    <form class="quick-add" id="qaForm" autocomplete="off">
+      <div class="qa-row">
+        <input type="text" id="qaText" maxlength="200" aria-label="Add a task in one line" placeholder="What do you need to do? e.g. “Report Friday 2h”">
+        <button class="btn primary qa-go" type="submit" aria-label="Add task"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div>
+      <div class="qa-prev fnote" id="qaPrev" hidden></div>
+    </form>
+    <div class="today-top">
     <div class="plan-card hero" data-mod="work">
       <div class="cap-stats" id="capStats"></div>
       <div class="plan-head"><div><b id="capUsed">0h</b> <span id="capOf">of 5h focus time planned</span></div><span id="planDay"></span></div>
@@ -83,19 +95,13 @@
       <div class="setting"><label for="busyToday">Meetings today (hours)</label><input type="number" id="busyToday" min="0" max="12" step="0.5" value="0"><span id="busyNote">Other meetings, taken out of today’s focus time. Events in your Kairo calendar are counted automatically.</span></div>
       </details>
     </div>
-    <form class="quick-add" id="qaForm" autocomplete="off">
-      <div class="qa-row">
-        <input type="text" id="qaText" maxlength="200" aria-label="Add a task in one line" placeholder="What do you need to do? e.g. “Report Friday 2h”">
-        <button class="btn primary qa-go" type="submit" aria-label="Add task"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
-      </div>
-      <div class="qa-prev fnote" id="qaPrev" hidden></div>
-    </form>
+    <div class="now-card" id="nowCard">
+      <div class="now-head"><span class="flabel" id="nowLabel">Up next</span><b id="timeLeft"></b></div>
+      <div id="nextUp"></div>
+    </div>
+    </div>
     <div class="today-grid">
       <div>
-        <div class="now-card" id="nowCard">
-          <div class="now-head"><span class="flabel" id="nowLabel">Up next</span><b id="timeLeft"></b></div>
-          <div id="nextUp"></div>
-        </div>
         <div class="banner emerg" id="emergBanner" hidden></div>
         <section class="group">
           <div class="group-head"><h2 id="planTitle">Today’s plan <span class="count" id="cPlan"></span></h2><div class="gs-card" id="gsCard" hidden></div></div>
@@ -118,6 +124,7 @@
         </section>
       </div>
       <div>
+        <section class="your-day" aria-labelledby="ydTitle"><div class="yd-head"><h2 id="ydTitle">Your day</h2><span id="ydDate"></span></div><div id="yourDay"></div></section>
         <section class="group" id="ahGroup" hidden>
           <h2>After-hours jobs <span class="count" id="cAH"></span></h2>
           <p class="hint">Work scheduled outside your hours. It doesn’t use focus time and stays off the radar.</p>
@@ -248,7 +255,7 @@
       <section class="group" id="g-road">
         <h2>Roadmap <span class="count" id="cRoad"></span></h2>
         <p class="hint">Bars run from the planner’s start-by date to each deadline. Dashed bars are recurring work that will be created; diamonds are bills.</p>
-        <div class="road-box"><div class="road" id="roadmap"></div></div>
+        <div class="road-box" tabindex="0" role="region" aria-label="Roadmap, scrolls sideways"><div class="road" id="roadmap"></div></div>
       </section>
       <section class="group" id="g-daily" data-mod="routine">
         <h2>Recurring <span class="count" id="cDaily"></span></h2>

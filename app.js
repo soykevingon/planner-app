@@ -798,6 +798,13 @@
       else if(!plan.length) msg.textContent = tx('empty');
       else msg.textContent = fw === 0 || !hasWork() ? tx('calm') : tx('offday');
       $('nowLabel').textContent = tx('upNext'); }
+    { const box = $('yourDay'); if(box){ box.textContent = ''; const d0 = today0(), k0 = dayKey(d0), items = dayItems(d0, k0, d0.getTime()).filter(it => !it.node.classList.contains('work'));
+        // work time today = today's plan, so this panel always matches the list
+        for(const p of plan.filter(p => fw === 0 || (p.pool === 'eve' && p.day === 0))){ if(!p.x || !p.x.t) continue; const w = calWorkItem(p.x.t, [0, p.h, p.pool === 'eve' ? 'eve' : 'work'], k0, !!p.steady, null); items.push({at: 23.9, node: w.node}); }
+        $('ydDate').textContent = d0.toLocaleDateString('en-US', {weekday: 'short', month: 'short', day: 'numeric'});
+        for(const it of items){ const r = document.createElement('div'); r.className = 'yd-row';
+          r.append(span(it.at === -1 ? 'All day' : it.at < 0 ? 'Due' : it.at >= 23.4 ? 'Any time' : fmtClock(it.at), 'yd-time'), it.node); box.append(r); }
+        if(!items.length) box.append(span('Nothing on your calendar today.', 'cal-empty')); } }
     fillList('lPlan', plan.map((p, i) => taskRow(p.x, String(i+1), !!p.x.t.parentId, {prefix:'plan-', why:p.why, hours: p.h < p.total - 1e-9 ? `${fmtH(p.h)} of ${fmtH(p.total)}` : fmtH(p.h), showParent:true, compact:true,
       ...(p.steady ? {checked:false, onCheck: on => logSession(p.x.t, on, p.h)} : {})})),
       'Nothing scheduled. Add tasks with deadlines and effort, or enjoy the free time.');
@@ -1967,6 +1974,29 @@
   const remTxt = r => r >= 1440 && r % 1440 === 0 ? `${r / 1440} day${r === 1440 ? '' : 's'}` : r >= 60 && r % 60 === 0 ? `${r / 60} hour${r === 60 ? '' : 's'}` : r >= 60 ? `${Math.floor(r / 60)}h ${r % 60}m` : `${r} min`;
   let calWeek0 = null, calDraft = null;
   const weekStart = d => { const x = new Date(d); x.setHours(0, 0, 0, 0); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; };
+  // everything on one day: events, deadlines, and the work time planned for it
+  function dayItems(d, key, t0){
+    const items = [];
+      for(const ev of events.filter(e => spaceOk({spaceId: e.spaceId}) && e.start && e.start.slice(0, 10) <= key && (e.end || e.start).slice(0, 10) >= key))
+        items.push({at: ev.allDay ? -1 : (ev.start.slice(0, 10) === key ? toH(ev.start.slice(11, 16)) : 0), node: calItem(ev)});
+      // work time on this day, per task, so a deadline on the same day joins its work block
+      const o = Math.round((d.getTime() - t0) / DAY), workOn = new Map();
+      if(o >= 0) for(const [id, r] of S.res){ if(r.emergency) continue; const ch = r.chunks.filter(c => c[0] === o); if(ch.length) workOn.set(id, ch); }
+      const dueWith = new Map();
+      for(const t of tasks.filter(t => isOpen(t) && vis(t))){
+        if(t.afterHours){ const w = ahWhen(t); if(w && dayKey(w) === key) items.push({at: w.getHours() + w.getMinutes() / 60, node: calTaskItem(t, 'After hours · ' + fmtTime(w), 'ah')}); }
+        else if(eff(t).deadline === key && !t.parentId || (t.parentId && t.deadline === key)){
+          const lbl = isPayment(t) ? 'Bill due · ' + money(t.amount) : isProject(t) ? 'Project due' : 'Due';
+          if(workOn.has(t.id)) dueWith.set(t.id, lbl); else items.push({at: -0.5, node: calTaskItem(t, lbl, 'due')});
+        }
+      }
+      // work time: the hours planned on this day (chosen by you, or placed by Kairo)
+      if(o >= 0){
+        for(const [id, ch] of workOn){ const t = byId(id); if(!t || !vis(t)) continue; ch.forEach((c, n) => items.push(calWorkItem(t, c, key, false, n === 0 ? dueWith.get(id) : null))); }
+        for(const [id, days] of S.steady){ const t = byId(id); if(!t || !vis(t)) continue; for(const c of days) if(c[0] === o) items.push(calWorkItem(t, c, key, true)); }
+      }
+    return items.sort((a, b) => a.at - b.at);
+  }
   function renderCalendar(){
     if(!calWeek0) calWeek0 = weekStart(new Date());
     const end = new Date(calWeek0); end.setDate(end.getDate() + 6);
@@ -1992,26 +2022,8 @@
       const d = new Date(calWeek0); d.setDate(d.getDate() + i); const key = dayKey(d);
       const col = document.createElement('div'); col.className = 'cal-day' + (d.getTime() === t0 ? ' today' : d.getTime() < t0 ? ' past' : ''); col.dataset.day = key;
       const h = document.createElement('h3'); h.append(span(d.toLocaleDateString('en-US', {weekday: 'short'})), Object.assign(document.createElement('b'), {textContent: d.getDate()})); col.append(h);
-      const items = [];
-      for(const ev of events.filter(e => spaceOk({spaceId: e.spaceId}) && e.start && e.start.slice(0, 10) <= key && (e.end || e.start).slice(0, 10) >= key))
-        items.push({at: ev.allDay ? -1 : (ev.start.slice(0, 10) === key ? toH(ev.start.slice(11, 16)) : 0), node: calItem(ev)});
-      // work time on this day, per task, so a deadline on the same day joins its work block
-      const o = Math.round((d.getTime() - t0) / DAY), workOn = new Map();
-      if(o >= 0) for(const [id, r] of S.res){ if(r.emergency) continue; const ch = r.chunks.filter(c => c[0] === o); if(ch.length) workOn.set(id, ch); }
-      const dueWith = new Map();
-      for(const t of tasks.filter(t => isOpen(t) && vis(t))){
-        if(t.afterHours){ const w = ahWhen(t); if(w && dayKey(w) === key) items.push({at: w.getHours() + w.getMinutes() / 60, node: calTaskItem(t, 'After hours · ' + fmtTime(w), 'ah')}); }
-        else if(eff(t).deadline === key && !t.parentId || (t.parentId && t.deadline === key)){
-          const lbl = isPayment(t) ? 'Bill due · ' + money(t.amount) : isProject(t) ? 'Project due' : 'Due';
-          if(workOn.has(t.id)) dueWith.set(t.id, lbl); else items.push({at: -0.5, node: calTaskItem(t, lbl, 'due')});
-        }
-      }
-      // work time: the hours planned on this day (chosen by you, or placed by Kairo)
-      if(o >= 0){
-        for(const [id, ch] of workOn){ const t = byId(id); if(!t || !vis(t)) continue; ch.forEach((c, n) => items.push(calWorkItem(t, c, key, false, n === 0 ? dueWith.get(id) : null))); }
-        for(const [id, days] of S.steady){ const t = byId(id); if(!t || !vis(t)) continue; for(const c of days) if(c[0] === o) items.push(calWorkItem(t, c, key, true)); }
-      }
-      items.sort((a, b) => a.at - b.at).forEach(x => col.append(x.node));
+      const items = dayItems(d, key, t0);
+      items.forEach(x => col.append(x.node));
       if(!items.length) col.append(span('Nothing', 'cal-empty'));
       col.addEventListener('dblclick', e => { if(e.target === col || e.target.classList.contains('cal-empty')) openEvent(null, {start: key + 'T09:00'}); });
       box.append(col);
@@ -3456,6 +3468,9 @@
     chip('all', 'All');
     for(const x of spacesSorted().filter(x => !linkTarget(x))) chip(x.id, x.name, x.color);
     if(spaces.some(x => x.shared)) chip('__shared', 'Shared', 'var(--mid)');
+    const sd = $('sideSpaces'); sd.textContent = ''; sd.hidden = spaces.length < 2;
+    if(!sd.hidden){ sd.append(span('Spaces', 'side-lbl'));
+      for(const b of ch.children){ const c = b.cloneNode(true); c.className = 'side-sp'; c.addEventListener('click', () => b.click()); sd.append(c); } }
   }
   function setScope(id){
     scope = id; spaceFilter = 'all'; projOpen = null;
