@@ -1,7 +1,7 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Kairo</title><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://yuyvntrzwuyttauunzff.supabase.co wss://yuyvntrzwuyttauunzff.supabase.co; worker-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'"><meta name="theme-color" content="#0F766E"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><link rel="icon" type="image/png" href="favicon.png"><style>:root{color-scheme:light}html,body{margin:0}body{font:14px system-ui,sans-serif;background:#f6f7f9}img{max-width:100%}[hidden]{display:none!important}</style></head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Kairo</title><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://yuyvntrzwuyttauunzff.supabase.co wss://yuyvntrzwuyttauunzff.supabase.co; worker-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'"><meta name="theme-color" content="#0F766E" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0D1B2A" media="(prefers-color-scheme: dark)"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><link rel="icon" type="image/png" href="favicon.png"><style>:root{color-scheme:light}html,body{margin:0}body{font:14px system-ui,sans-serif;background:#f6f7f9}img{max-width:100%}[hidden]{display:none!important}</style></head>
 <body>
-<link rel="stylesheet" href="app.css?v=0.43">
+<link rel="stylesheet" href="app.css?v=0.44">
 
 <div class="wrap">
   <header class="top">
@@ -70,6 +70,16 @@
 
   <div id="viewToday">
     <header class="day-head"><span class="eyebrow" id="dayHello"></span><h2 id="dayTitle"></h2><p id="dayMsg" role="status"></p></header>
+    <div class="plan-card hero" data-mod="work">
+      <div class="cap-stats" id="capStats"></div>
+      <div class="plan-head"><div><b id="capUsed">0h</b> <span id="capOf">of 5h focus time planned</span></div><span id="planDay"></span></div>
+      <div class="cap" id="capBar"><i id="capFill" style="width:0"></i></div>
+      <details class="plan-adj" id="planAdj"><summary>Adjust today’s hours</summary>
+      <div class="hours-row"><span>Today’s hours</span><input type="time" id="tStart" aria-label="Today start time"><span>to</span><input type="time" id="tEnd" aria-label="Today end time"><button class="linkbtn" type="button" id="tReset" hidden>Use usual hours</button></div>
+      <div class="setting"><label for="focusHours">Focus hours per workday</label><input type="number" id="focusHours" min="1" max="12" step="0.5" value="5"><span>Time left after routine checks and interruptions.</span></div>
+      <div class="setting"><label for="busyToday">Meetings today (hours)</label><input type="number" id="busyToday" min="0" max="12" step="0.5" value="0"><span id="busyNote">Other meetings, taken out of today’s focus time. Events in your Kairo calendar are counted automatically.</span></div>
+      </details>
+    </div>
     <form class="quick-add" id="qaForm" autocomplete="off">
       <div class="qa-row">
         <input type="text" id="qaText" maxlength="200" aria-label="Add a task in one line" placeholder="What do you need to do? e.g. “Report Friday 2h”">
@@ -83,16 +93,6 @@
         <div class="now-card" id="nowCard">
           <div class="now-head"><span class="flabel" id="nowLabel">Up next</span><b id="timeLeft"></b></div>
           <div id="nextUp"></div>
-        </div>
-        <div class="plan-card" data-mod="work">
-          <div class="cap-stats" id="capStats"></div>
-          <div class="plan-head"><div><b id="capUsed">0h</b> <span id="capOf">of 5h focus time planned</span></div><span id="planDay"></span></div>
-          <div class="cap" id="capBar"><i id="capFill" style="width:0"></i></div>
-          <details class="plan-adj" id="planAdj"><summary>Adjust today’s hours</summary>
-          <div class="hours-row"><span>Today’s hours</span><input type="time" id="tStart" aria-label="Today start time"><span>to</span><input type="time" id="tEnd" aria-label="Today end time"><button class="linkbtn" type="button" id="tReset" hidden>Use usual hours</button></div>
-          <div class="setting"><label for="focusHours">Focus hours per workday</label><input type="number" id="focusHours" min="1" max="12" step="0.5" value="5"><span>Time left after routine checks and interruptions.</span></div>
-          <div class="setting"><label for="busyToday">Meetings today (hours)</label><input type="number" id="busyToday" min="0" max="12" step="0.5" value="0"><span id="busyNote">Other meetings, taken out of today’s focus time. Events in your Kairo calendar are counted automatically.</span></div>
-          </details>
         </div>
         <div class="banner emerg" id="emergBanner" hidden></div>
         <section class="group">
@@ -856,5 +856,5 @@
 <script src="supabase.js"></script>
 <div class="toast" id="toast" hidden></div>
 
-<script src="app.js?v=0.43"></script>
+<script src="app.js?v=0.44"></script>
 </body></html>

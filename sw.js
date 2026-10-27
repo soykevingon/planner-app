@@ -1,5 +1,5 @@
 // Offline support: the app shell is cached; sync calls always go to the network.
-const CACHE = 'planner-v10';
+const CACHE = 'planner-v11';
 const SHELL = ['./', './index.html', './app.css', './app.js', './supabase.js', './help.js', './manifest.json', './favicon.png', './logo.png', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {

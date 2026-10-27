@@ -1,7 +1,7 @@
 (() => {
   const $ = id => document.getElementById(id);
   const DAY = 864e5;
-  const APP_VERSION = '0.43 alpha';
+  const APP_VERSION = '0.44 alpha';
   // Product name lives here only: change these two lines to rebrand.
   const APP_NAME = 'Kairo', APP_TAGLINE = 'Less time planning. More time doing.';
   // Supabase project (the anon key is public by design; row level security protects the data)
@@ -765,8 +765,8 @@
       const free = capH - planned;
       if(free < -1e-9) stat(fmtH(-free), tx('overBy'), 'over'); else stat(fmtH(Math.max(0, free)), tx('free'));
       const now = new Date(), hr = now.getHours(), name = (settings.displayName || '').split(' ')[0];
-      $('dayHello').textContent = (hr < 12 ? tx('morning') : hr < 18 ? tx('afternoon') : tx('evening')) + (name ? ', ' + name : '');
-      $('dayTitle').textContent = now.toLocaleDateString(UI_LANG === 'es' ? 'es-PR' : 'en-US', {weekday: 'long', month: 'long', day: 'numeric'});
+      $('dayHello').textContent = now.toLocaleDateString(UI_LANG === 'es' ? 'es-PR' : 'en-US', {weekday: 'long', month: 'long', day: 'numeric'});
+      $('dayTitle').textContent = (hr < 12 ? tx('morning') : hr < 18 ? tx('afternoon') : tx('evening')) + (name ? ', ' + name : '') + '.';
       const urgent = plan.filter(p => p.why && (p.why[1] === 'risk' || p.why[1] === 'due')).length;
       const emerg = plan.some(p => p.x.t && modeOf(p.x.t) === 'emergency');
       const msg = $('dayMsg'); msg.className = '';
@@ -1951,6 +1951,21 @@
     $('calRange').textContent = `${calWeek0.toLocaleDateString('en-US', {month: 'short', day: 'numeric'})} – ${end.toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'})}`;
     const box = $('calWeek'); box.textContent = '';
     const t0 = today0().getTime();
+    // phones: a date strip that jumps to a day in the list below
+    let strip = $('calStrip');
+    if(!strip){ strip = document.createElement('div'); strip.id = 'calStrip'; strip.className = 'cal-strip'; strip.setAttribute('aria-label', 'Days this week'); box.before(strip); }
+    strip.textContent = '';
+    for(let i = 0; i < 7; i++){
+      const d = new Date(calWeek0); d.setDate(d.getDate() + i); const key = dayKey(d);
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'cs-day' + (d.getTime() === t0 ? ' on' : d.getTime() < t0 ? ' past' : '');
+      if(d.getTime() === t0) b.setAttribute('aria-current', 'date');
+      b.setAttribute('aria-label', d.toLocaleDateString('en-US', {weekday: 'long', month: 'long', day: 'numeric'}));
+      b.append(span(d.toLocaleDateString('en-US', {weekday: 'short'})), Object.assign(document.createElement('b'), {textContent: d.getDate()}));
+      b.addEventListener('click', () => { strip.querySelectorAll('.cs-day').forEach(x => x.classList.toggle('sel', x === b));
+        const col = box.querySelector(`.cal-day[data-day="${key}"]`); if(col){ col.classList.remove('past-hidden'); col.style.display = 'flex';
+          col.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start'}); } });
+      strip.append(b);
+    }
     for(let i = 0; i < 7; i++){
       const d = new Date(calWeek0); d.setDate(d.getDate() + i); const key = dayKey(d);
       const col = document.createElement('div'); col.className = 'cal-day' + (d.getTime() === t0 ? ' today' : d.getTime() < t0 ? ' past' : ''); col.dataset.day = key;
@@ -3377,11 +3392,16 @@
     if(card.hidden) return;
     card.textContent = '';
     const head = document.createElement('div'); head.className = 'gs-head';
-    const h = document.createElement('b'); h.textContent = `Get started · ${done} of ${steps.length}`;
+    let open; try { open = localStorage.getItem('pr-gs-open'); } catch {} open = open == null ? done === 0 : open === '1';
+    const h = document.createElement('button'); h.type = 'button'; h.className = 'gs-toggle'; h.setAttribute('aria-expanded', String(open));
+    h.textContent = `Get started · ${done} of ${steps.length}`;
+    h.addEventListener('click', () => { try { localStorage.setItem('pr-gs-open', open ? '0' : '1'); } catch {} renderGettingStarted(); });
+    card.classList.toggle('closed', !open);
     const x = document.createElement('button'); x.type = 'button'; x.className = 'linkbtn'; x.textContent = 'Hide';
     x.addEventListener('click', async () => { settings = {...settings, gsHidden: true}; card.hidden = true; try { await store.saveSettings(settings); } catch {} });
     head.append(h, x); card.append(head);
     const bar = document.createElement('div'); bar.className = 'gs-bar'; const fill = document.createElement('i'); fill.style.width = (done / steps.length * 100) + '%'; bar.append(fill); card.append(bar);
+    if(!open) return;
     for(const [t, ok, hint, go] of steps){
       const r = document.createElement(go && !ok ? 'button' : 'div'); r.className = 'gs-step' + (ok ? ' ok' : ''); if(r.tagName === 'BUTTON'){ r.type = 'button'; r.addEventListener('click', go); }
       const c = document.createElement('i'); c.textContent = ok ? '✓' : ''; const tx = document.createElement('span'); const tb = document.createElement('b'); tb.textContent = t; const th = document.createElement('small'); th.textContent = hint; tx.append(tb, th);
