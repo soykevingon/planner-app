@@ -49,6 +49,7 @@ en: {
 <li>Set <b>Importance</b> and <b>Urgency</b> (1 is the highest).</li>
 <li>Press <b>Save</b>. The line under the form shows how Kairo will plan it.</li>
 </ol>
+<p><b>Work time</b> (optional): pick the days, and a time if you like, that you’ll work on it. Kairo plans the rest of the effort.</p>
 <p><b>More options</b> has the rest, all optional: type (Normal, Steady, Emergency), project, client, place and travel time, progress, <a data-go="ready">Be ready</a>, custom fields, files, people in charge, email notifications and notes.</p>
 <div class="tip"><b>Steady</b> is for ongoing work without one deadline (e.g. 4 hours per week of studying). Kairo reserves those hours every week.</div>
 <p><button class="btn sm" data-do="new">+ New task</button></p>`},
@@ -93,7 +94,7 @@ en: {
 </ul>
 <p>The lists beside it (Must do this week, Later…) follow the same filters.</p>
 <p><button class="btn sm" data-do="radar">Open the Radar</button></p>`},
-  {id: 'calendar', group: 'time', title: 'Calendar and events (by voice or text)', sum: 'Add meetings and appointments by saying or typing them.', tags: 'calendar event meeting appointment voice speak microphone dictate natural language drag drop move date',
+  {id: 'calendar', group: 'time', title: 'Calendar and events (by voice or text)', sum: 'Add meetings and appointments by saying or typing them.', tags: 'calendar event meeting appointment voice speak microphone dictate natural language drag drop move date work time block schedule due deadline',
    body: `<ol>
 <li>Press <b>+ New → Event</b>, or open the <b>Calendar</b> tab and use the box at the top.</li>
 <li><b>Type or say it</b> in a normal sentence, in English or Spanish, e.g. <i>“dentist Friday at 3:30, remind me 1 hour before”</i> or <i>“reunión mañana a las 8 en la oficina, recuérdame 30 minutos antes”</i>.</li>
@@ -101,7 +102,13 @@ en: {
 <li>Kairo fills in the date, time, place and reminders. Check the preview and press <b>Add</b>. For every detail, use <b>+ Event</b> instead.</li>
 </ol>
 <p>Events take time from that day’s plan, so Kairo doesn’t give you more work than fits.</p>
-<p><b>Move things by dragging:</b> drag a task or event to another day to change its date. On a phone, press and hold it first, then drag. Changed your mind? Press <b>Undo</b>.</p>
+<p><b>Work time and deadlines are different things.</b> The calendar shows both:</p>
+<ul>
+<li><b>Work time</b> (colored block): when you’ll work on the task. Striped means Kairo planned it; solid with a clock means you chose it.</li>
+<li><b>Deadline</b> (red flag, “Due”): the day it has to be done.</li>
+</ul>
+<p><b>Choose when to work:</b> drag a work block to the day you want; the deadline doesn’t move. Or in the task form use <b>Work time → Choose when to work on it</b> to pick a day, an optional start time and the hours. Kairo plans the rest of the effort around your choice.</p>
+<p><b>Change a deadline:</b> drag the red “Due” marker to another day. Events move the same way. On a phone, press and hold first, then drag. Changed your mind? Press <b>Undo</b>.</p>
 <div class="tip">Voice works best in Chrome and Edge, and on Android. If the microphone button doesn’t appear, your browser doesn’t support it; type instead.</div>
 <p><button class="btn sm" data-do="calendar">Open Calendar</button></p>`},
   {id: 'reminders', group: 'time', title: 'Reminders and notifications', sum: 'Get alerted by Kairo, Google Calendar or Outlook.', tags: 'reminder notification alert alarm google outlook ics phone',
@@ -223,6 +230,7 @@ es: {
 <li>Marca <b>Importance</b> y <b>Urgency</b> (1 es lo más alto).</li>
 <li>Presiona <b>Save</b>. La línea debajo del formulario te dice cómo la va a planificar Kairo.</li>
 </ol>
+<p><b>Work time</b> (opcional): escoge los días, y la hora si quieres, en que vas a trabajarla. Kairo planifica el resto del esfuerzo.</p>
 <p><b>More options</b> tiene lo demás, todo opcional: tipo (Normal, Steady, Emergency), proyecto, cliente, lugar y tiempo de viaje, progreso, <a data-go="ready">Be ready</a>, campos personalizados, archivos, responsables, avisos por email y notas.</p>
 <div class="tip"><b>Steady</b> es para trabajo continuo sin una sola fecha límite (ej. 4 horas por semana de estudio). Kairo reserva esas horas cada semana.</div>
 <p><button class="btn sm" data-do="new">+ Nueva tarea</button></p>`},
@@ -267,7 +275,7 @@ es: {
 </ul>
 <p>Las listas al lado (Must do this week, Later…) siguen los mismos filtros.</p>
 <p><button class="btn sm" data-do="radar">Abrir el Radar</button></p>`},
-  {id: 'calendar', group: 'time', title: 'Calendario y eventos (por voz o texto)', sum: 'Añade reuniones y citas diciéndolas o escribiéndolas.', tags: 'calendario evento reunion cita voz hablar microfono dictar arrastrar mover fecha',
+  {id: 'calendar', group: 'time', title: 'Calendario y eventos (por voz o texto)', sum: 'Añade reuniones y citas diciéndolas o escribiéndolas.', tags: 'calendario evento reunion cita voz hablar microfono dictar arrastrar mover fecha tiempo de trabajo bloque agendar fecha limite',
    body: `<ol>
 <li>Presiona <b>+ New → Event</b>, o abre la pestaña <b>Calendar</b> y usa la caja de arriba.</li>
 <li><b>Escríbelo o dilo</b> como una oración normal, en español o inglés, ej. <i>“reunión mañana a las 8 en la oficina, recuérdame 30 minutos antes”</i> o <i>“dentista el viernes a las 3:30, recuérdame 1 hora antes”</i>.</li>
@@ -275,7 +283,13 @@ es: {
 <li>Kairo llena la fecha, hora, lugar y recordatorios. Revisa la vista previa y presiona <b>Add</b>. Para todos los detalles, usa <b>+ Event</b>.</li>
 </ol>
 <p>Los eventos le quitan tiempo al plan de ese día, así Kairo no te da más trabajo del que cabe.</p>
-<p><b>Mueve cosas arrastrándolas:</b> arrastra una tarea o evento a otro día para cambiarle la fecha. En el teléfono, déjala presionada primero y luego arrástrala. ¿Te equivocaste? Presiona <b>Undo</b>.</p>
+<p><b>El tiempo de trabajo y la fecha límite son cosas distintas.</b> El calendario muestra las dos:</p>
+<ul>
+<li><b>Tiempo de trabajo</b> (bloque de color): cuándo vas a trabajar la tarea. Con rayas, lo planificó Kairo; sólido con un reloj, lo escogiste tú.</li>
+<li><b>Fecha límite</b> (bandera roja, “Due”): el día en que tiene que estar hecha.</li>
+</ul>
+<p><b>Escoge cuándo trabajar:</b> arrastra un bloque de trabajo al día que quieras; la fecha límite no se mueve. O en el formulario de la tarea usa <b>Work time → Choose when to work on it</b> para escoger el día, una hora de inicio (opcional) y las horas. Kairo planifica el resto del esfuerzo alrededor de lo que escojas.</p>
+<p><b>Cambiar una fecha límite:</b> arrastra la marca roja “Due” a otro día. Los eventos se mueven igual. En el teléfono, déjalo presionado primero y luego arrástralo. ¿Te equivocaste? Presiona <b>Undo</b>.</p>
 <div class="tip">La voz funciona mejor en Chrome y Edge, y en Android. Si no aparece el botón del micrófono, tu navegador no lo permite; escríbelo.</div>
 <p><button class="btn sm" data-do="calendar">Abrir Calendar</button></p>`},
   {id: 'reminders', group: 'time', title: 'Recordatorios y notificaciones', sum: 'Recibe avisos de Kairo, Google Calendar u Outlook.', tags: 'recordatorio notificacion aviso alarma google outlook ics telefono',

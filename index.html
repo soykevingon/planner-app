@@ -415,6 +415,27 @@ body.cal-dragging{cursor:grabbing;-webkit-user-select:none;user-select:none}
 .cal-day.drop{outline:2px dashed var(--accent);outline-offset:-2px;background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
 .cal-dnd{margin:10px 2px 0}
 .toast-undo{margin-left:12px;border:none;background:none;color:var(--accent);font:700 14px var(--f-body);cursor:pointer;padding:0}
+.cal-item.due{background:var(--surface);border:1px solid color-mix(in srgb,var(--crit) 40%,var(--line));border-left:3px solid var(--crit);border-radius:7px}
+.cal-item.due .ct{color:var(--crit);font-weight:600;display:flex;align-items:center;gap:4px}
+.cal-item.task{text-align:left;align-items:stretch}
+.cal-item.task .ct,.cal-item.task .cn{text-align:left;justify-content:flex-start}
+.cal-item .ct svg{width:12px;height:12px;flex:none}
+.cal-item.work{border:none;border-left:4px solid var(--wc);background:color-mix(in srgb,var(--wc) 13%,var(--surface))}
+.cal-item.work.auto{border-left-style:dotted;background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--wc) 9%,var(--surface)) 0 7px,color-mix(in srgb,var(--wc) 15%,var(--surface)) 7px 14px)}
+.cal-item.work.mine{background:color-mix(in srgb,var(--wc) 24%,var(--surface))}
+.cal-item.work .ct{display:flex;align-items:center;gap:4px;color:color-mix(in srgb,var(--wc) 70%,var(--ink))}
+.cal-legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:12px 2px 0;font-size:12.5px;color:var(--muted)}
+.cal-legend span{display:inline-flex;align-items:center;gap:6px}
+.lg{display:inline-block;width:18px;height:12px;border-radius:3px}
+.lg.work{border-left:3px dotted var(--mid);background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--mid) 9%,var(--surface)) 0 4px,color-mix(in srgb,var(--mid) 18%,var(--surface)) 4px 8px)}
+.lg.mine{border-left:3px solid var(--mid);background:color-mix(in srgb,var(--mid) 26%,var(--surface))}
+.lg.due{border:1px solid var(--crit);border-left-width:3px;background:var(--surface)}
+.lg.ev{border:1px solid var(--line);border-left:3px solid var(--mid);background:var(--bg)}
+.wt-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.wt-row input[type=date]{width:auto}
+.wt-row input[type=time]{width:auto;font:15px var(--f-body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 10px}
+.wt-row input[type=number]{width:80px}
+#wtAdd{align-self:flex-start;margin-top:2px}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:10px;font-size:14px;z-index:30}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px}
 .tab{border:none;background:none;font:600 15px var(--f-body);color:var(--muted);padding:10px 14px;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
@@ -693,7 +714,13 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       <div class="cal-tools"><span class="fnote" id="calNotifTxt"></span><button class="help-q" type="button" data-help="calendar" aria-label="Help: calendar and voice" title="How this works">?</button><button class="btn sm" type="button" id="calNotifBtn" hidden>Turn on reminders</button><button class="btn sm" type="button" id="calNew">+ Event</button></div>
     </div>
     <div class="cal-week" id="calWeek"></div>
-    <p class="fnote cal-dnd">Drag a task or event to another day to move it. On a phone, press and hold it first.</p>
+    <div class="cal-legend">
+      <span><i class="lg work"></i>Work time: when you’ll do it</span>
+      <span><i class="lg mine"></i>Chosen by you</span>
+      <span><i class="lg due"></i>Deadline</span>
+      <span><i class="lg ev"></i>Event</span>
+    </div>
+    <p class="fnote cal-dnd">Drag work time to the day you want to do it (the deadline stays). Drag a deadline to change the due date. On a phone, press and hold first.</p>
   </div>
 
   <div id="viewReports" hidden>
@@ -844,6 +871,12 @@ table.rep tr.clickable:hover td{background:var(--bg)}
         <option value="30">1 month after I add them</option>
       </select>
       <span class="fnote">New tasks get this deadline by default, never later than the project’s.</span>
+    </div>
+    <div class="field task-only" id="wtField">
+      <span class="lbl">Work time</span>
+      <div id="wtRows"></div>
+      <button class="btn sm" type="button" id="wtAdd">+ Choose when to work on it</button>
+      <span class="fnote" id="wtNote"></span>
     </div>
     <div class="field">
       <span class="lbl">Importance</span>
@@ -1364,7 +1397,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 (() => {
   const $ = id => document.getElementById(id);
   const DAY = 864e5;
-  const APP_VERSION = '0.37 POC';
+  const APP_VERSION = '0.38 POC';
   const FEEDBACK_EMAIL = 'gonzalezkevin70@gmail.com';
   // Product name lives here only: change these two lines to rebrand.
   const APP_NAME = 'Kairo', APP_TAGLINE = 'Strategic planner';
@@ -1547,8 +1580,16 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       for(const [d, h] of days) take(d, pool, h);
       steady.set(t.id, days);
     }
+    // 2b. Work time the user chose is reserved first; the rest of the effort is planned around it
+    const pins = new Map();
+    for(const t of tasks.filter(t => isLeaf(t) && mine(t) && plannable(t) && modeOf(t) === 'normal' && (t.workTimes || []).length)){
+      const pool = poolsOf(t)[0], ch = [];
+      t.workTimes.forEach((w, k) => { const o = daysTo(w.date), h = Number(w.hours) || 0; if(o === null || o < 0 || h <= 0) return; take(o, pool, h); ch.push([o, h, pool, 'pin', k]); });
+      if(ch.length) pins.set(t.id, ch);
+    }
+    const pinH = t => (pins.get(t.id) || []).reduce((a, c) => a + c[1], 0);
     // 3. Deadline work, placed backward from each plan-by day
-    const items = tasks.filter(t => isLeaf(t) && mine(t) && plannable(t) && modeOf(t) === 'normal').map(t => { const e = eff(t); return {t, e, dd: daysTo(e.deadline), hours: remOf(t), pools: poolsOf(t)}; }).filter(i => i.dd !== null && i.hours > 1e-9);
+    const items = tasks.filter(t => isLeaf(t) && mine(t) && plannable(t) && modeOf(t) === 'normal').map(t => { const e = eff(t); return {t, e, dd: daysTo(e.deadline), hours: Math.max(0, remOf(t) - pinH(t)), pools: poolsOf(t)}; }).filter(i => i.dd !== null && i.hours > 1e-9);
     for(const i of items){
       const workOnly = i.pools.length === 1 && i.pools[0] === 'work';
       const back = o => workOnly ? prevW(o) : o - 1;
@@ -1580,6 +1621,12 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       const start = Math.min(...chunks.map(c => c[0]));
       res.set(i.t.id, {start, chunks, planBy: i.planBy, risk, dd: i.dd, ready: i.ready});
       if(i.prev) i.prev.planBy = Math.max(i.prev.first, Math.min(i.prev.planBy, start));
+    }
+    for(const [id, ch] of pins){
+      const t = byId(id), dd = daysTo(eff(t).deadline), r = res.get(id), first = Math.min(...ch.map(c => c[0]));
+      if(r){ r.chunks = [...ch, ...r.chunks]; r.start = Math.min(r.start, first); }
+      else res.set(id, {start: first, chunks: ch, planBy: Math.max(...ch.map(c => c[0])), risk: false, dd: dd ?? 999, ready: dd === null ? 999 : dd - leadOf(t)});
+      const rr = res.get(id); rr.pinOn = new Set(ch.map(c => c[0]));
     }
     S = {res, steady, firstW, firstE, firsts, left};
   }
@@ -1996,6 +2043,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       else if(r.dd < 0) why = ['Overdue', 'due'];
       else if(r.ready < 0) why = [`Late · should have been ready ${fmtOff(r.ready)} · due ${fmtOff(r.dd)}`, 'risk'];
       else if(r.risk) why = ['At risk · not enough time before the ready-by date', 'risk'];
+      else if(r.pinOn && r.pinOn.has(day)) why = ['Your chosen work time' + (r.dd < 999 ? ` · due ${fmtOff(r.dd)}` : ''), 'start'];
       else if(r.ready <= day) why = [`Be ready ${day === 0 ? 'today' : fmtOff(day)} · due ${fmtOff(r.dd)}`, 'due'];
       else why = [`Start ${day === 0 ? 'today' : fmtOff(day)} to be ready by ${fmtOff(r.ready)}`, 'start'];
       if(m.eve) why = [eveTag(m) + why[0], why[1]];
@@ -2625,8 +2673,30 @@ table.rep tr.clickable:hover td{background:var(--bg)}
         : {afterHours: $('fAH').checked, ahAt: $('fAH').checked ? ($('fAHAt').value || null) : null, location: $('fLoc').value, travelMin: Number($('fTravel').value) || 0,
            progress: editingId ? Number($('fProg').value) || 0 : 0,
            readyMode: $('fReady').value === 'auto' ? 'auto' : $('fReady').value === 'due' ? 'due' : 'days', readyDays: /^\d+$/.test($('fReady').value) ? Number($('fReady').value) : null}),
-      fields: readFieldRows(), repeat: readRepeat()};
+      fields: readFieldRows(), repeat: readRepeat(), workTimes: formProject ? [] : readWork()};
   }
+  let wtList = [];
+  const readWork = () => wtList.filter(w => w.date && Number(w.hours) > 0).map(w => ({date: w.date, time: w.time || '', hours: Math.round(Number(w.hours) * 4) / 4}));
+  function renderWt(){
+    const box = $('wtRows'); box.textContent = '';
+    wtList.forEach((w, k) => {
+      const r = document.createElement('div'); r.className = 'wt-row';
+      const d = document.createElement('input'); d.type = 'date'; d.value = w.date; d.min = dayKey(); d.setAttribute('aria-label', 'Work day');
+      const tm = document.createElement('input'); tm.type = 'time'; tm.value = w.time || ''; tm.setAttribute('aria-label', 'Start time (optional)'); tm.title = 'Start time (optional)';
+      const h = document.createElement('input'); h.type = 'number'; h.min = '0.25'; h.max = '12'; h.step = '0.25'; h.value = w.hours; h.inputMode = 'decimal'; h.setAttribute('aria-label', 'Hours');
+      const x = document.createElement('button'); x.type = 'button'; x.className = 'btn sm'; x.textContent = '✕'; x.setAttribute('aria-label', 'Remove this work time');
+      d.addEventListener('input', () => { w.date = d.value; updatePreview(); }); tm.addEventListener('input', () => { w.time = tm.value; });
+      h.addEventListener('input', () => { w.hours = h.value; updatePreview(); });
+      x.addEventListener('click', () => { wtList.splice(k, 1); renderWt(); updatePreview(); });
+      r.append(d, tm, h, span('h', 'fnote'), x); box.append(r);
+    });
+  }
+  $('wtAdd').addEventListener('click', () => {
+    const last = wtList[wtList.length - 1], base = last && last.date ? parseD(last.date) : null;
+    const next = base ? dayKey(new Date(base.getFullYear(), base.getMonth(), base.getDate() + 1)) : dayKey();
+    wtList.push({date: next, time: '', hours: Math.min(2, Math.max(0.5, getEffort() || 1))}); renderWt(); updatePreview();
+    const ins = $('wtRows').querySelectorAll('input[type=date]'); if(ins.length) ins[ins.length - 1].focus();
+  });
   function readRepeat(){
     const v = $('fRepeat').value; if(!v || getMode() === 'steady') return null;
     const [n, unit] = v === 'custom' ? [Math.min(365, Math.max(2, Math.round(Number($('fRepN').value) || 0) || 10)), 'day'] : [Number(v.split(':')[0]), v.split(':')[1]];
@@ -2662,7 +2732,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     if(par && (par.deadline || '') && key > par.deadline) return null;
     const own = t.deadline || (t.afterHours && t.ahAt ? t.ahAt.slice(0, 10) : null);
     const shift = own ? Math.round((parseD(key) - parseD(own)) / DAY) : 0;
-    const fresh = (x, extra) => { const d = {...x, done: false, doneAt: null, closeout: null, sessions: [], progress: 0, repeatNext: null, createdAt: Date.now(), ...extra}; delete d.id; delete d._owner; return d; };
+    const fresh = (x, extra) => { const d = {...x, done: false, doneAt: null, closeout: null, sessions: [], progress: 0, repeatNext: null, workTimes: [], createdAt: Date.now(), ...extra}; delete d.id; delete d._owner; return d; };
     const shiftKey = k => { if(!k) return k; const a = parseD(k.slice(0, 10)); a.setDate(a.getDate() + shift); return dayKey(a) + k.slice(10); };
     const nid = newTaskId();
     await store.save('tasks', nid, fresh(t, {deadline: key, ahAt: t.ahAt ? key + t.ahAt.slice(10) : t.ahAt, repeatOf: t.repeatOf || t.id}));
@@ -2684,6 +2754,11 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     else if(isLHF(x)) txt += ' · Low-hanging fruit';
     if(d.mode === 'normal' && x.risk) txt += ' · At risk'; else if(d.mode === 'normal' && x.start !== null && x.days !== null && x.start < x.days) txt += ' · Start by ' + fmtOff(x.start);
     $('pText').textContent = txt;
+    { $('wtField').hidden = d.mode !== 'normal' || !!d.afterHours;
+      const wh = (d.workTimes || []).reduce((a, w) => a + w.hours, 0), eh = Number(d.effort) || 0;
+      $('wtNote').textContent = !wh ? 'Optional. Pick the days (and times) you’ll work on it, and Kairo plans the rest of the effort around them.'
+        : eh && wh > eh + 1e-9 ? `That’s ${fmtH(wh)}, more than the ${fmtH(eh)} of effort.`
+        : `${fmtH(wh)} chosen by you` + (eh > wh ? ` · Kairo plans the other ${fmtH(eh - wh)}` : '') + (d.deadline && (d.workTimes || []).some(w => w.date > d.deadline) ? ' · some of it is after the deadline' : ''); }
     { const r = d.repeat; $('repeatField').hidden = d.mode === 'steady';
       if(!r) $('fRepNote').textContent = '';
       else { const nx = nextDue({...d, deadline: d.deadline || null}, Date.now());
@@ -3283,10 +3358,16 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       const h = document.createElement('h3'); h.append(span(d.toLocaleDateString('en-US', {weekday: 'short'})), Object.assign(document.createElement('b'), {textContent: d.getDate()})); col.append(h);
       const items = [];
       for(const ev of events.filter(e => spaceOk({spaceId: e.spaceId}) && e.start && e.start.slice(0, 10) <= key && (e.end || e.start).slice(0, 10) >= key))
-        items.push({at: ev.allDay ? -1 : evStart(ev).getTime(), node: calItem(ev)});
+        items.push({at: ev.allDay ? -1 : (ev.start.slice(0, 10) === key ? toH(ev.start.slice(11, 16)) : 0), node: calItem(ev)});
       for(const t of tasks.filter(t => isOpen(t) && vis(t))){
-        if(t.afterHours){ const w = ahWhen(t); if(w && dayKey(w) === key) items.push({at: w.getTime(), node: calTaskItem(t, 'After hours · ' + fmtTime(w), 'ah')}); }
-        else if(eff(t).deadline === key && !t.parentId || (t.parentId && t.deadline === key)) items.push({at: -0.5, node: calTaskItem(t, isPayment(t) ? 'Bill due · ' + money(t.amount) : 'Task due', '')});
+        if(t.afterHours){ const w = ahWhen(t); if(w && dayKey(w) === key) items.push({at: w.getHours() + w.getMinutes() / 60, node: calTaskItem(t, 'After hours · ' + fmtTime(w), 'ah')}); }
+        else if(eff(t).deadline === key && !t.parentId || (t.parentId && t.deadline === key)) items.push({at: -0.5, node: calTaskItem(t, isPayment(t) ? 'Bill due · ' + money(t.amount) : isProject(t) ? 'Project due' : 'Due', 'due')});
+      }
+      // work time: the hours planned on this day (chosen by you, or placed by Kairo)
+      const o = Math.round((d.getTime() - t0) / DAY);
+      if(o >= 0){
+        for(const [id, r] of S.res){ const t = byId(id); if(!t || !vis(t) || r.emergency) continue; for(const c of r.chunks) if(c[0] === o) items.push(calWorkItem(t, c, key)); }
+        for(const [id, days] of S.steady){ const t = byId(id); if(!t || !vis(t)) continue; for(const c of days) if(c[0] === o) items.push(calWorkItem(t, c, key, true)); }
       }
       items.sort((a, b) => a.at - b.at).forEach(x => col.append(x.node));
       if(!items.length) col.append(span('Nothing', 'cal-empty'));
@@ -3305,9 +3386,25 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     calDraggable(b, {event: ev});
     return b;
   }
+  const FLAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg>';
+  const PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>';
+  function calWorkItem(t, c, key, steady){
+    const w = c[3] === 'pin' ? (t.workTimes || [])[c[4]] : null, sp = spaceOf(t);
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'cal-item work ' + (w ? 'mine' : 'auto');
+    b.style.setProperty('--wc', (sp && sp.color) || 'var(--mid)');
+    const where = c[2] === 'work' ? '' : c[2] === 'eve' ? 'Evening · ' : ((spaceById(String(c[2]).slice(3)) || {}).name || '') + ' time · ';
+    const lab = span(w ? `Your time · ${w.time ? fmtClock(toH(w.time)) + ' · ' : ''}${fmtH(c[1])}` : `${where}${steady ? 'Session' : 'Work'} · ${fmtH(c[1])}`, 'ct');
+    if(w) lab.insertAdjacentHTML('afterbegin', PIN);
+    b.append(lab, span(t.title, 'cn'));
+    b.title = w ? 'Work time you chose. Drag to another day to move it.' : 'Work time Kairo planned. Drag it to another day to choose when you’ll do it.';
+    b.addEventListener('click', () => openDetails(t));
+    if(!steady) calDraggable(b, {work: {t, pin: w ? c[4] : null, hours: c[1]}});
+    return {at: w ? (w.time ? toH(w.time) : 23.5) : 23.9, node: b};
+  }
   function calTaskItem(t, label, cls){
     const b = document.createElement('button'); b.type = 'button'; b.className = 'cal-item task ' + cls;
-    b.append(span(label, 'ct'), span(t.title, 'cn')); b.addEventListener('click', () => openDetails(t));
+    const lab = span(label, 'ct'); if(cls === 'due') lab.insertAdjacentHTML('afterbegin', FLAG);
+    b.append(lab, span(t.title, 'cn')); b.addEventListener('click', () => openDetails(t));
     if(!t.done) calDraggable(b, {task: t});
     return b;
   }
@@ -3358,7 +3455,16 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const days = Math.round((parseD(to) - parseD(from)) / DAY); if(!days) return;
     const when = fmt(parseD(to));
     try {
-      if(item.event){
+      if(item.work){
+        const {t, pin, hours} = item.work;
+        if(to < dayKey()){ toast('Pick today or a later day'); return; }
+        const before = {...t}; delete before.id;
+        const wt = (t.workTimes || []).map(w => ({...w}));
+        if(pin !== null && wt[pin]) wt[pin].date = to; else wt.push({date: to, time: '', hours: Math.max(0.25, Math.round(hours * 4) / 4)});
+        await store.save('tasks', t.id, {...before, workTimes: wt});
+        const dl = eff(t).deadline;
+        toast(`Work on it ${when}` + (dl && to > dl ? ' · that’s after the deadline' : ''), () => store.save('tasks', t.id, before).then(scheduleSync).catch(fail));
+      } else if(item.event){
         const ev = item.event, before = {...ev}; delete before.id;
         await store.save('events', ev.id, {...before, start: shiftLocal(ev.start, days), end: shiftLocal(ev.end, days)});
         toast(`${ev.title} → ${when}`, () => store.save('events', ev.id, before).then(scheduleSync).catch(fail));
@@ -3817,6 +3923,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     setRadio('urg', t ? (t.urgency ?? 0) : (pid ? 0 : 3));
     setEffort(t ? effortOf(t) : 1);
     $('fDate').value = t && t.deadline ? t.deadline : '';
+    wtList = t && t.workTimes ? t.workTimes.filter(w => w.date >= dayKey()).map(w => ({...w})) : []; renderWt();
     $('fRepeat').value = repKey(t && t.repeat); $('fRepN').value = t && t.repeat && t.repeat.unit === 'day' && t.repeat.n > 1 ? t.repeat.n : 10; $('fRepN').hidden = $('fRepeat').value !== 'custom';
     // a project can give its new tasks a default deadline (e.g. 2 weeks out), capped at its own
     const par = !t && parentId ? byId(parentId) : null;
@@ -3952,6 +4059,10 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const grid = $('vGrid'); grid.textContent = '';
     const item = (k, v) => { if(v === null || v === undefined || v === '') return; const d = document.createElement('div'); const dt = document.createElement('dt'); dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; d.append(dt, dd); grid.append(d); };
     if(t.afterHours) item('After hours', fmtWhen(ahWhen(t)));
+    { const r = S.res.get(t.id); if(r && !t.done && !r.emergency){
+        const parts = r.chunks.filter(c => c[0] >= 0).sort((a, b) => a[0] - b[0]).map(c => { const w = c[3] === 'pin' ? (t.workTimes || [])[c[4]] : null;
+          return `${fmtOff(c[0])}${w && w.time ? ' ' + fmtClock(toH(w.time)) : ''} ${fmtH(c[1])}${w ? ' (your time)' : ''}`; });
+        if(parts.length) item('Work time', parts.join(' · ')); } }
     if(t.repeat) item('Repeats', repText(t.repeat)[0].toUpperCase() + repText(t.repeat).slice(1) + (t.repeatNext ? ' · next one created' : ''));
     if(!t.done && x.ready !== null && x.ready !== x.days) item(x.late ? 'Ready by (late)' : 'Ready by', fmt(offDate(x.ready)));
     item('Deadline', e.deadline ? fmt(parseD(e.deadline)) + (!t.deadline && p ? ' (project)' : '') : 'None');
