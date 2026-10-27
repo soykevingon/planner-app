@@ -577,3 +577,18 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 .det-sub-row:hover span:first-child{color:var(--accent)}
 .det-sub-row.done span:first-child{text-decoration:line-through;color:var(--muted)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+.auth-terms{display:flex;gap:10px;align-items:flex-start;margin:6px 0 4px;font-size:13.5px;color:#c9d1dc;line-height:1.4;cursor:pointer}
+.auth-terms input{accent-color:#f0913a;width:17px;height:17px;flex:none;margin-top:1px}
+.auth-terms a,.auth-legal a{color:#f0b27a}
+.auth-legal{margin:14px 0 0;font-size:12.5px;text-align:center}
+#lCode{text-transform:uppercase;letter-spacing:.06em}
+.inv-form{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
+.inv-form input[type=text]{flex:1;min-width:160px}
+.inv-form input[type=number]{width:70px;padding:6px 8px}
+.inv-form select{width:auto;padding:6px 8px}
+.inv-row{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;padding:7px 0;border-top:1px solid var(--line)}
+.inv-row b{font:600 14px var(--f-mono);letter-spacing:.04em}
+.inv-row.off{opacity:.55}
+.da-list{margin:6px 0 10px;padding-left:20px;font-size:14px}
+.btn.danger-fill{background:var(--crit);border-color:var(--crit);color:#fff}
+.btn.danger-fill:disabled{opacity:.45;cursor:not-allowed}

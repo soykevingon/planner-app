@@ -3,7 +3,7 @@
 <body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
-<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="app.css?v=0.42">
 
 <div class="wrap">
   <header class="top">
@@ -638,6 +638,24 @@
       </div>
       <span class="fnote">Use “Upload” once on the computer that already has your tasks. Other devices download them when you sign in.</span>
     </div>
+    <div class="field" id="invField" hidden>
+      <span class="lbl">Invite codes</span>
+      <form id="invForm" class="inv-form" autocomplete="off">
+        <input type="text" id="invNote" maxlength="60" placeholder="Who it’s for, e.g. Family, Class" aria-label="Who the code is for">
+        <label class="fnote">Uses <input type="number" id="invUses" min="1" max="500" value="5"></label>
+        <label class="fnote">Expires in <select id="invDays"><option value="7">7 days</option><option value="30" selected>30 days</option><option value="90">90 days</option><option value="0">never</option></select></label>
+        <button class="btn sm primary" type="submit">Create code</button>
+      </form>
+      <div id="invList"></div>
+      <span class="fnote">Only you see this. Each person signs up with a code; share the link and the code fills in by itself.</span>
+    </div>
+    <div class="field">
+      <span class="lbl">Your account</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <a class="btn sm" href="terms.html" target="_blank" rel="noopener">Terms and Privacy</a>
+        <button class="btn sm danger" type="button" id="delAcct">Delete my account and data</button>
+      </div>
+    </div>
     <div class="field">
       <span class="lbl">Backup</span>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -694,18 +712,32 @@
     <form class="auth-card" id="lForm" novalidate>
       <h1 id="lHead">Sign in</h1>
       <p class="auth-sub" id="lSub">Your plan for today, on every device.</p>
+      <label class="float" id="lCodeF" hidden><input type="text" id="lCode" placeholder=" " autocomplete="off" autocapitalize="characters" spellcheck="false"><span>Invite code</span></label>
       <label class="float" id="lEmailF"><input type="email" id="lEmail" placeholder=" " autocomplete="username" required><span>Email</span></label>
       <label class="float pw" id="lPassF"><input type="password" id="lPass" placeholder=" " autocomplete="current-password"><span id="lPassL">Password</span><button type="button" class="peek" data-for="lPass">Show</button></label>
       <label class="float pw" id="lPass2F" hidden><input type="password" id="lPass2" placeholder=" " autocomplete="new-password"><span>Confirm new password</span><button type="button" class="peek" data-for="lPass2">Show</button></label>
+      <label class="auth-terms" id="lTermsF" hidden><input type="checkbox" id="lTerms"> <span>I understand Kairo is an early test (alpha) and I accept the <a href="terms.html" target="_blank" rel="noopener">Terms and Privacy</a>.</span></label>
       <p class="auth-msg" id="lMsg" role="status"></p>
       <button class="auth-go" type="submit" id="lGo">Sign in</button>
       <div class="auth-row" id="lRow">
         <label><input type="checkbox" id="lRemember"> Remember me</label>
         <button type="button" class="auth-link" id="lForgot">Forgot password?</button>
       </div>
-      <div class="auth-foot"><span id="lFoot">Accounts are by invitation.</span><button type="button" class="auth-link" id="lCancel">Cancel</button></div>
+      <div class="auth-foot"><span><span id="lFoot">Accounts are by invitation.</span> <button type="button" class="auth-link" id="lJoin">I have an invite code</button></span><button type="button" class="auth-link" id="lCancel">Cancel</button></div>
+      <p class="auth-legal"><a href="terms.html" target="_blank" rel="noopener">Terms and Privacy</a></p>
     </form>
   </main>
+</div>
+<div class="scrim" id="daScrim" hidden>
+  <form class="sheet" id="daForm" autocomplete="off">
+    <h3>Delete your account?</h3>
+    <p>This permanently deletes, from this device and from the cloud:</p>
+    <ul class="da-list"><li>your tasks, projects, events, spaces and settings</li><li>your attached files</li><li>spaces you created and shared (the other members keep their own tasks)</li><li>your feedback and error reports</li><li>your login</li></ul>
+    <p class="fnote">It can’t be undone. Want a copy first? Use Settings → Backup → Export backup.</p>
+    <div class="field"><label for="daType">Type DELETE to confirm</label><input type="text" id="daType" autocomplete="off" autocapitalize="characters"></div>
+    <p class="fnote" id="daMsg" role="status"></p>
+    <div class="sheet-actions"><div class="right"><button class="btn" type="button" id="daCancel">Cancel</button><button class="btn danger-fill" type="submit" id="daGo" disabled>Delete everything</button></div></div>
+  </form>
 </div>
 <!-- Welcome (first run) -->
 <div class="scrim" id="obScrim" hidden>
@@ -832,5 +864,5 @@
 <script src="supabase.js"></script>
 <div class="toast" id="toast" hidden></div>
 
-<script src="app.js"></script>
+<script src="app.js?v=0.42"></script>
 </body></html>

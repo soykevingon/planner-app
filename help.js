@@ -181,12 +181,15 @@ en: {
 </ul>
 <p>Turning a feature off only hides it. Nothing is deleted.</p>
 <p><button class="btn sm" data-do="settings">Open Settings</button></p>`},
-  {id: 'account', group: 'app', title: 'Account, password and feedback', sum: 'Change your password, sign out, or tell us what to improve.', tags: 'account password reset forgot sign out log out profile feedback bug',
+  {id: 'account', group: 'app', title: 'Account, password and feedback', sum: 'Change your password, sign out, or tell us what to improve.', tags: 'account password reset forgot sign out log out profile feedback bug delete invite code terms privacy',
    body: `<ul>
 <li><b>Change password:</b> your initials → <b>Change password</b>.</li>
 <li><b>Forgot it:</b> on the sign-in page press <b>Forgot password?</b> and check your email.</li>
 <li><b>Sign out:</b> your initials → <b>Sign out</b>. Do it on shared computers.</li>
-<li><b>Feedback:</b> your initials → <b>Send feedback</b>. It goes privately to the app’s owner.</li>
+<li><b>Feedback:</b> your initials → <b>Send feedback</b>. It goes privately to the people who make Kairo.</li>
+<li><b>Delete your account:</b> Settings → <b>Delete my account and data</b>. It removes everything right away and can’t be undone.</li>
+<li><b>Terms and Privacy:</b> Settings → <b>Terms and Privacy</b> explains what is stored and who can see it.</li>
+<li><b>New accounts</b> need an invite code. Got a link? Open it and the code fills in by itself.</li>
 </ul>
 <p><button class="btn sm" data-do="feedback">Send feedback</button></p>`}
   ]
@@ -374,7 +377,10 @@ es: {
 <li><b>Cambiar contraseña:</b> tus iniciales → <b>Change password</b>.</li>
 <li><b>Si la olvidaste:</b> en la página de entrada presiona <b>Forgot password?</b> y revisa tu email.</li>
 <li><b>Cerrar sesión:</b> tus iniciales → <b>Sign out</b>. Hazlo en computadoras compartidas.</li>
-<li><b>Comentarios:</b> tus iniciales → <b>Send feedback</b>. Le llega en privado al dueño de la app.</li>
+<li><b>Comentarios:</b> tus iniciales → <b>Send feedback</b>. Le llega en privado a quienes hacen Kairo.</li>
+<li><b>Borrar tu cuenta:</b> Settings → <b>Delete my account and data</b>. Borra todo al momento y no se puede deshacer.</li>
+<li><b>Términos y privacidad:</b> Settings → <b>Terms and Privacy</b> explica qué se guarda y quién lo puede ver.</li>
+<li><b>Las cuentas nuevas</b> necesitan un código de invitación. ¿Te llegó un enlace? Ábrelo y el código se llena solo.</li>
 </ul>
 <p><button class="btn sm" data-do="feedback">Enviar comentarios</button></p>`}
   ]

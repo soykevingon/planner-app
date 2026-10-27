@@ -1,5 +1,5 @@
 // Offline support: the app shell is cached; sync calls always go to the network.
-const CACHE = 'planner-v8';
+const CACHE = 'planner-v9';
 const SHELL = ['./', './index.html', './app.css', './app.js', './supabase.js', './help.js', './manifest.json', './favicon.png', './logo.png', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -13,8 +13,15 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET' || url.hostname.endsWith('supabase.co')) return;
   if (req.mode === 'navigate') {
     // newest version when online, cached copy when offline
-    e.respondWith(fetch(req).then(r => { const copy = r.clone(); caches.open(CACHE).then(c => c.put('./index.html', copy)); return r; })
-      .catch(() => caches.match('./index.html')));
+    const isApp = /\/(index\.html)?$/.test(url.pathname);   // other pages (terms.html) are not the app
+    e.respondWith(fetch(req).then(r => { if(isApp && r.ok){ const copy = r.clone(); caches.open(CACHE).then(c => c.put('./index.html', copy)); } return r; })
+      .catch(() => isApp ? caches.match('./index.html') : caches.match(req)));
+    return;
+  }
+  // the app's own code: newest when online, cached copy when offline
+  if (url.origin === location.origin && /\.(js|css)$/.test(url.pathname) && !url.pathname.endsWith('supabase.js')) {
+    e.respondWith(fetch(req).then(r => { if (r.ok) { const copy = r.clone(); caches.open(CACHE).then(c => c.put(req, copy)); } return r; })
+      .catch(() => caches.match(req, {ignoreSearch: true})));
     return;
   }
   // icons, fonts and the sync library: cache first, refresh in the background

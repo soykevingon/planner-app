@@ -1,7 +1,7 @@
 (() => {
   const $ = id => document.getElementById(id);
   const DAY = 864e5;
-  const APP_VERSION = '0.41 POC';
+  const APP_VERSION = '0.42 alpha';
   // Product name lives here only: change these two lines to rebrand.
   const APP_NAME = 'Kairo', APP_TAGLINE = 'Strategic planner';
   // Supabase project (the anon key is public by design; row level security protects the data)
@@ -2857,7 +2857,7 @@
     t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, undo ? 6000 : 1800);
   }
   function fail(e){
-    const code = e && e.code;
+    const code = e && e.code; reportError('save', e && (e.message || e.code));
     toast(code === 'quota_exceeded' ? 'Storage is full. Delete some completed tasks.' :
           code === 'invalid_argument' ? 'You don’t have permission to edit this list.' : 'Couldn’t save. Try again.');
   }
@@ -2970,7 +2970,7 @@
       if(uid){ const {error: e3} = await sb.from('space_members').insert({space_id: sp.id, user_id: uid, email}); if(e3 && !/duplicate/i.test(e3.message)){ toast(e3.message); return; } }
     }
     if(e2){ toast(e2.message); return; }
-    if(!added){ toast(`${email} doesn’t have a Kairo account yet. Ask them to sign up, then invite them again.`); return; }
+    if(!added){ toast(`${email} doesn’t have a Kairo account yet. Send them an invite code to sign up, then share the space again.`); return; }
     shareOpenId = sp.id; toast(`Shared ${sp.name} with ${email}`);
     await syncNow(); loadMembers(sp.id);
   }
@@ -3086,10 +3086,12 @@
     $('cloudInfo').textContent = !sb ? 'The sync service didn’t load. Check your connection and reload.'
       : cloudUser ? `Signed in as ${cloudUser.email}. ` + (n ? `${n} change${n === 1 ? '' : 's'} waiting to upload.` : 'Everything is synced.')
       : 'Not signed in. Changes stay on this device and upload when you sign in.';
-    $('cloudUpload').hidden = !cloudUser; $('cloudSignOut').hidden = !cloudUser; $('cloudPass').hidden = !cloudUser;
+    $('cloudUpload').hidden = !cloudUser; $('cloudSignOut').hidden = !cloudUser; $('cloudPass').hidden = !cloudUser; $('delAcct').hidden = !cloudUser;
+    renderInvites();
   }
   // Hosted version: nothing shows until you sign in.
-  const GATE = location.protocol !== 'file:';   // only the local copy opened from Documents skips sign-in
+  const GATE = location.protocol !== 'file:';
+  const TERMS_VERSION = 'alpha-1';   // only the local copy opened from Documents skips sign-in
   // The sign-in screen covers everything from the first paint; it lifts only once a session is confirmed.
   if(!GATE){ $('lScrim').hidden = true; $('lScrim').classList.remove('checking'); }
   const hasSavedSession = () => { try { return [...Object.keys(localStorage), ...Object.keys(sessionStorage)].some(k => /^sb-.*-auth-token$/.test(k)); } catch { return false; } };
@@ -3104,22 +3106,28 @@
   const AUTH = {
     signin:  {head: 'Sign in', sub: 'Your plan for today, on every device.', go: 'Sign in', email: true, pass: true, pass2: false, row: true, passL: 'Password'},
     forgot:  {head: 'Reset password', sub: 'Enter your email and we’ll send you a link to set a new password.', go: 'Send reset link', email: true, pass: false, pass2: false, row: false},
+    signup:  {head: 'Create your account', sub: 'Enter the invite code you received. Kairo is in early testing (alpha).', go: 'Create account', email: true, pass: true, pass2: true, row: false, passL: 'Password (8+ characters)', code: true},
     recover: {head: 'Set a new password', sub: 'Choose a password with at least 8 characters.', go: 'Save password', email: false, pass: true, pass2: true, row: false, passL: 'New password'},
   };
   function setAuthMode(m){
     authMode = m; const c = AUTH[m === 'change' ? 'recover' : m];
     $('lHead').textContent = c.head; $('lSub').textContent = c.sub; $('lGo').textContent = c.go;
     $('lEmailF').hidden = !c.email; $('lPassF').hidden = !c.pass; $('lPass2F').hidden = !c.pass2; $('lRow').hidden = !c.row;
+    $('lCodeF').hidden = $('lTermsF').hidden = !c.code; $('lJoin').hidden = m !== 'signin';
+    $('lPass2F').querySelector('span').textContent = m === 'signup' ? 'Confirm password' : 'Confirm new password';
     $('lPassL').textContent = c.passL || 'Password';
     $('lPass').autocomplete = c.pass2 ? 'new-password' : 'current-password';
     $('lPass').value = ''; $('lPass2').value = '';
     $('lMsg').textContent = ''; $('lMsg').classList.remove('ok');
-    $('lCancel').textContent = m === 'forgot' ? 'Back to sign in' : 'Cancel';
-    $('lCancel').hidden = authGate && m !== 'forgot';
+    $('lCancel').textContent = m === 'forgot' || m === 'signup' ? 'Back to sign in' : 'Cancel';
+    $('lCancel').hidden = authGate && m !== 'forgot' && m !== 'signup';
     $('lFoot').textContent = m === 'change' || m === 'recover' ? '' : 'Accounts are by invitation.';
-    setTimeout(() => (c.email ? $('lEmail') : $('lPass')).focus(), 30);
+    setTimeout(() => (c.code && !$('lCode').value ? $('lCode') : c.email ? $('lEmail') : $('lPass')).focus(), 30);
   }
+  // an invite link looks like …/planner-app/?invite=KAIRO-1A2B3C4D
+  const inviteParam = (() => { try { return (new URLSearchParams(location.search).get('invite') || '').trim().toUpperCase(); } catch { return ''; } })();
   function showLogin(gate, mode = 'signin'){
+    if(mode === 'signin' && inviteParam){ mode = 'signup'; $('lCode').value = inviteParam; }
     authGate = gate; $('lRemember').checked = remember(); $('lScrim').classList.remove('checking');
     $('lScrim').hidden = false; setAuthMode(mode);
   }
@@ -3166,7 +3174,8 @@
   }));
   $('lRemember').addEventListener('change', () => { try { localStorage.setItem('pr-remember', $('lRemember').checked ? '1' : '0'); } catch {} });
   $('lForgot').addEventListener('click', () => setAuthMode('forgot'));
-  $('lCancel').addEventListener('click', () => { if(authMode === 'forgot') setAuthMode('signin'); else hideLogin(); });
+  $('lCancel').addEventListener('click', () => { if(authMode === 'forgot' || authMode === 'signup') setAuthMode('signin'); else hideLogin(); });
+  $('lJoin').addEventListener('click', () => setAuthMode('signup'));
   /* ---------- Help & how-tos ---------- */
   let helpLang = (() => { try { const v = localStorage.getItem('pr-help-lang'); if(v) return v; } catch {} return /^es\b/i.test(navigator.language || '') ? 'es' : 'en'; })();
   let helpCur = null;
@@ -3386,6 +3395,20 @@
         const {error} = await sb.auth.signInWithPassword({email, password: pass});
         if(error){ authMsg(/invalid/i.test(error.message) ? 'Incorrect email or password.' : error.message); return; }
         hideLogin(); toast('Welcome back · syncing');
+      } else if(authMode === 'signup'){
+        const code = $('lCode').value.trim().toUpperCase();
+        if(!code){ authMsg('Enter your invite code.'); $('lCode').focus(); return; }
+        if(pass.length < 8){ authMsg('Use at least 8 characters.'); $('lPass').focus(); return; }
+        if(pass !== $('lPass2').value){ authMsg('The passwords don’t match.'); $('lPass2').focus(); return; }
+        if(!$('lTerms').checked){ authMsg('Please read and accept the Terms and Privacy.'); $('lTerms').focus(); return; }
+        authMsg('Creating your account…', true);
+        const {data, error} = await sb.auth.signUp({email, password: pass, options: {emailRedirectTo: location.origin + location.pathname,
+          data: {invite: code, terms: TERMS_VERSION, terms_at: new Date().toISOString()}}});
+        if(error){ authMsg(/database error|invite/i.test(error.message) ? 'That invite code isn’t valid, has expired or was already used. Check it with the person who sent it.'
+          : /registered|exists/i.test(error.message) ? 'That email already has an account. Sign in instead.' : /signups? not allowed|disabled/i.test(error.message) ? 'New accounts are closed right now.' : error.message); return; }
+        if(location.search) history.replaceState(null, '', location.pathname);
+        if(!data.session){ authMsg('Account created. Check your email to confirm it, then sign in.', true); return; }
+        hideLogin(); toast('Welcome to Kairo!');
       } else if(authMode === 'forgot'){
         authMsg('Sending…', true);
         const {error} = await sb.auth.resetPasswordForEmail(email, {redirectTo: location.origin + location.pathname});
@@ -3403,6 +3426,76 @@
     } catch { authMsg('Couldn’t reach the sync service. Check your connection.'); }
     finally { $('lGo').disabled = false; }
   });
+  /* ---------- invite codes (admins only; see alpha-setup.sql) ---------- */
+  let isAdmin = null;
+  async function renderInvites(){
+    if(!sb || !cloudUser){ $('invField').hidden = true; return; }
+    if(isAdmin === null){ try { const {data, error} = await sb.rpc('is_admin'); isAdmin = !error && data === true; } catch { isAdmin = false; } }
+    $('invField').hidden = !isAdmin; if(!isAdmin) return;
+    const {data} = await sb.from('invite_codes').select('code,note,uses,max_uses,expires_at,created_at').order('created_at', {ascending: false}).limit(50);
+    const box = $('invList'); box.textContent = '';
+    for(const r of data || []){
+      const live = r.uses < r.max_uses && (!r.expires_at || new Date(r.expires_at) > new Date());
+      const row = document.createElement('div'); row.className = 'inv-row' + (live ? '' : ' off');
+      const code = document.createElement('b'); code.textContent = r.code;
+      const info = span(`${r.note ? r.note + ' · ' : ''}${r.uses}/${r.max_uses} used` + (r.expires_at ? ` · ${live ? 'until' : 'ended'} ${fmt(new Date(r.expires_at))}` : ''), 'fnote');
+      row.append(code, info);
+      if(live){
+        const cp = document.createElement('button'); cp.type = 'button'; cp.className = 'btn sm'; cp.textContent = 'Copy link';
+        cp.addEventListener('click', async () => { const url = `${location.origin}${location.pathname}?invite=${r.code}`;
+          try { await navigator.clipboard.writeText(url); toast('Invite link copied'); } catch { prompt('Copy this link:', url); } });
+        const stop = document.createElement('button'); stop.type = 'button'; stop.className = 'linkbtn'; stop.textContent = 'Stop';
+        stop.addEventListener('click', async () => { const {error} = await sb.from('invite_codes').update({max_uses: r.uses}).eq('code', r.code); if(error) toast(error.message); else { toast('Code stopped'); renderInvites(); } });
+        row.append(cp, stop);
+      }
+      box.append(row);
+    }
+  }
+  $('invForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const {data, error} = await sb.rpc('create_invite', {p_note: $('invNote').value.trim(), p_uses: Number($('invUses').value) || 5, p_days: Number($('invDays').value)});
+    if(error){ toast(error.message); return; }
+    $('invNote').value = ''; toast('Code created: ' + data); renderInvites();
+  });
+
+  /* ---------- delete my account ---------- */
+  $('delAcct').addEventListener('click', () => { $('daType').value = ''; $('daGo').disabled = true; $('daMsg').textContent = ''; $('daScrim').hidden = false; setTimeout(() => $('daType').focus(), 30); });
+  $('daCancel').addEventListener('click', () => { $('daScrim').hidden = true; });
+  $('daType').addEventListener('input', () => { $('daGo').disabled = $('daType').value.trim().toUpperCase() !== 'DELETE'; });
+  $('daForm').addEventListener('submit', async e => {
+    e.preventDefault(); if($('daType').value.trim().toUpperCase() !== 'DELETE' || !sb || !cloudUser) return;
+    $('daGo').disabled = true; $('daMsg').textContent = 'Deleting your files…';
+    try {
+      // files first: Storage only deletes them through its own API
+      const bucket = sb.storage.from('attachments'), uid = cloudUser.id, paths = [];
+      try {
+        const {data: dirs} = await bucket.list(uid, {limit: 1000});
+        for(const dir of dirs || []){ const {data: fs} = await bucket.list(`${uid}/${dir.name}`, {limit: 1000}); for(const f of fs || []) paths.push(`${uid}/${dir.name}/${f.name}`); }
+        for(let i = 0; i < paths.length; i += 100) await bucket.remove(paths.slice(i, i + 100));
+      } catch {}
+      $('daMsg').textContent = 'Deleting your account…';
+      const {error} = await sb.rpc('delete_my_account');
+      if(error){ $('daMsg').textContent = /function|schema cache/i.test(error.message) ? 'Account deletion isn’t set up on the server yet. Nothing was deleted.' : 'Couldn’t delete: ' + error.message; $('daGo').disabled = false; return; }
+      try { await sb.auth.signOut(); } catch {}
+      try { Object.keys(localStorage).filter(k => k.startsWith('pr-') || k.startsWith('sb-')).forEach(k => localStorage.removeItem(k)); sessionStorage.clear(); } catch {}
+      alert('Your account and data were deleted.');
+      location.replace(location.pathname);
+    } catch { $('daMsg').textContent = 'Couldn’t reach the server. Nothing more was deleted; try again.'; $('daGo').disabled = false; }
+  });
+
+  /* ---------- error reports (kept 30 days; see alpha-setup.sql) ---------- */
+  const errSeen = new Set();
+  function reportError(place, err){
+    try {
+      const msg = String((err && (err.stack || err.message)) || err || '').slice(0, 500);
+      if(!sb || !cloudUser || !msg || errSeen.has(msg) || errSeen.size >= 10) return;
+      errSeen.add(msg);
+      sb.from('app_errors').insert({version: APP_VERSION, place: String(place).slice(0, 60), message: msg, agent: navigator.userAgent.slice(0, 200)}).then(() => {}, () => {});
+    } catch {}
+  }
+  window.addEventListener('error', e => reportError('page' + (tab ? ':' + tab : ''), e.error || e.message));
+  window.addEventListener('unhandledrejection', e => reportError('promise' + (tab ? ':' + tab : ''), e.reason));
+
   // Signing out also removes this device's copy, so nobody else using it sees your tasks.
   $('cloudSignOut').addEventListener('click', async () => {
     const n = Object.keys(pending).length;
