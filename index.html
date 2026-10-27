@@ -46,6 +46,7 @@
   </header>
 
   <div class="banner" id="banner" hidden></div>
+  <button class="fab" id="fabAdd" type="button" aria-label="New task, project or event" aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
 
   <div class="filters" id="filterBar">
     <span class="flabel">Show</span>
@@ -70,10 +71,12 @@
 
   <div id="viewToday">
     <header class="day-head"><span class="eyebrow" id="dayHello"></span><h2 id="dayTitle"></h2><p id="dayMsg" role="status"></p></header>
+    <div class="space-chips" id="todaySpaces" role="group" aria-label="Space" hidden></div>
     <div class="plan-card hero" data-mod="work">
       <div class="cap-stats" id="capStats"></div>
       <div class="plan-head"><div><b id="capUsed">0h</b> <span id="capOf">of 5h focus time planned</span></div><span id="planDay"></span></div>
       <div class="cap" id="capBar"><i id="capFill" style="width:0"></i></div>
+      <div class="cap-foot" id="capFoot"></div>
       <details class="plan-adj" id="planAdj"><summary>Adjust today’s hours</summary>
       <div class="hours-row"><span>Today’s hours</span><input type="time" id="tStart" aria-label="Today start time"><span>to</span><input type="time" id="tEnd" aria-label="Today end time"><button class="linkbtn" type="button" id="tReset" hidden>Use usual hours</button></div>
       <div class="setting"><label for="focusHours">Focus hours per workday</label><input type="number" id="focusHours" min="1" max="12" step="0.5" value="5"><span>Time left after routine checks and interruptions.</span></div>
@@ -83,11 +86,10 @@
     <form class="quick-add" id="qaForm" autocomplete="off">
       <div class="qa-row">
         <input type="text" id="qaText" maxlength="200" aria-label="Add a task in one line" placeholder="What do you need to do? e.g. “Report Friday 2h”">
-        <button class="btn primary" type="submit">Add</button>
+        <button class="btn primary qa-go" type="submit" aria-label="Add task"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
       </div>
       <div class="qa-prev fnote" id="qaPrev" hidden></div>
     </form>
-    <div class="gs-card" id="gsCard" hidden></div>
     <div class="today-grid">
       <div>
         <div class="now-card" id="nowCard">
@@ -96,7 +98,7 @@
         </div>
         <div class="banner emerg" id="emergBanner" hidden></div>
         <section class="group">
-          <h2 id="planTitle">Today’s plan <span class="count" id="cPlan"></span></h2>
+          <div class="group-head"><h2 id="planTitle">Today’s plan <span class="count" id="cPlan"></span></h2><div class="gs-card" id="gsCard" hidden></div></div>
           <p class="hint">Work the planner says must start today to make every deadline, then the highest priority items that still fit.</p>
           <div class="list" id="lPlan"></div>
         </section>

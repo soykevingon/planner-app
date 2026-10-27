@@ -685,6 +685,7 @@
       over: h => `There’s ${h} more work than time today. Kairo moved what it could to the next days.`,
       attention: n => `${n} ${n === 1 ? 'task needs' : 'tasks need'} attention. ${n === 1 ? 'It’s' : 'They’re'} at the top of your plan.`,
       offday: 'Your plan below is for your next workday.',
+      focusToday: 'Your focus time today', focusNext: 'Focus time, next workday', capToday: 'Your capacity today', availWord: 'available', plannedPct: 'planned',
       available: 'Focus time left', availableNext: 'Focus time', planned: 'Planned', free: 'Free', overBy: 'Over by', upNext: 'Up next', tonight: 'Tonight',
       prio: {crit: 'Top priority', high: 'High', mid: 'Normal', low: 'Low'}},
     es: {morning: 'Buenos días', afternoon: 'Buenas tardes', evening: 'Buenas noches',
@@ -693,6 +694,7 @@
       over: h => `Hoy hay ${h} más de trabajo que de tiempo. Kairo movió lo que pudo a los próximos días.`,
       attention: n => `${n} ${n === 1 ? 'tarea necesita' : 'tareas necesitan'} atención. Están arriba en tu plan.`,
       offday: 'El plan de abajo es para tu próximo día de trabajo.',
+      focusToday: 'Tu tiempo de enfoque hoy', focusNext: 'Tiempo de enfoque, próximo día', capToday: 'Tu capacidad hoy', availWord: 'disponible', plannedPct: 'planificado',
       available: 'Tiempo de enfoque restante', availableNext: 'Tiempo de enfoque', planned: 'Planificado', free: 'Libre', overBy: 'Te pasas por', upNext: 'Lo próximo', tonight: 'Esta noche',
       prio: {crit: 'Prioridad máxima', high: 'Alta', mid: 'Normal', low: 'Baja'}}
   };
@@ -719,17 +721,23 @@
     if(nu){
       const t = nu.x.t, p = parentOf(t);
       const tt = document.createElement('div'); tt.className = 'now-title'; tt.textContent = (p ? p.title + ' › ' : '') + t.title;
-      const meta = document.createElement('div'); meta.className = 't-meta';
-      if(nu.x.e.space) meta.append(spaceTag(nu.x.e.space));
-      if(nu.x.e.client) meta.append(span(nu.x.e.client, 'tag'));
-      meta.append(span(fmtH(effortOf(t)), 'hours'), span(mod('detail') ? 'Priority ' + nu.x.score : tx('prio')[nu.x.tier]));
+      const meta = document.createElement('div'); meta.className = 'now-chips';
+      meta.append(span(fmtH(effortOf(t)), 'nchip'));
+      if(nu.x.e.space){ const st = spaceTag(nu.x.e.space); st.classList.add('nchip'); meta.append(st); }
+      if(nu.x.e.client) meta.append(span(nu.x.e.client, 'nchip'));
+      const dd = due(nu.x.days, nu.x.e.deadline); if(nu.x.e.deadline) meta.append(span(dd.txt, 'nchip due ' + dd.cls));
+      meta.append(span(mod('detail') ? 'Priority ' + nu.x.score : tx('prio')[nu.x.tier], 'nchip'));
       const why = document.createElement('div'); why.className = 'now-why'; why.textContent = nu.why;
+      const done = document.createElement('button'); done.type = 'button'; done.className = 'now-done'; done.setAttribute('aria-label', 'Mark “' + t.title + '” as done'); done.title = 'Mark as done';
+      done.innerHTML = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4L19 6"/></svg>';
+      done.addEventListener('click', () => finish(t));
       const acts = document.createElement('div'); acts.className = 'now-acts';
-      const done = document.createElement('button'); done.type = 'button'; done.className = 'btn primary sm'; done.textContent = 'Done ✓'; done.addEventListener('click', () => finish(t));
-      const open = document.createElement('button'); open.type = 'button'; open.className = 'btn sm'; open.textContent = 'Details'; open.addEventListener('click', () => openDetails(t));
-      acts.append(done, open);
-      if(nu.pinned){ const un = document.createElement('button'); un.type = 'button'; un.className = 'btn sm'; un.textContent = 'Let the planner pick'; un.addEventListener('click', () => setNextUp(null)); acts.append(un); }
-      box.append(tt, meta, why, acts);
+      const open = document.createElement('button'); open.type = 'button'; open.className = 'linkbtn'; open.textContent = 'Details'; open.addEventListener('click', () => openDetails(t));
+      acts.append(open);
+      if(nu.pinned){ const un = document.createElement('button'); un.type = 'button'; un.className = 'linkbtn'; un.textContent = 'Let the planner pick'; un.addEventListener('click', () => setNextUp(null)); acts.append(un); }
+      const body = document.createElement('div'); body.className = 'now-body'; body.append(tt, meta, why, acts);
+      const row = document.createElement('div'); row.className = 'now-main'; row.append(body, done);
+      box.append(row);
     } else {
       box.append(span(!hasWork() ? 'Nothing planned for right now. Your list is below.' : isWork(0) && wl > 1/60 ? 'Nothing open for you right now.' : 'Off the clock. The plan below is for your next workday.', 'fnote'));
     }
@@ -759,11 +767,25 @@
     $('cPlan').textContent = plan.length;
     // capacity in three plain numbers, and an honest line about the day
     { const box = $('capStats'); box.textContent = '';
-      const stat = (v, l, cls) => { const d = document.createElement('div'); if(cls) d.className = cls; const b = document.createElement('b'); b.textContent = v; d.append(b, span(l)); box.append(d); };
-      stat(fmtH(capH), fw === 0 ? tx('available') : tx('availableNext'));
-      stat(fmtH(planned), tx('planned'));
-      const free = capH - planned;
-      if(free < -1e-9) stat(fmtH(-free), tx('overBy'), 'over'); else stat(fmtH(Math.max(0, free)), tx('free'));
+      const free = capH - planned, over = free < -1e-9, pct = capH ? Math.round(planned / capH * 100) : (planned ? 100 : 0);
+      // light: big number + bar; dark: ring + legend (same three numbers)
+      const main = document.createElement('div'); main.className = 'hero-main';
+      const big = document.createElement('div'); big.className = 'hero-big'; big.append(Object.assign(document.createElement('b'), {textContent: fmtH(capH)}), span(tx('availWord')));
+      main.append(span(fw === 0 ? tx('focusToday') : tx('focusNext'), 'hero-lbl'), big);
+      const NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', '0 0 104 104'); svg.setAttribute('class', 'hero-ring'); svg.setAttribute('aria-hidden', 'true');
+      const C = 2 * Math.PI * 42, ring = (cls, len) => { const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', 52); c.setAttribute('cy', 52); c.setAttribute('r', 42); c.setAttribute('class', cls); if(len != null){ c.setAttribute('stroke-dasharray', `${len} ${C}`); c.setAttribute('transform', 'rotate(-90 52 52)'); } svg.append(c); };
+      ring('rg-track'); ring('rg-fill' + (over ? ' over' : ''), Math.min(1, pct / 100) * C);
+      const txt = (y, cls, v) => { const t = document.createElementNS(NS, 'text'); t.setAttribute('x', 52); t.setAttribute('y', y); t.setAttribute('text-anchor', 'middle'); t.setAttribute('class', cls); t.textContent = v; svg.append(t); };
+      txt(52, 'rg-num', pct + '%'); txt(69, 'rg-sub', tx('plannedPct'));
+      const side = document.createElement('div'); side.className = 'hero-side';
+      const ul = document.createElement('ul'); ul.className = 'hero-legend';
+      const li = (cls, v) => { const l = document.createElement('li'); l.className = cls; l.append(Object.assign(document.createElement('i'), {}), document.createTextNode(v)); ul.append(l); };
+      li('lg-avail', `${fmtH(capH)} ${tx('availWord')}`); li('lg-plan', `${fmtH(planned)} ${tx('planned').toLowerCase()}`);
+      li(over ? 'lg-over' : 'lg-free', over ? `${tx('overBy')} ${fmtH(-free)}` : `${fmtH(Math.max(0, free))} ${tx('free').toLowerCase()}`);
+      side.append(span(tx('capToday'), 'hero-lbl'), ul);
+      box.append(main, svg, side);
+      const foot = $('capFoot'); foot.textContent = '';
+      foot.append(span(`${fmtH(planned)} ${tx('planned').toLowerCase()}`), span(over ? `${tx('overBy')} ${fmtH(-free)}` : `${fmtH(Math.max(0, free))} ${tx('free').toLowerCase()}`, over ? 'over' : ''));
       const now = new Date(), hr = now.getHours(), name = (settings.displayName || '').split(' ')[0];
       $('dayHello').textContent = now.toLocaleDateString(UI_LANG === 'es' ? 'es-PR' : 'en-US', {weekday: 'long', month: 'long', day: 'numeric'});
       $('dayTitle').textContent = (hr < 12 ? tx('morning') : hr < 18 ? tx('afternoon') : tx('evening')) + (name ? ', ' + name : '') + '.';
@@ -771,7 +793,7 @@
       const emerg = plan.some(p => p.x.t && modeOf(p.x.t) === 'emergency');
       const msg = $('dayMsg'); msg.className = '';
       if(emerg){ msg.textContent = tx('emergency'); msg.className = 'alert'; }
-      else if(free < -1e-9){ msg.textContent = tx('over')(fmtH(-free)); msg.className = 'warn'; }
+      else if(over){ msg.textContent = tx('over')(fmtH(-free)); msg.className = 'warn'; }
       else if(urgent){ msg.textContent = tx('attention')(urgent); msg.className = 'warn'; }
       else if(!plan.length) msg.textContent = tx('empty');
       else msg.textContent = fw === 0 || !hasWork() ? tx('calm') : tx('offday');
@@ -2545,11 +2567,12 @@
     setTimeout(() => $('fTitle').focus(), 30);
   }
   function closeForm(){ $('scrim').hidden = true; editingId = null; }
-  function closeNew(){ $('newMenu').hidden = true; $('newBtn').setAttribute('aria-expanded', 'false'); }
+  function closeNew(){ $('newMenu').hidden = true; $('newBtn').setAttribute('aria-expanded', 'false'); $('fabAdd').setAttribute('aria-expanded', 'false'); $('fabAdd').classList.remove('open'); }
+  $('fabAdd').addEventListener('click', e => { e.stopPropagation(); const open = $('newMenu').hidden; closeAcct(); $('newMenu').hidden = !open; $('fabAdd').setAttribute('aria-expanded', String(open)); $('fabAdd').classList.toggle('open', open); if(open) $('addBtn').focus(); });
   $('newBtn').addEventListener('click', e => { e.stopPropagation(); const open = $('newMenu').hidden; closeAcct(); $('newMenu').hidden = !open; $('newBtn').setAttribute('aria-expanded', String(open)); if(open) $('addBtn').focus(); });
   $('newMenu').addEventListener('click', () => closeNew());
   document.addEventListener('click', e => { if(!e.target.closest('#newWrap')) closeNew(); });
-  document.addEventListener('keydown', e => { if(e.key === 'Escape' && !$('newMenu').hidden){ closeNew(); $('newBtn').focus(); } });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape' && !$('newMenu').hidden){ closeNew(); ($('fabAdd').offsetParent ? $('fabAdd') : $('newBtn')).focus(); } });
   $('addBtn').addEventListener('click', () => openForm(null));
   $('addProjMenu').addEventListener('click', () => openForm(null, null, 'project'));
   $('addEmergBtn').addEventListener('click', () => openForm(null, null, 'emergency'));
@@ -3426,6 +3449,13 @@
     item('all', 'All spaces', 'See everything', 'var(--muted)');
     for(const x of spacesSorted().filter(x => !linkTarget(x))){ const l = linkedTo(x); item(x.id, x.name, 'Only ' + x.name + (l.length ? ' + ' + l.map(y => y.name).join(', ') : '') + ' · everything else hidden', x.color); }
     if(spaces.some(x => x.shared)) item('__shared', 'Shared', 'Only spaces you share with others', 'var(--mid)');
+    // the same choice as chips on Today
+    const ch = $('todaySpaces'); ch.textContent = ''; ch.hidden = spaces.length < 2;
+    const chip = (id, name, color) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'sp-chip'; b.setAttribute('aria-pressed', String(scope === id || (id === 'all' && !f && !sh)));
+      if(color){ const i = document.createElement('i'); i.style.background = color; b.append(i); } b.append(document.createTextNode(name)); b.addEventListener('click', () => { if(b.getAttribute('aria-pressed') !== 'true') setScope(id); }); ch.append(b); };
+    chip('all', 'All');
+    for(const x of spacesSorted().filter(x => !linkTarget(x))) chip(x.id, x.name, x.color);
+    if(spaces.some(x => x.shared)) chip('__shared', 'Shared', 'var(--mid)');
   }
   function setScope(id){
     scope = id; spaceFilter = 'all'; projOpen = null;
