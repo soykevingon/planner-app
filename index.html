@@ -393,6 +393,28 @@ details.more .more-body{padding:4px 14px 2px}
 .h-related a{display:inline-block;margin:0 14px 6px 0}
 .h-foot{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:13px}
 #hList{margin-bottom:14px}
+.scope-btn{display:inline-flex;align-items:center;gap:7px;max-width:190px}
+.scope-btn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.scope-btn .sw{width:10px;height:10px;border-radius:3px;flex:none}
+.scope-btn .ico{width:15px;height:15px;flex:none;opacity:.7}
+.scope-btn.on{border-color:var(--scope);box-shadow:inset 0 0 0 1px var(--scope)}
+.scope-menu{right:auto;left:0;min-width:270px}
+.scope-menu b{display:flex;align-items:center;gap:8px}
+.scope-menu .sw{width:10px;height:10px;border-radius:3px;display:inline-block}
+.scope-menu button[aria-checked="true"]{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+body.in-scope::before{content:"";position:fixed;inset:0 0 auto 0;height:4px;background:var(--scope);z-index:25}
+@media (max-width:640px){.scope-btn{max-width:118px;padding-inline:10px}.scope-btn:not(.on) span{display:none}}
+.sp-link select{width:auto;padding:6px 8px}
+.rep-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.rep-row select{width:auto}
+.rep-row input{width:90px}
+.cal-item.draggable{touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.cal-item.dragging{opacity:.35}
+.cal-ghost{position:fixed;left:0;top:0;z-index:40;pointer-events:none;box-shadow:0 10px 26px rgba(0,0,0,.28);opacity:.95;background:var(--surface)!important}
+body.cal-dragging{cursor:grabbing;-webkit-user-select:none;user-select:none}
+.cal-day.drop{outline:2px dashed var(--accent);outline-offset:-2px;background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
+.cal-dnd{margin:10px 2px 0}
+.toast-undo{margin-left:12px;border:none;background:none;color:var(--accent);font:700 14px var(--f-body);cursor:pointer;padding:0}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:10px;font-size:14px;z-index:30}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px}
 .tab{border:none;background:none;font:600 15px var(--f-body);color:var(--muted);padding:10px 14px;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
@@ -528,6 +550,10 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       <p class="sub"><span id="today"></span> · <span id="appVersion"></span></p>
     </div>
     <div class="actions">
+      <span class="newwrap" id="scopeWrap">
+        <button class="btn scope-btn" id="scopeBtn" type="button" aria-haspopup="menu" aria-expanded="false" title="Choose which space you’re in"><i class="sw" id="scopeSw"></i><span id="scopeTxt">All spaces</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="acct-menu new-menu scope-menu" id="scopeMenu" role="menu" hidden></div>
+      </span>
       <button class="btn icon-btn" id="searchBtn" type="button" aria-label="Search tasks and projects" title="Search ( / )"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="hide-sm">Search</span></button>
       <button class="btn" id="filterBtn" type="button" aria-expanded="false" aria-controls="filterBar"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span id="filterTxt">Filter</span></button>
       <span class="newwrap" id="newWrap">
@@ -667,6 +693,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       <div class="cal-tools"><span class="fnote" id="calNotifTxt"></span><button class="help-q" type="button" data-help="calendar" aria-label="Help: calendar and voice" title="How this works">?</button><button class="btn sm" type="button" id="calNotifBtn" hidden>Turn on reminders</button><button class="btn sm" type="button" id="calNew">+ Event</button></div>
     </div>
     <div class="cal-week" id="calWeek"></div>
+    <p class="fnote cal-dnd">Drag a task or event to another day to move it. On a phone, press and hold it first.</p>
   </div>
 
   <div id="viewReports" hidden>
@@ -778,6 +805,20 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       </div>
     </div>
     <span class="fnote" id="dateNote" hidden style="margin:-8px 0 12px;display:block"></span>
+    <div class="field" id="repeatField">
+      <label for="fRepeat">Repeat</label>
+      <div class="rep-row">
+        <select id="fRepeat">
+          <option value="">Doesn’t repeat</option>
+          <option value="1:day">Every day</option><option value="1:weekday">Every weekday (Mon–Fri)</option>
+          <option value="1:week">Every week</option><option value="2:week">Every 2 weeks</option>
+          <option value="1:month">Every month</option><option value="3:month">Every 3 months</option><option value="6:month">Every 6 months</option>
+          <option value="1:year">Every year</option><option value="custom">Every … days</option>
+        </select>
+        <input type="number" id="fRepN" min="2" max="365" value="10" inputmode="numeric" hidden aria-label="Repeat every how many days">
+      </div>
+      <span class="fnote" id="fRepNote"></span>
+    </div>
     <div class="field" id="effortField">
       <span class="lbl">Effort</span>
       <div class="segs seg-wrap" id="segEff"></div>
@@ -1323,7 +1364,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 (() => {
   const $ = id => document.getElementById(id);
   const DAY = 864e5;
-  const APP_VERSION = '0.36 POC';
+  const APP_VERSION = '0.37 POC';
   const FEEDBACK_EMAIL = 'gonzalezkevin70@gmail.com';
   // Product name lives here only: change these two lines to rebrand.
   const APP_NAME = 'Kairo', APP_TAGLINE = 'Strategic planner';
@@ -1448,7 +1489,18 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   const spaceById = id => id ? spaces.find(x => x.id === id) || null : null;
   const defaultSpace = () => { const l = spacesSorted(); return l.find(x => x.planDuring === 'work') || l[0] || null; };
   function spaceOf(t){ const p = t.parentId ? byId(t.parentId) : null; return spaceById(p ? p.spaceId : t.spaceId) || defaultSpace(); }
-  const poolsOf = t => { const sp = spaceOf(t), pd = sp ? sp.planDuring : 'work'; return pd === 'evenings' ? ['eve'] : pd === 'any' ? ['work', 'eve'] : pd === 'custom' ? ['sp:' + sp.id] : ['work']; };
+  /* Linked spaces: a personal setting that makes one space count as part of another
+     (e.g. a team's shared space planned and shown as part of my Work). One level only. */
+  const spaceLinks = () => settings.spaceLinks || {};
+  function linkTarget(sp){ if(!sp) return null; const id = spaceLinks()[sp.id]; const t = id && id !== sp.id ? spaceById(id) : null; return t && !spaceLinks()[t.id] ? t : null; }
+  const rootSpace = sp => sp ? (linkTarget(sp) || sp) : null;
+  const linkedTo = sp => spaces.filter(x => x.id !== sp.id && (linkTarget(x) || {}).id === sp.id);
+  const spaceMatch = (sp, id) => !!sp && (sp.id === id || (rootSpace(sp) || {}).id === id);
+  /* Space scope: "enter" one space and the whole app shows only it (and spaces linked to it). Per device. */
+  let scope = 'all'; try { scope = localStorage.getItem('pr-scope') || 'all'; } catch {}
+  const scopeSp = () => scope !== 'all' ? spaceById(scope) : null;
+  const inScope = sp => { const f = scopeSp(); return !f || (rootSpace(sp) || {}).id === f.id; };
+  const poolsOf = t => { const sp = rootSpace(spaceOf(t)), pd = sp ? sp.planDuring : 'work'; return pd === 'evenings' ? ['eve'] : pd === 'any' ? ['work', 'eve'] : pd === 'custom' ? ['sp:' + sp.id] : ['work']; };
   const isPayment = t => t.amount !== undefined && t.amount !== null && t.amount !== '';
   const money = v => { try { return new Intl.NumberFormat('en-US', {style: 'currency', currency: settings.currency || 'USD'}).format(Number(v) || 0); } catch { return '$' + (Number(v) || 0).toFixed(2); } };
   const remindDays = () => Math.max(0, Number(settings.payRemindDays ?? 3) || 0);
@@ -1687,9 +1739,10 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   const planFor = () => planOverride !== undefined ? planOverride : (personFilter === 'all' || personFilter === 'mine') ? me : personFilter;
   const assignedTo = (t, uid) => { if(!uid) return true; const a = eff(t).assignees; return !a.length || a.includes(uid); };
   const personOk = t => personFilter === 'all' || assignedTo(t, planFor());
-  const spaceOk = t => spaceFilter === 'all' || (spaceFilter === '__shared' ? !!(spaceOf(t) || {}).shared : (spaceOf(t) || {}).id === spaceFilter);
+  const spaceOk = t => { const sp = spaceOf(t); return inScope(sp) && (spaceFilter === 'all' || (spaceFilter === '__shared' ? !!(sp || {}).shared : spaceMatch(sp, spaceFilter))); };
   const vis = t => clientOk(eff(t).client) && personOk(t) && spaceOk(t);
-  const dailyVis = d => (spaceFilter === 'all' || (spaceFilter === '__shared' ? !!(spaceById(d.spaceId) || {}).shared : (spaceById(d.spaceId) || defaultSpace() || {}).id === spaceFilter)) && clientOk(d.client || '') && (personFilter === 'all' || !me || !d.owner || d.owner === planFor());
+  const dailyVis = d => { const sp = spaceById(d.spaceId) || defaultSpace(); return inScope(sp) && (spaceFilter === 'all' || (spaceFilter === '__shared' ? !!(sp || {}).shared : spaceMatch(sp, spaceFilter))); }
+  const dailyVis2 = d => dailyVis(d) && clientOk(d.client || '') && (personFilter === 'all' || !me || !d.owner || d.owner === planFor());
   /* Order used by the radar numbers and the lists beside it:
        1 Emergency · 2 Overdue · 3 Late (ready-by passed) · 4 At risk ·
        5 Must start today · 6 the rest by start-by date · 7 no deadline.
@@ -1802,6 +1855,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     if(t.done && t.closeout){ meta.append(span(`Took ${fmtH(Number(t.closeout.spent) || 0)}`, 'hours')); }
     const subs = isSub ? [] : subsOf(t);
     if(subs.length) meta.append(span(`${subs.filter(s => s.done).length}/${subs.length} done`, 'prog'));
+    if(!t.done && t.repeat) meta.append(span('↻ ' + repText(t.repeat), 'why steady'));
     if(!t.done && t.afterHours){ if(!opts.why) meta.append(span('After hours · ' + fmtWhen(ahWhen(t)), 'why steady')); }
     else if(!opts.why && !t.done && x.ready !== null && x.ready !== x.days && x.days >= 0){
       const rd = offDate(x.ready), by = isPayment(t) ? 'Pay by ' : 'Ready by ';
@@ -1983,7 +2037,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     // after work: the top evening/weekend item for the time left today
     if(!nu && !(isWork(0) && wl > 1/60)){
       const ev = plan.find(p => p.pool === 'eve' && p.day === 0 && !p.steady) || plan.find(p => p.pool === 'eve' && p.day === 0);
-      if(ev){ const sp = spaceOf(ev.x.t);
+      if(ev){ const sp = rootSpace(spaceOf(ev.x.t));
         nu = {x: ev.x, why: `Outside work hours: this is the top item for ${sp ? sp.name : 'your other spaces'} today.`};
         $('timeLeft').textContent = sp && sp.planDuring === 'custom' ? `${sp.name} · until ${fmtClock(customWin(sp)[1])}` : `${isWork(0) ? 'Evening' : 'Weekend'} · ${fmtH(eveLeftToday())} left`; }
     }
@@ -2081,7 +2135,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       if(dd !== null && dd > 30) continue;
       rows.push({t, dd: dd ?? 999});
     }
-    for(const r of dailies.filter(r => r.amount != null && !isCheck(r) && dailyVis(r))){
+    for(const r of dailies.filter(r => r.amount != null && !isCheck(r) && dailyVis2(r))){
       const np = nextPeriod(r); if(!np) continue;
       const dd = Math.round((np.due - today0()) / DAY); if(dd > 30) continue;
       const st = new Date(np.due); st.setDate(st.getDate() - (Number(r.lead) || 3));
@@ -2110,7 +2164,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   }
   async function markPaid(t){
     const data = {...t, done: true, doneAt: Date.now(), closeout: {spent: Math.min(effortOf(t), 0.25), comment: 'Paid ' + money(t.amount), closedBy: me || null}}; delete data.id;
-    try { await store.save('tasks', t.id, data); toast(`${t.title}: paid`); scheduleSync(); } catch(e){ fail(e); }
+    try { const nx = await spawnNext(t, data.doneAt); if(nx) data.repeatNext = nx.id; await store.save('tasks', t.id, data); toast(`${t.title}: paid` + (nx ? ` · next due ${fmt(nx.due)}` : '')); scheduleSync(); } catch(e){ fail(e); }
   }
 
   /* ---------- projects ---------- */
@@ -2154,15 +2208,15 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   $('addProjBtn').addEventListener('click', () => openForm(null, null, 'project'));
   $('projDoneToggle').addEventListener('click', () => { showDoneProj = !showDoneProj; renderProjects(); });
   function renderProjects(){
-    const all = tasks.filter(t => isProject(t) && personOk(t) && clientOk(eff(t).client));
+    const all = tasks.filter(t => isProject(t) && personOk(t) && clientOk(eff(t).client) && inScope(spaceOf(t)));
     // side: spaces with their open projects
     const side = $('projSide'); side.textContent = '';
     const sbtn = (id, label, color, n) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'ps-space'; b.setAttribute('aria-pressed', spaceFilter === id);
       const i = document.createElement('i'); i.style.background = color || 'var(--ink)'; b.append(i, document.createTextNode(label)); const c = document.createElement('b'); c.textContent = n; b.append(c);
       const sp0 = spaceById(id); if(sp0 && sp0.shared){ b.insertBefore(shareBadge(sp0), b.lastChild); b.title = sharedTip(sp0); }
       b.addEventListener('click', () => setSpaceFilter(id)); side.append(b); };
-    sbtn('all', 'All spaces', null, all.filter(t => !t.done).length);
-    for(const sp of spacesSorted()){
+    sbtn('all', scopeSp() ? 'All of ' + scopeSp().name : 'All spaces', null, all.filter(t => !t.done).length);
+    for(const sp of spacesSorted().filter(inScope)){
       const mine = all.filter(t => !t.done && (spaceOf(t) || {}).id === sp.id);
       sbtn(sp.id, sp.name, sp.color, mine.length);
       for(const t of mine.slice(0, 8)){ const a = document.createElement('button'); a.type = 'button'; a.className = 'ps-proj'; a.textContent = t.title; a.title = t.title; a.addEventListener('click', () => openProject(t.id)); side.append(a); }
@@ -2284,7 +2338,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       rows.push({label: t.title, color: (spaceOf(t) || {}).color || 'var(--mid)', a: offDate(first), b: parseD(x.e.deadline), risk: pi.st[1] === 'risk', id: t.id, sort: first});
     }
     // recurring work that will be created later in the window
-    for(const r of dailies.filter(r => !isCheck(r) && r.amount == null && dailyVis(r) && ['monthly', 'quarterly'].includes(freqOf(r)))){
+    for(const r of dailies.filter(r => !isCheck(r) && r.amount == null && dailyVis2(r) && ['monthly', 'quarterly'].includes(freqOf(r)))){
       const seen = new Set();
       for(let k = 0; k <= months; k++){
         for(const p of periodsAround(r, new Date(t0.getFullYear(), t0.getMonth() + k, 1))){
@@ -2314,7 +2368,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     // bills: open payment tasks and scheduled recurring payments
     const pays = [];
     for(const t of tasks.filter(t => isOpen(t) && isPayment(t) && vis(t) && t.deadline)) pays.push({d: parseD(t.deadline), title: `${t.title} · ${money(t.amount)}`});
-    for(const r of dailies.filter(r => r.amount != null && !isCheck(r) && dailyVis(r))){
+    for(const r of dailies.filter(r => r.amount != null && !isCheck(r) && dailyVis2(r))){
       const seen = new Set();
       for(let k = 0; k <= months; k++) for(const p of periodsAround(r, new Date(t0.getFullYear(), t0.getMonth() + k, 1))){
         if(seen.has(p.key) || p.due < t0 || p.due >= W1 || byId(`rec-${r.id}-${p.key}`)) continue;
@@ -2345,7 +2399,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     if(tasks.some(t => !eff(t).client)) mk('__none', 'No client');
     $('clientLabel').hidden = box.hidden = !cs.length;
     // spaces
-    if(spaceFilter !== 'all' && spaceFilter !== '__shared' && !spaceById(spaceFilter)) spaceFilter = 'all';
+    if(spaceFilter !== 'all' && spaceFilter !== '__shared' && (!spaceById(spaceFilter) || !inScope(spaceById(spaceFilter)))) spaceFilter = 'all';
     const sb2 = $('spaceChips'); sb2.textContent = '';
     const sm = (val, label, color) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip';
       if(color){ const i = document.createElement('i'); i.className = 'sw'; i.style.background = color; b.append(i); }
@@ -2353,9 +2407,10 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       const sp0 = spaceById(val); if(sp0 && sp0.shared){ b.append(shareBadge(sp0)); b.title = sharedTip(sp0); }
       b.setAttribute('aria-pressed', spaceFilter === val); b.addEventListener('click', () => setSpaceFilter(val)); sb2.append(b); };
     sm('all', 'All');
-    spacesSorted().forEach(x => sm(x.id, x.name, x.color));
-    if(spaces.some(x => x.shared)) sm('__shared', 'All shared', null);
-    $('spaceLabel').hidden = sb2.hidden = !spaces.length;
+    const scoped = spacesSorted().filter(inScope);
+    scoped.forEach(x => sm(x.id, x.name, x.color));
+    if(scoped.some(x => x.shared)) sm('__shared', 'All shared', null);
+    $('spaceLabel').hidden = sb2.hidden = !spaces.length || (!!scopeSp() && scoped.length < 2);
     const pl = $('peopleChips'); pl.textContent = '';
     const ppl = [...new Set(tasks.flatMap(t => t.assignees || []))].filter(id => id !== me);
     const showPeople = !!me && (ppl.length > 0 || personFilter !== 'mine');
@@ -2390,7 +2445,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 
   function render(){
     plan();
-    renderChips(); renderTabs();
+    renderScope(); renderChips(); renderTabs();
     if(document.activeElement !== $('focusHours')) $('focusHours').value = settings.focusHours;
     if(document.activeElement !== $('busyToday')) $('busyToday').value = busyToday();
     const open = tasks.filter(t => isOpen(t) && plannable(t)).map(calc).filter(x => vis(x.t));
@@ -2400,7 +2455,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     $('g-ah').hidden = !ah.length; $('cAH2').textContent = ah.length; fillList('lAH2', ah.map(ahRow), '');
     const ranked = open.filter(inView).sort(byOrder);
     const rankOf = new Map(); ranked.forEach((x,i) => rankOf.set(x.t.id, String(i+1)));
-    const dailyItems = dailies.filter(dailyVis).sort((a,b) => (a.createdAt||0) - (b.createdAt||0)).map(d => ({d, s: dailyState(d)}));
+    const dailyItems = dailies.filter(dailyVis2).sort((a,b) => (a.createdAt||0) - (b.createdAt||0)).map(d => ({d, s: dailyState(d)}));
     const when = x => x.start ?? x.days;
     const hzDays = horizon === 0 ? S.firstW : horizon;   // "Today" after hours means the next workday's plan
     const inHz = x => when(x) === null ? horizon >= 90 : when(x) <= hzDays;
@@ -2570,10 +2625,52 @@ table.rep tr.clickable:hover td{background:var(--bg)}
         : {afterHours: $('fAH').checked, ahAt: $('fAH').checked ? ($('fAHAt').value || null) : null, location: $('fLoc').value, travelMin: Number($('fTravel').value) || 0,
            progress: editingId ? Number($('fProg').value) || 0 : 0,
            readyMode: $('fReady').value === 'auto' ? 'auto' : $('fReady').value === 'due' ? 'due' : 'days', readyDays: /^\d+$/.test($('fReady').value) ? Number($('fReady').value) : null}),
-      fields: readFieldRows()};
+      fields: readFieldRows(), repeat: readRepeat()};
+  }
+  function readRepeat(){
+    const v = $('fRepeat').value; if(!v || getMode() === 'steady') return null;
+    const [n, unit] = v === 'custom' ? [Math.min(365, Math.max(2, Math.round(Number($('fRepN').value) || 0) || 10)), 'day'] : [Number(v.split(':')[0]), v.split(':')[1]];
+    const dl = $('fDate').value; return {n, unit, day: dl ? parseD(dl).getDate() : null};
+  }
+  const repKey = r => !r ? '' : (r.unit === 'day' && r.n !== 1) ? 'custom' : `${r.n}:${r.unit}`;
+  function repText(r){
+    if(!r) return '';
+    if(r.unit === 'weekday') return 'every weekday';
+    const u = {day: 'day', week: 'week', month: 'month', year: 'year'}[r.unit] || r.unit;
+    return r.n === 1 ? 'every ' + u : `every ${r.n} ${u}s`;
+  }
+  function addRepeat(d, r, anchor){
+    const x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    if(r.unit === 'day') x.setDate(x.getDate() + r.n);
+    else if(r.unit === 'week') x.setDate(x.getDate() + 7 * r.n);
+    else if(r.unit === 'weekday'){ do { x.setDate(x.getDate() + 1); } while(x.getDay() === 0 || x.getDay() === 6); }
+    else { const y = new Date(x.getFullYear(), x.getMonth() + (r.unit === 'year' ? 12 : 1) * r.n, 1), last = new Date(y.getFullYear(), y.getMonth() + 1, 0).getDate(); y.setDate(Math.min(anchor || x.getDate(), last)); return y; }
+    return x;
+  }
+  // the next due date: one step from the current due date (or from the day it was closed), never in the past
+  function nextDue(t, doneAt){
+    const r = t.repeat, own = t.deadline || (t.afterHours && t.ahAt ? t.ahAt.slice(0, 10) : null);
+    let d = addRepeat(own ? parseD(own) : new Date(doneAt || Date.now()), r, r.day), n = 0;
+    while(d < today0() && n++ < 2000) d = addRepeat(d, r, r.day);
+    return d;
+  }
+  const newTaskId = () => 'l' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  // closing a repeating task creates the next one (a project brings its tasks along)
+  async function spawnNext(t, doneAt){
+    if(!t.repeat || t.repeatNext) return null;
+    const due = nextDue(t, doneAt), key = dayKey(due), par = t.parentId ? byId(t.parentId) : null;
+    if(par && (par.deadline || '') && key > par.deadline) return null;
+    const own = t.deadline || (t.afterHours && t.ahAt ? t.ahAt.slice(0, 10) : null);
+    const shift = own ? Math.round((parseD(key) - parseD(own)) / DAY) : 0;
+    const fresh = (x, extra) => { const d = {...x, done: false, doneAt: null, closeout: null, sessions: [], progress: 0, repeatNext: null, createdAt: Date.now(), ...extra}; delete d.id; delete d._owner; return d; };
+    const shiftKey = k => { if(!k) return k; const a = parseD(k.slice(0, 10)); a.setDate(a.getDate() + shift); return dayKey(a) + k.slice(10); };
+    const nid = newTaskId();
+    await store.save('tasks', nid, fresh(t, {deadline: key, ahAt: t.ahAt ? key + t.ahAt.slice(10) : t.ahAt, repeatOf: t.repeatOf || t.id}));
+    if(isProject(t)) for(const sub of subsOf(t)) await store.save('tasks', newTaskId(), fresh(sub, {parentId: nid, deadline: shiftKey(sub.deadline), ahAt: shiftKey(sub.ahAt)}));
+    return {id: nid, due};
   }
   let formProject = false;
-  function fillSpaceSelect(sel, val){ sel.textContent = ''; for(const x of spacesSorted()){ const o = document.createElement('option'); o.value = x.id; o.textContent = x.name; sel.append(o); } if(!spaces.length){ const o = document.createElement('option'); o.value = ''; o.textContent = 'No spaces yet'; sel.append(o); } sel.value = (val && spaceById(val)) ? val : ((defaultSpace() || {}).id || ''); }
+  function fillSpaceSelect(sel, val){ sel.textContent = ''; if(!(val && spaceById(val)) && scopeSp()) val = scopeSp().id; for(const x of spacesSorted().filter(x => inScope(x) || x.id === val)){ const o = document.createElement('option'); o.value = x.id; o.textContent = x.name; sel.append(o); } if(!spaces.length){ const o = document.createElement('option'); o.value = ''; o.textContent = 'No spaces yet'; sel.append(o); } sel.value = (val && spaceById(val)) ? val : ((defaultSpace() || {}).id || ''); }
   function updatePreview(){
     const d = draft(), fake = {...(editingId ? byId(editingId) : {}), ...d, id: editingId || '__draft', done:false};
     const prev = tasks, prevS = S;
@@ -2587,6 +2684,10 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     else if(isLHF(x)) txt += ' · Low-hanging fruit';
     if(d.mode === 'normal' && x.risk) txt += ' · At risk'; else if(d.mode === 'normal' && x.start !== null && x.days !== null && x.start < x.days) txt += ' · Start by ' + fmtOff(x.start);
     $('pText').textContent = txt;
+    { const r = d.repeat; $('repeatField').hidden = d.mode === 'steady';
+      if(!r) $('fRepNote').textContent = '';
+      else { const nx = nextDue({...d, deadline: d.deadline || null}, Date.now());
+        $('fRepNote').textContent = (d.deadline ? `Repeats ${repText(r)}. When you close it, the next one is created, due ${fmt(nx)}.` : `Repeats ${repText(r)} from the day you close it. Add a deadline to fix the dates.`) + (d.isProject ? ' Its tasks come along.' : ''); } }
     const lead = d.mode === 'normal' && !d.afterHours ? leadOf({...d, effort: d.effort}) : 0;
     $('fReadyNote').textContent = !d.deadline ? 'Set a deadline to get a Ready by date.'
       : lead ? `Ready by ${fmt(new Date(parseD(d.deadline).getTime() - lead * DAY))} · due ${fmt(parseD(d.deadline))}` : 'No buffer: it just needs to be done by the due date.';
@@ -2976,7 +3077,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       return fold([t.title, t.notes, eff(t).client, p && p.title, sp && sp.name, ...(t.fields || []).flatMap(f => [f.k, f.v]), ...(t.attachments || []).map(a => a.name), t.closeout && t.closeout.comment].filter(Boolean).join(' \n ')); };
     const hit = t => { const h = hay(t); return words.every(w => h.includes(w)); };
     const score = t => (words.every(w => fold(t.title).includes(w)) ? 0 : 1) + (t.done ? 2 : 0);
-    const found = tasks.filter(t => (withDone || !t.done) && hit(t)).sort((a,b) => score(a) - score(b) || (calc(b).score - calc(a).score));
+    const found = tasks.filter(t => inScope(spaceOf(t)) && (withDone || !t.done) && hit(t)).sort((a,b) => score(a) - score(b) || (calc(b).score - calc(a).score));
     const projs = found.filter(t => isProject(t)), tks = found.filter(t => !isProject(t));
     const recs = dailies.filter(d => words.every(w => fold([d.title, d.client].join(' ')).includes(w)));
     const group = (label, list, mk) => { if(!list.length) return; box.append(Object.assign(document.createElement('div'), {className: 'q-group', textContent: `${label} · ${list.length}`})); list.slice(0, 25).forEach(x => box.append(mk(x))); };
@@ -2998,7 +3099,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     group('Projects', projs, t => item(t.title, metaOf(t), (spaceOf(t) || {}).color, t.done, () => openProject(t.id)));
     group('Tasks', tks, t => item(t.title, metaOf(t), (spaceOf(t) || {}).color, t.done, () => openDetails(t)));
     group('Recurring', recs, d => item(d.title, freqText(d), (spaceById(d.spaceId) || defaultSpace() || {}).color, false, () => openDaily(d)));
-    const evs = events.filter(ev => words.every(w => fold([ev.title, ev.where, ev.notes].join(' ')).includes(w))).sort((a, b) => evStart(a) - evStart(b));
+    const evs = events.filter(ev => inScope(spaceById(ev.spaceId) || defaultSpace()) && words.every(w => fold([ev.title, ev.where, ev.notes].join(' ')).includes(w))).sort((a, b) => evStart(a) - evStart(b));
     group('Calendar', evs, ev => item(ev.title, evStart(ev).toLocaleDateString('en-US', {weekday: 'short', month: 'short', day: 'numeric'}) + (ev.allDay ? '' : ' · ' + fmtTime(evStart(ev))), (spaceById(ev.spaceId) || {}).color, false, () => { tab = 'calendar'; renderTabs(); calWeek0 = weekStart(evStart(ev)); renderCalendar(); openEvent(ev); }));
     if(!qItems.length) box.append(Object.assign(document.createElement('div'), {className: 'q-empty', textContent: withDone ? 'Nothing matches.' : 'Nothing open matches. Try “Include done”.'}));
     qSel = 0; markSel();
@@ -3178,10 +3279,10 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const t0 = today0().getTime();
     for(let i = 0; i < 7; i++){
       const d = new Date(calWeek0); d.setDate(d.getDate() + i); const key = dayKey(d);
-      const col = document.createElement('div'); col.className = 'cal-day' + (d.getTime() === t0 ? ' today' : d.getTime() < t0 ? ' past' : '');
+      const col = document.createElement('div'); col.className = 'cal-day' + (d.getTime() === t0 ? ' today' : d.getTime() < t0 ? ' past' : ''); col.dataset.day = key;
       const h = document.createElement('h3'); h.append(span(d.toLocaleDateString('en-US', {weekday: 'short'})), Object.assign(document.createElement('b'), {textContent: d.getDate()})); col.append(h);
       const items = [];
-      for(const ev of events.filter(e => (spaceFilter === 'all' || spaceOk({spaceId: e.spaceId})) && e.start && e.start.slice(0, 10) <= key && (e.end || e.start).slice(0, 10) >= key))
+      for(const ev of events.filter(e => spaceOk({spaceId: e.spaceId}) && e.start && e.start.slice(0, 10) <= key && (e.end || e.start).slice(0, 10) >= key))
         items.push({at: ev.allDay ? -1 : evStart(ev).getTime(), node: calItem(ev)});
       for(const t of tasks.filter(t => isOpen(t) && vis(t))){
         if(t.afterHours){ const w = ahWhen(t); if(w && dayKey(w) === key) items.push({at: w.getTime(), node: calTaskItem(t, 'After hours · ' + fmtTime(w), 'ah')}); }
@@ -3201,11 +3302,78 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     if((ev.reminders || []).length) b.append(span('Reminders: ' + ev.reminders.map(remTxt).join(', ') + ' before', 'cr'));
     if(ev.where) b.append(span(ev.where, 'cr'));
     b.addEventListener('click', () => openEvent(ev));
+    calDraggable(b, {event: ev});
     return b;
   }
   function calTaskItem(t, label, cls){
     const b = document.createElement('button'); b.type = 'button'; b.className = 'cal-item task ' + cls;
-    b.append(span(label, 'ct'), span(t.title, 'cn')); b.addEventListener('click', () => openDetails(t)); return b;
+    b.append(span(label, 'ct'), span(t.title, 'cn')); b.addEventListener('click', () => openDetails(t));
+    if(!t.done) calDraggable(b, {task: t});
+    return b;
+  }
+  /* Drag to another day: mouse drags right away; touch needs a press-and-hold first so scrolling still works. */
+  let calDrag = null, calDragEnd = 0;
+  function calDraggable(el, item){
+    el.classList.add('draggable');
+    el.addEventListener('pointerdown', e => {
+      if(e.button !== 0) return;
+      const st = {el, item, x: e.clientX, y: e.clientY, id: e.pointerId, touch: e.pointerType !== 'mouse', on: false, from: (el.closest('.cal-day') || {dataset: {}}).dataset.day};
+      calDrag = st;
+      if(st.touch) st.timer = setTimeout(() => { if(calDrag === st) calDragStart(st, st.x, st.y); }, 380);
+    });
+  }
+  function calDragStart(st, x, y){
+    st.on = true; const r = st.el.getBoundingClientRect(); st.dx = x - r.left; st.dy = y - r.top;
+    const g = st.el.cloneNode(true); g.classList.add('cal-ghost'); g.style.width = r.width + 'px'; document.body.append(g); st.ghost = g;
+    st.el.classList.add('dragging'); document.body.classList.add('cal-dragging');
+    if(st.touch && navigator.vibrate) try { navigator.vibrate(12); } catch {}
+    st.scroll = setInterval(() => { const yy = st.ly ?? y; if(yy < 70) window.scrollBy(0, -14); else if(yy > innerHeight - 70) window.scrollBy(0, 14); else return; calDragMove(st, st.lx ?? x, yy); }, 30);
+    calDragMove(st, x, y);
+  }
+  function calDragMove(st, x, y){
+    st.lx = x; st.ly = y; st.ghost.style.transform = `translate(${x - st.dx}px, ${y - st.dy}px)`;
+    const col = (document.elementFromPoint(x, y) || {closest: () => null}).closest('.cal-day');
+    document.querySelectorAll('.cal-day.drop').forEach(c => { if(c !== col) c.classList.remove('drop'); });
+    if(col && col.dataset.day !== st.from) col.classList.add('drop');
+    st.over = col ? col.dataset.day : null;
+  }
+  function calDragStop(st){
+    clearTimeout(st.timer); clearInterval(st.scroll); if(calDrag === st) calDrag = null;
+    if(!st.on) return false;
+    st.ghost.remove(); st.el.classList.remove('dragging'); document.body.classList.remove('cal-dragging');
+    document.querySelectorAll('.cal-day.drop').forEach(c => c.classList.remove('drop')); calDragEnd = Date.now(); return true;
+  }
+  document.addEventListener('pointermove', e => {
+    const st = calDrag; if(!st || e.pointerId !== st.id) return;
+    if(!st.on){ const dist = Math.hypot(e.clientX - st.x, e.clientY - st.y); if(st.touch){ if(dist > 10) calDragStop(st); return; } if(dist < 6) return; calDragStart(st, e.clientX, e.clientY); }
+    calDragMove(st, e.clientX, e.clientY);
+  });
+  document.addEventListener('touchmove', e => { if(calDrag && calDrag.on) e.preventDefault(); }, {passive: false});
+  document.addEventListener('pointerup', e => { const st = calDrag; if(!st || e.pointerId !== st.id) return; if(calDragStop(st) && st.over && st.over !== st.from) calDrop(st.item, st.from, st.over); });
+  document.addEventListener('pointercancel', e => { const st = calDrag; if(st && e.pointerId === st.id) calDragStop(st); });
+  document.addEventListener('click', e => { if(Date.now() - calDragEnd < 400 && e.target.closest('.cal-item')){ e.preventDefault(); e.stopPropagation(); } }, true);
+  document.addEventListener('contextmenu', e => { if(calDrag && e.target.closest('.cal-item.draggable')) e.preventDefault(); });
+  const shiftLocal = (v, days) => { if(!v) return v; if(v.length <= 10){ const a = parseD(v); a.setDate(a.getDate() + days); return dayKey(a); } const a = new Date(v); a.setDate(a.getDate() + days); return toLocalISO(a); };
+  async function calDrop(item, from, to){
+    const days = Math.round((parseD(to) - parseD(from)) / DAY); if(!days) return;
+    const when = fmt(parseD(to));
+    try {
+      if(item.event){
+        const ev = item.event, before = {...ev}; delete before.id;
+        await store.save('events', ev.id, {...before, start: shiftLocal(ev.start, days), end: shiftLocal(ev.end, days)});
+        toast(`${ev.title} → ${when}`, () => store.save('events', ev.id, before).then(scheduleSync).catch(fail));
+      } else {
+        const t = item.task, before = {...t}; delete before.id;
+        const par = t.parentId ? byId(t.parentId) : null;
+        if(!t.afterHours && par && par.deadline && to > par.deadline){ toast(`That’s after the project’s deadline (${fmt(parseD(par.deadline))})`); return; }
+        const data = {...before};
+        if(t.afterHours) data.ahAt = shiftLocal(t.ahAt || (eff(t).deadline + 'T22:00'), days); else data.deadline = to;
+        if(data.repeat && data.repeat.day && !t.afterHours) data.repeat = {...data.repeat, day: parseD(to).getDate()};
+        await store.save('tasks', t.id, data);
+        toast(`${t.afterHours ? '' : 'Due '}${when} · ${t.title}`, () => store.save('tasks', t.id, before).then(scheduleSync).catch(fail));
+      }
+      scheduleSync(); renderCalendar();
+    } catch(e){ fail(e); }
   }
   $('calPrev').addEventListener('click', () => { calWeek0.setDate(calWeek0.getDate() - 7); renderCalendar(); });
   $('calNext').addEventListener('click', () => { calWeek0.setDate(calWeek0.getDate() + 7); renderCalendar(); });
@@ -3217,7 +3385,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   function draftFromText(txt){
     const r = parseEventText(txt);
     const sp = defaultSpace();
-    return {title: r.title, allDay: r.allDay, start: r.allDay ? dayKey(r.start) : toLocalISO(r.start), end: r.allDay ? dayKey(r.end) : toLocalISO(r.end), reminders: r.reminders, where: '', notes: '', spaceId: spaceFilter !== 'all' && spaceById(spaceFilter) ? spaceFilter : (sp ? sp.id : null), said: txt};
+    return {title: r.title, allDay: r.allDay, start: r.allDay ? dayKey(r.start) : toLocalISO(r.start), end: r.allDay ? dayKey(r.end) : toLocalISO(r.end), reminders: r.reminders, where: '', notes: '', spaceId: spaceFilter !== 'all' && spaceById(spaceFilter) ? spaceFilter : (sp ? sp.id : scopeSp() ? scopeSp().id : null), said: txt};
   }
   function renderPreview(){
     const v = $('calText').value.trim(), box = $('calPreview'); box.textContent = '';
@@ -3499,7 +3667,25 @@ table.rep tr.clickable:hover td{background:var(--bg)}
           panel.append(f, span('Everyone in the space sees and edits its tasks, projects and recurring work.', 'fnote'));
         }
       }
-      row.append(col, name, sel, shareB, del, cust, panel); box.append(row);
+      const tgt = linkTarget(x), kids = linkedTo(x);
+      const lk = document.createElement('div'); lk.className = 'sp-cust sp-link';
+      if(kids.length) lk.append(span('Includes ' + kids.map(y => y.name).join(', ') + ' (planned and shown with ' + x.name + ')', 'fnote'));
+      else if(spaces.length > 1 && (x.shared || tgt)){
+        const ls = document.createElement('select'); ls.setAttribute('aria-label', 'Count ' + x.name + ' as part of');
+        const o0 = document.createElement('option'); o0.value = ''; o0.textContent = 'Its own space'; ls.append(o0);
+        for(const y of spacesSorted().filter(y => y.id !== x.id && !linkTarget(y))){ const o = document.createElement('option'); o.value = y.id; o.textContent = 'Part of ' + y.name; ls.append(o); }
+        ls.value = tgt ? tgt.id : '';
+        ls.addEventListener('change', async () => {
+          const links = {...spaceLinks()}; if(ls.value) links[x.id] = ls.value; else delete links[x.id];
+          settings = {...settings, spaceLinks: links}; render(); renderClientRows();
+          toast(ls.value ? `${x.name} now counts as ${spaceById(ls.value).name}` : `${x.name} is its own space again`);
+          try { await store.saveSettings(settings); scheduleSync(); } catch(e){ fail(e); }
+        });
+        lk.append(span('Counts as', 'fnote'), ls);
+        if(tgt) lk.append(span('Planned in ' + spaceWhen(tgt) + '. Only for you; others in the space don’t see this.', 'fnote'));
+      }
+      if(tgt){ sel.hidden = true; cust.hidden = true; }
+      row.append(col, name, sel, shareB, del, cust, lk, panel); box.append(row);
     }
   }
   $('spAdd').addEventListener('submit', async e => {
@@ -3631,6 +3817,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     setRadio('urg', t ? (t.urgency ?? 0) : (pid ? 0 : 3));
     setEffort(t ? effortOf(t) : 1);
     $('fDate').value = t && t.deadline ? t.deadline : '';
+    $('fRepeat').value = repKey(t && t.repeat); $('fRepN').value = t && t.repeat && t.repeat.unit === 'day' && t.repeat.n > 1 ? t.repeat.n : 10; $('fRepN').hidden = $('fRepeat').value !== 'custom';
     // a project can give its new tasks a default deadline (e.g. 2 weeks out), capped at its own
     const par = !t && parentId ? byId(parentId) : null;
     if(par && Number(par.subtaskDays) > 0){ let d = dayKey(offDate(Number(par.subtaskDays))); if(par.deadline && d > par.deadline) d = par.deadline; $('fDate').value = d; }
@@ -3677,6 +3864,8 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     if(paths.length && canFiles()) sb.storage.from('attachments').remove(paths).catch(() => {});
     try { for(const i of ids) await store.remove('tasks', i); toast('Deleted'); scheduleSync(); } catch(e){ fail(e); }
   });
+  $('fRepeat').addEventListener('change', () => { $('fRepN').hidden = $('fRepeat').value !== 'custom'; updatePreview(); });
+  $('fRepN').addEventListener('input', updatePreview);
   $('form').addEventListener('submit', async e => {
     e.preventDefault();
     const d = draft(); if(!d.title) return;
@@ -3763,6 +3952,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const grid = $('vGrid'); grid.textContent = '';
     const item = (k, v) => { if(v === null || v === undefined || v === '') return; const d = document.createElement('div'); const dt = document.createElement('dt'); dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; d.append(dt, dd); grid.append(d); };
     if(t.afterHours) item('After hours', fmtWhen(ahWhen(t)));
+    if(t.repeat) item('Repeats', repText(t.repeat)[0].toUpperCase() + repText(t.repeat).slice(1) + (t.repeatNext ? ' · next one created' : ''));
     if(!t.done && x.ready !== null && x.ready !== x.days) item(x.late ? 'Ready by (late)' : 'Ready by', fmt(offDate(x.ready)));
     item('Deadline', e.deadline ? fmt(parseD(e.deadline)) + (!t.deadline && p ? ' (project)' : '') : 'None');
     if(!t.done && !x.late && x.start !== null && x.ready !== null && x.start < x.ready && modeOf(t) === 'normal' && !t.afterHours) item('Start by', fmtOff(x.start));
@@ -3770,7 +3960,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     else item('Effort', subs.length ? `${fmtH(subs.reduce((a,s) => a + effortOf(s), 0))} across ${subs.length} subtasks` : t.isProject ? 'From its tasks' : !effortOf(t) ? 'None' : fmtH(effortOf(t)) + (progOf(t) ? ` · ${fmtH(remOf(t) - travelOf(t))} left` : ''));
     if(t.location) item('Where', ({remote: 'Remote', onsite: 'On-site', hybrid: 'Hybrid'})[t.location] + (travelOf(t) ? ` · ${fmtH(travelOf(t))} travel` : ''));
     for(const f of (t.fields || [])) if(f && f.k) item(f.k, f.v);
-    if(e.space) item('Space', e.space.name + ' · planned ' + spaceWhen(e.space));
+    if(e.space){ const rs = rootSpace(e.space); item('Space', e.space.name + (rs !== e.space ? ` · part of ${rs.name}` : '') + ' · planned ' + spaceWhen(rs)); }
     { const ss = sharedSpaceOf(t); if(ss){ const ms = (shareMembers.get(ss.id) || []).map(m => m.user_id === (cloudUser || {}).id ? 'You' : m.email); item('Shared with', ms.length ? ms.join(', ') : 'Members of ' + ss.name); item('Added by', t._owner ? (memberEmail(t._owner) || 'Another member') : 'You'); } }
     if(isPayment(t)) item('Amount', money(t.amount));
     item('Importance', lvl(e.importance) + (t.importance == null && p ? ' (project)' : ''));
@@ -3859,7 +4049,9 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     delete data.id;
     const was = !!t.done; closeClose();
     try {
+      const nx = !was ? await spawnNext(t, when) : null; if(nx) data.repeatNext = nx.id;
       await store.save('tasks', t.id, data);
+      if(nx){ toast(`Closed · next one due ${fmt(nx.due)}`); scheduleSync(); return; }
       const to = recipients(t);
       if(!was && (t.notify ? t.notify.close : true) && to.length){
         await store.add('outbox', {type: 'closed', taskId: t.id, title: (parentOf(t) ? parentOf(t).title + ' › ' : '') + t.title, client: eff(t).client,
@@ -4048,7 +4240,11 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   document.addEventListener('keydown', e => { if(e.key !== 'Escape') return; if(!$('scrim').hidden) closeForm(); if(!$('dScrim').hidden) closeDaily(); if(!$('cScrim').hidden) closeClose(); $('sScrim').hidden = true; $('fbScrim').hidden = true; $('imScrim').hidden = true; $('emScrim').hidden = true; $('evScrim').hidden = true; if(!$('lScrim').hidden && !authGate && authMode !== 'recover') hideLogin(); closeDetails(); });
 
   let toastT;
-  function toast(msg){ const t = $('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 1800); }
+  function toast(msg, undo){
+    const t = $('toast'); t.textContent = msg;
+    if(undo){ const b = document.createElement('button'); b.type = 'button'; b.className = 'toast-undo'; b.textContent = 'Undo'; b.addEventListener('click', () => { t.hidden = true; undo(); }); t.append(b); }
+    t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, undo ? 6000 : 1800);
+  }
   function fail(e){
     const code = e && e.code;
     toast(code === 'quota_exceeded' ? 'Storage is full. Delete some completed tasks.' :
@@ -4525,6 +4721,32 @@ table.rep tr.clickable:hover td{background:var(--bg)}
     const typing = /^(INPUT|TEXTAREA|SELECT)$/.test((e.target || {}).tagName || '') || (e.target || {}).isContentEditable;
     if(e.key === '?' && !typing && $('lScrim').hidden && $('hScrim').hidden){ e.preventDefault(); openHelp(); }
   }, true);
+
+  /* ---------- space switcher ---------- */
+  function renderScope(){
+    const f = scopeSp();
+    $('scopeTxt').textContent = f ? f.name : 'All spaces';
+    $('scopeSw').style.background = f ? (f.color || 'var(--ink)') : 'conic-gradient(' + (spacesSorted().slice(0, 4).map(x => x.color).join(',') || 'var(--muted),var(--muted)') + ')';
+    $('scopeBtn').classList.toggle('on', !!f); $('scopeBtn').setAttribute('aria-label', 'Space: ' + (f ? f.name : 'all spaces')); document.body.classList.toggle('in-scope', !!f);
+    document.documentElement.style.setProperty('--scope', f ? (f.color || 'var(--accent)') : 'transparent');
+    $('scopeWrap').hidden = spaces.length < 2;
+    const m = $('scopeMenu'); m.textContent = '';
+    const item = (id, name, sub, color) => { const b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'menuitemradio'); b.setAttribute('aria-checked', String(scope === id || (id === 'all' && !f)));
+      const t = document.createElement('b'); const i = document.createElement('i'); i.className = 'sw'; i.style.background = color; t.append(i, document.createTextNode(name)); const sm0 = document.createElement('small'); sm0.textContent = sub; b.append(t, sm0);
+      b.addEventListener('click', () => setScope(id)); m.append(b); };
+    item('all', 'All spaces', 'See everything', 'var(--muted)');
+    for(const x of spacesSorted().filter(x => !linkTarget(x))){ const l = linkedTo(x); item(x.id, x.name, 'Only ' + x.name + (l.length ? ' + ' + l.map(y => y.name).join(', ') : '') + ' · everything else hidden', x.color); }
+  }
+  function setScope(id){
+    scope = id; spaceFilter = 'all'; projOpen = null;
+    try { localStorage.setItem('pr-scope', id); localStorage.setItem('pr-space', 'all'); } catch {}
+    closeScope(); render(); if(tab === 'calendar') renderCalendar();
+    const f = scopeSp(); toast(f ? `You’re in ${f.name}. Other spaces are hidden.` : 'Showing all spaces');
+  }
+  function closeScope(){ $('scopeMenu').hidden = true; $('scopeBtn').setAttribute('aria-expanded', 'false'); }
+  $('scopeBtn').addEventListener('click', e => { e.stopPropagation(); closeNew(); closeAcct(); const open = $('scopeMenu').hidden; $('scopeMenu').hidden = !open; $('scopeBtn').setAttribute('aria-expanded', String(open)); });
+  document.addEventListener('click', e => { if(!e.target.closest('#scopeWrap')) closeScope(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape' && !$('scopeMenu').hidden){ closeScope(); $('scopeBtn').focus(); } });
 
   function closeAcct(){ $('acctMenu').hidden = true; $('acctBtn').setAttribute('aria-expanded', 'false'); }
   $('acctBtn').addEventListener('click', e => { e.stopPropagation(); closeNew(); const open = $('acctMenu').hidden; $('acctMenu').hidden = !open; $('acctBtn').setAttribute('aria-expanded', String(open)); if(open){ const f = $('acctMenu').querySelector('button:not([hidden])'); if(f) f.focus(); } });

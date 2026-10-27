@@ -72,13 +72,14 @@ en: {
 </ol>
 <p>The <b>Projects</b> tab shows every project with its progress bar, what is late and what comes next. On the Radar, use the <b>Projects</b> or <b>Subtasks</b> view to see only those.</p>
 <p><button class="btn sm" data-do="projects">Open Projects</button></p>`},
-  {id: 'recurring', group: 'plan', title: 'Recurring work and bills', sum: 'Daily checks, monthly reports, rent and other payments.', tags: 'recurring repeat daily weekly monthly quarterly bill payment rent reminder routine',
+  {id: 'recurring', group: 'plan', title: 'Recurring work and bills', sum: 'Daily checks, monthly reports, rent and other payments.', tags: 'recurring repeat daily weekly monthly quarterly yearly bill payment rent reminder routine any task',
    body: `<ol>
 <li>Press <b>+ New → Recurring</b>.</li>
 <li>Write the name and choose how it repeats: every few hours, daily, weekly, monthly or quarterly.</li>
 <li>Choose <b>Create the task</b>: how many days before the due day it should appear.</li>
 <li>For a <b>bill</b>, put it in the Finances space and fill in the <b>payment amount</b>. It shows under <b>Payments due</b> and you press <b>Mark paid</b>.</li>
 </ol>
+<p><b>Any task or project can repeat too:</b> in the task form choose <b>Repeat</b> (every day, weekday, week, 2 weeks, month, 3 or 6 months, year, or every N days). When you close it, Kairo creates the next one with the next due date. A repeating project brings its tasks along with their dates moved.</p>
 <div class="tip">Short daily checks show under <b>Routine checks</b>; longer ones enter the plan like any task.</div>`},
   {id: 'emergency', group: 'plan', title: 'Emergencies and after-hours jobs', sum: 'Work that jumps the line, and night or weekend work.', tags: 'emergency urgent outage after hours maintenance window night',
    body: `<p><b>Emergency</b> (<b>+ New → Emergency</b>): something that needs you now. It goes first in today’s plan and everything else moves down.</p>
@@ -92,7 +93,7 @@ en: {
 </ul>
 <p>The lists beside it (Must do this week, Later…) follow the same filters.</p>
 <p><button class="btn sm" data-do="radar">Open the Radar</button></p>`},
-  {id: 'calendar', group: 'time', title: 'Calendar and events (by voice or text)', sum: 'Add meetings and appointments by saying or typing them.', tags: 'calendar event meeting appointment voice speak microphone dictate natural language',
+  {id: 'calendar', group: 'time', title: 'Calendar and events (by voice or text)', sum: 'Add meetings and appointments by saying or typing them.', tags: 'calendar event meeting appointment voice speak microphone dictate natural language drag drop move date',
    body: `<ol>
 <li>Press <b>+ New → Event</b>, or open the <b>Calendar</b> tab and use the box at the top.</li>
 <li><b>Type or say it</b> in a normal sentence, in English or Spanish, e.g. <i>“dentist Friday at 3:30, remind me 1 hour before”</i> or <i>“reunión mañana a las 8 en la oficina, recuérdame 30 minutos antes”</i>.</li>
@@ -100,6 +101,7 @@ en: {
 <li>Kairo fills in the date, time, place and reminders. Check the preview and press <b>Add</b>. For every detail, use <b>+ Event</b> instead.</li>
 </ol>
 <p>Events take time from that day’s plan, so Kairo doesn’t give you more work than fits.</p>
+<p><b>Move things by dragging:</b> drag a task or event to another day to change its date. On a phone, press and hold it first, then drag. Changed your mind? Press <b>Undo</b>.</p>
 <div class="tip">Voice works best in Chrome and Edge, and on Android. If the microphone button doesn’t appear, your browser doesn’t support it; type instead.</div>
 <p><button class="btn sm" data-do="calendar">Open Calendar</button></p>`},
   {id: 'reminders', group: 'time', title: 'Reminders and notifications', sum: 'Get alerted by Kairo, Google Calendar or Outlook.', tags: 'reminder notification alert alarm google outlook ics phone',
@@ -109,19 +111,21 @@ en: {
 <li><b>From your own calendar</b>: open the event and press <b>Google Calendar</b>, <b>Outlook</b> or <b>Download .ics</b>. Your calendar app will then alert you on your phone even if Kairo is closed.</li>
 </ul>
 <div class="tip">Reminders when Kairo is fully closed, and automatic syncing with Microsoft 365 and Google, are coming in a later version.</div>`},
-  {id: 'spaces', group: 'org', title: 'Spaces and planned hours', sum: 'Separate work, school and home, each in its own hours.', tags: 'space category area work university home personal finances hours evenings color',
+  {id: 'spaces', group: 'org', title: 'Spaces and planned hours', sum: 'Separate work, school and home, each in its own hours.', tags: 'space category area work university home personal finances hours evenings color focus enter only switch hide',
    body: `<p>A <b>space</b> is an area of your life. Each task belongs to one. Each space says <b>when its work is planned</b>:</p>
 <ul><li><b>Work hours</b> (e.g. 8:30–5:30, Monday to Friday)</li><li><b>Evenings &amp; weekends</b> (school, home, personal)</li><li><b>Any time</b></li><li><b>Custom hours</b> (your own days and times)</li></ul>
 <p><b>To add or change spaces:</b> your initials → <b>Settings → Spaces</b>. You can rename them, change the color, the planned hours, or remove them.</p>
-<p>Use the space chips at the top of the lists to see just one space.</p>
+<p><b>Enter only one space:</b> use the space button at the top (next to Search) and pick, for example, <b>Work</b>. The whole app (plan, radar, projects, calendar, reports and search) shows only Work until you switch back to <b>All spaces</b>. A colored line at the top reminds you where you are. Each device remembers its own choice, so your work computer can stay in Work.</p>
+<p>To just filter a list for a moment, use <b>Filter → Space</b> instead.</p>
 <p><button class="btn sm" data-do="settings">Open Settings</button></p>`},
-  {id: 'sharing', group: 'org', title: 'Share a space with someone', sum: 'Plan house chores or a team project together.', tags: 'share invite member family team collaborate shared space people',
+  {id: 'sharing', group: 'org', title: 'Share a space with someone', sum: 'Plan house chores or a team project together.', tags: 'share invite member family team collaborate shared space people link part of',
    body: `<ol>
 <li>The other person needs a Kairo account first (they sign up with their email).</li>
 <li>Go to your initials → <b>Settings → Spaces</b>, find the space and press <b>Share</b>.</li>
 <li>Write their email and press <b>Invite</b>.</li>
 </ol>
 <p>Everyone in the space sees and edits its tasks. Shared items have a <b>Shared</b> badge; hover or tap it to see who it’s shared with and who added it. The <b>All shared</b> filter shows only shared work.</p>
+<p><b>Link a shared space to one of yours:</b> if your team’s space is really part of your job, go to <b>Settings → Spaces</b>, find the shared space and choose <b>Counts as → Part of Work</b>. Its tasks are then planned in your work hours and appear when you enter Work. It keeps its own name and members, and only you see the link.</p>
 <div class="tip">Only that space is shared. Your other spaces stay private.</div>`},
   {id: 'close', group: 'more', title: 'Close tasks and see reports', sum: 'Log time when you finish, then review what got done.', tags: 'close done finish complete time spent report hours client closed work',
    body: `<ol>
@@ -242,13 +246,14 @@ es: {
 </ol>
 <p>La pestaña <b>Projects</b> muestra cada proyecto con su barra de progreso, lo que va tarde y lo que sigue. En el Radar, usa la vista <b>Projects</b> o <b>Subtasks</b> para ver solo eso.</p>
 <p><button class="btn sm" data-do="projects">Abrir Projects</button></p>`},
-  {id: 'recurring', group: 'plan', title: 'Trabajo recurrente y pagos', sum: 'Revisiones diarias, informes mensuales, renta y otros pagos.', tags: 'recurrente repetir diario semanal mensual trimestral factura pago renta recordatorio rutina',
+  {id: 'recurring', group: 'plan', title: 'Trabajo recurrente y pagos', sum: 'Revisiones diarias, informes mensuales, renta y otros pagos.', tags: 'recurrente repetir diario semanal mensual trimestral anual factura pago renta recordatorio rutina cualquier tarea',
    body: `<ol>
 <li>Presiona <b>+ New → Recurring</b>.</li>
 <li>Escribe el nombre y escoge cada cuánto se repite: cada ciertas horas, diario, semanal, mensual o trimestral.</li>
 <li>Escoge <b>Create the task</b>: cuántos días antes del día que vence debe aparecer.</li>
 <li>Para un <b>pago</b>, ponlo en el espacio Finances y llena el <b>monto</b> (Payment amount). Aparece en <b>Payments due</b> y presionas <b>Mark paid</b>.</li>
 </ol>
+<p><b>Cualquier tarea o proyecto también se puede repetir:</b> en el formulario escoge <b>Repeat</b> (cada día, día laborable, semana, 2 semanas, mes, 3 o 6 meses, año, o cada N días). Cuando la cierras, Kairo crea la próxima con la siguiente fecha. Un proyecto que se repite trae sus tareas con las fechas movidas.</p>
 <div class="tip">Las revisiones diarias cortas salen en <b>Routine checks</b>; las más largas entran al plan como cualquier tarea.</div>`},
   {id: 'emergency', group: 'plan', title: 'Emergencias y trabajos fuera de horario', sum: 'Trabajo que se salta la fila, y trabajo de noche o fin de semana.', tags: 'emergencia urgente caida fuera de horario after hours mantenimiento noche',
    body: `<p><b>Emergency</b> (<b>+ New → Emergency</b>): algo que te necesita ahora. Va primero en el plan de hoy y todo lo demás baja.</p>
@@ -262,7 +267,7 @@ es: {
 </ul>
 <p>Las listas al lado (Must do this week, Later…) siguen los mismos filtros.</p>
 <p><button class="btn sm" data-do="radar">Abrir el Radar</button></p>`},
-  {id: 'calendar', group: 'time', title: 'Calendario y eventos (por voz o texto)', sum: 'Añade reuniones y citas diciéndolas o escribiéndolas.', tags: 'calendario evento reunion cita voz hablar microfono dictar',
+  {id: 'calendar', group: 'time', title: 'Calendario y eventos (por voz o texto)', sum: 'Añade reuniones y citas diciéndolas o escribiéndolas.', tags: 'calendario evento reunion cita voz hablar microfono dictar arrastrar mover fecha',
    body: `<ol>
 <li>Presiona <b>+ New → Event</b>, o abre la pestaña <b>Calendar</b> y usa la caja de arriba.</li>
 <li><b>Escríbelo o dilo</b> como una oración normal, en español o inglés, ej. <i>“reunión mañana a las 8 en la oficina, recuérdame 30 minutos antes”</i> o <i>“dentista el viernes a las 3:30, recuérdame 1 hora antes”</i>.</li>
@@ -270,6 +275,7 @@ es: {
 <li>Kairo llena la fecha, hora, lugar y recordatorios. Revisa la vista previa y presiona <b>Add</b>. Para todos los detalles, usa <b>+ Event</b>.</li>
 </ol>
 <p>Los eventos le quitan tiempo al plan de ese día, así Kairo no te da más trabajo del que cabe.</p>
+<p><b>Mueve cosas arrastrándolas:</b> arrastra una tarea o evento a otro día para cambiarle la fecha. En el teléfono, déjala presionada primero y luego arrástrala. ¿Te equivocaste? Presiona <b>Undo</b>.</p>
 <div class="tip">La voz funciona mejor en Chrome y Edge, y en Android. Si no aparece el botón del micrófono, tu navegador no lo permite; escríbelo.</div>
 <p><button class="btn sm" data-do="calendar">Abrir Calendar</button></p>`},
   {id: 'reminders', group: 'time', title: 'Recordatorios y notificaciones', sum: 'Recibe avisos de Kairo, Google Calendar u Outlook.', tags: 'recordatorio notificacion aviso alarma google outlook ics telefono',
@@ -279,19 +285,21 @@ es: {
 <li><b>Desde tu propio calendario</b>: abre el evento y presiona <b>Google Calendar</b>, <b>Outlook</b> o <b>Download .ics</b>. Tu calendario te avisará en el teléfono aunque Kairo esté cerrado.</li>
 </ul>
 <div class="tip">Los recordatorios con Kairo totalmente cerrado y la sincronización automática con Microsoft 365 y Google vienen en una próxima versión.</div>`},
-  {id: 'spaces', group: 'org', title: 'Espacios y horas planificadas', sum: 'Separa trabajo, estudios y casa, cada uno en sus horas.', tags: 'espacio categoria area trabajo universidad casa personal finanzas horas noches color',
+  {id: 'spaces', group: 'org', title: 'Espacios y horas planificadas', sum: 'Separa trabajo, estudios y casa, cada uno en sus horas.', tags: 'espacio categoria area trabajo universidad casa personal finanzas horas noches color entrar solo cambiar esconder',
    body: `<p>Un <b>espacio</b> es un área de tu vida. Cada tarea pertenece a uno. Cada espacio dice <b>cuándo se planifica su trabajo</b>:</p>
 <ul><li><b>Work hours</b>: horario de trabajo (ej. 8:30–5:30, lunes a viernes)</li><li><b>Evenings &amp; weekends</b>: noches y fines de semana (estudios, casa, personal)</li><li><b>Any time</b>: a cualquier hora</li><li><b>Custom hours</b>: tus propios días y horas</li></ul>
 <p><b>Para añadir o cambiar espacios:</b> tus iniciales → <b>Settings → Spaces</b>. Puedes cambiarles el nombre, el color, las horas planificadas o borrarlos.</p>
-<p>Usa los botones de espacio arriba de las listas para ver solo uno.</p>
+<p><b>Entrar solo a un espacio:</b> usa el botón de espacio arriba (al lado de Search) y escoge, por ejemplo, <b>Work</b>. Toda la app (plan, radar, proyectos, calendario, informes y búsqueda) muestra solo Work hasta que vuelvas a <b>All spaces</b>. Una línea de color arriba te recuerda dónde estás. Cada dispositivo recuerda su propia selección, así tu computadora del trabajo se puede quedar en Work.</p>
+<p>Para filtrar una lista solo por un momento, usa <b>Filter → Space</b>.</p>
 <p><button class="btn sm" data-do="settings">Abrir Settings</button></p>`},
-  {id: 'sharing', group: 'org', title: 'Compartir un espacio con alguien', sum: 'Planifiquen juntos las tareas de la casa o un proyecto de equipo.', tags: 'compartir invitar miembro familia equipo colaborar espacio compartido personas',
+  {id: 'sharing', group: 'org', title: 'Compartir un espacio con alguien', sum: 'Planifiquen juntos las tareas de la casa o un proyecto de equipo.', tags: 'compartir invitar miembro familia equipo colaborar espacio compartido personas unir enlazar',
    body: `<ol>
 <li>La otra persona necesita una cuenta de Kairo primero (se registra con su email).</li>
 <li>Ve a tus iniciales → <b>Settings → Spaces</b>, busca el espacio y presiona <b>Share</b>.</li>
 <li>Escribe su email y presiona <b>Invite</b>.</li>
 </ol>
 <p>Todos en el espacio ven y editan sus tareas. Lo compartido tiene la etiqueta <b>Shared</b>; pasa el cursor o tócala para ver con quién está compartido y quién lo añadió. El filtro <b>All shared</b> muestra solo lo compartido.</p>
+<p><b>Unir un espacio compartido a uno tuyo:</b> si el espacio de tu equipo en realidad es parte de tu trabajo, ve a <b>Settings → Spaces</b>, busca el espacio compartido y escoge <b>Counts as → Part of Work</b>. Sus tareas se planifican en tu horario de trabajo y salen cuando entras a Work. Mantiene su nombre y sus miembros, y solo tú ves la unión.</p>
 <div class="tip">Solo se comparte ese espacio. Tus otros espacios siguen privados.</div>`},
   {id: 'close', group: 'more', title: 'Cerrar tareas y ver informes', sum: 'Registra el tiempo al terminar y repasa lo que se hizo.', tags: 'cerrar terminar completar hecho tiempo invertido informe horas cliente reporte',
    body: `<ol>
