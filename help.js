@@ -9,59 +9,59 @@ en: {
   groups: [['basics', 'Start here'], ['plan', 'Planning your work'], ['time', 'Calendar & reminders'], ['org', 'Spaces & sharing'], ['more', 'Getting work in & out'], ['app', 'Your account & devices']],
   articles: [
   {id: 'start', group: 'basics', title: 'Getting started in 5 minutes', sum: 'What Kairo does and the first things to set up.', tags: 'welcome intro first time new user setup onboarding',
-   body: `<p>Kairo is a planner that tells you <b>what to work on now</b>. You add your tasks with a deadline and how long they take; Kairo ranks them and builds a plan for today that fits the hours you really have.</p>
+   body: `<p>Kairo is a planner that tells you <b>what to do now</b>. You add what you have to do, with a date and how long it takes; Kairo builds a plan that fits the hours you really have.</p>
 <ol>
-<li><b>Set your time.</b> Click the circle with your initials (top right) → <b>Settings</b>. Check your work hours, focus hours per day and free hours on weeknights.</li>
-<li><b>Check your spaces.</b> Spaces are areas of your life (Work, University, Home…). Each one is planned in certain hours. See <a data-go="spaces">Spaces and planned hours</a>.</li>
-<li><b>Add your first tasks.</b> Press <b>+ New → Task</b>. A name, a deadline and the effort are enough. See <a data-go="task">Create a task</a>.</li>
-<li><b>Open the Today tab.</b> That is your plan. Work from the top down.</li>
-<li><b>Close what you finish.</b> Open the task → <b>Close task</b>. Kairo logs the time and replans the rest.</li>
+<li><b>Add something.</b> Type it in the box at the top of Today, the way you’d say it: <i>“Submit report Friday 2h”</i>, <i>“Pay electricity on the 15th”</i>, <i>“Estudiar para el examen del jueves 3 horas urgente”</i>. Kairo finds the date, the hours and the priority.</li>
+<li><b>Look at Today.</b> That’s your plan, in order. Things without a date wait under <b>Anytime</b>.</li>
+<li><b>Mark things as done.</b> Tap a task → <b>Mark as done</b>. Kairo replans the rest.</li>
+<li><b>Add events on the Calendar</b> by typing or speaking. They take time out of that day’s plan.</li>
 </ol>
-<div class="tip"><b>The five tabs:</b> <b>Today</b> (your plan) · <b>Radar</b> (everything coming, by priority) · <b>Projects</b> · <b>Calendar</b> (events and reminders) · <b>Reports</b> (what got done).</div>
-<p><button class="btn sm" data-do="settings">Open Settings</button> <button class="btn sm" data-do="new">+ New task</button></p>`},
+<p>The <b>Get started</b> card on Today walks you through these steps. Hide it when you’re done.</p>
+<div class="tip"><b>The five tabs:</b> <b>Today</b> (your plan) · <b>Radar</b> (everything coming, by priority) · <b>Projects</b> · <b>Calendar</b> (events, work time and deadlines) · <b>Reports</b> (what got done).</div>
+<p><button class="btn sm" data-do="today">Go to Today</button> <button class="btn sm" data-do="new">+ New task</button></p>`},
   {id: 'scale', group: 'basics', title: 'Words and numbers Kairo uses', sum: '1 is the highest, P1–P4, Ready by, Late, At risk…', tags: 'glossary meaning legend priority number 1 5 p1 p2 p3 p4 importance urgency',
    body: `<ul>
-<li><b>Importance 1–5</b>: how much it matters to your goals. <b>1 = critical</b>, 5 = low impact.</li>
-<li><b>Urgency 1–5</b>: how soon someone needs it. <b>1 = someone is waiting now</b>, 5 = can wait.</li>
+<li><b>Priority</b>: Urgent, High, Normal or Low. With <b>Detailed priority</b> on (Settings → Features) you set <b>importance</b> and <b>urgency</b> from 1 to 5 instead, where <b>1 is the highest</b>.</li>
 <li><b>Score 0–100 and P1–P4</b>: Kairo’s ranking, made from importance, urgency and how close the deadline is. P1 is the top. See <a data-go="priority">How Kairo ranks your work</a>.</li>
-<li><b>Effort</b>: hours of real work the task needs (not the hours until the deadline).</li>
+<li><b>How long it takes</b>: hours of real work the task needs (not the hours until the deadline).</li>
 <li><b>Ready by</b>: the date the task should be finished so nothing is left for the last day.</li>
 <li><b>Start by</b>: the latest day to start and still make it.</li>
 <li><b>At risk</b>: at the current pace it won’t be ready in time.</li>
 <li><b>Late</b>: its Ready by date already passed. <b>Overdue</b>: the deadline itself passed.</li>
-<li><b>Low-hanging fruit</b>: small tasks that still matter. Good for a gap between meetings.</li>
+<li><b>Quick wins</b>: small tasks that still matter. Good for a short gap.</li><li><b>Anytime</b>: tasks with no date. Give one a date to plan it.</li>
 </ul>`},
   {id: 'today', group: 'plan', title: 'The Today tab: your plan', sum: 'How the plan is built and how to use it during the day.', tags: 'plan daily focus hours capacity low-hanging fruit next days',
    body: `<p><b>Today’s plan</b> lists what to work on, in order, until your focus hours for the day are full. Kairo puts first: emergencies, then overdue, late and at-risk work, then whatever must start today, then the rest by start date.</p>
 <ul>
 <li>Your hours come from <b>Settings</b>; meetings and events in the <b>Calendar</b> take time away from that day.</li>
 <li>Work spaces are planned in work hours; University, Home and similar spaces in evenings and weekends (see <a data-go="spaces">Spaces</a>).</li>
-<li>You can change today’s start and end time at the top of the plan if your day is different.</li>
-<li><b>Low-hanging fruit</b> shows quick tasks worth doing when you have a short gap.</li>
+<li>Different day? Open <b>Adjust today’s hours</b> on the plan card.</li>
+<li><b>Quick wins</b> shows small tasks worth doing in a short gap; <b>Anytime</b> lists the ones without a date.</li>
 <li><b>Recurring</b> and <b>Routine checks</b> show the repeating work due today.</li>
 </ul>
 <div class="tip">Tap any task to see its details: why it is ranked there, its Ready by date and what is left.</div>`},
   {id: 'task', group: 'plan', title: 'Create a task', sum: 'The fields that matter and the ones you can skip.', tags: 'add new task form deadline effort importance urgency more options client files notes',
-   body: `<ol>
-<li>Press <b>+ New → Task</b>.</li>
-<li>Write the <b>name</b>, choose the <b>space</b> and the <b>deadline</b>.</li>
-<li>Pick the <b>effort</b>: how many hours of work it really needs. Choose <i>None</i> for reminders that take no time.</li>
-<li>Set <b>Importance</b> and <b>Urgency</b> (1 is the highest).</li>
-<li>Press <b>Save</b>. The line under the form shows how Kairo will plan it.</li>
+   body: `<p><b>Fastest:</b> type it in the box at the top of Today, e.g. <i>“Call the bank tomorrow 30 min”</i>. Before adding, you can change the space or press <b>More details</b>.</p>
+<p><b>With all the details:</b> press <b>+ New → Task</b>.</p>
+<ol>
+<li>Write the <b>name</b>, choose the <b>space</b> and the <b>deadline</b> (optional).</li>
+<li><b>How long will it take?</b> Pick the hours of real work. Not sure? Leave 1h. <i>None</i> is for reminders that take no time.</li>
+<li>Pick the <b>priority</b>: Urgent, High, Normal or Low.</li>
+<li>Press <b>Save</b>. The line at the bottom shows how Kairo will plan it.</li>
 </ol>
-<p><b>Work time</b> (optional): pick the days, and a time if you like, that you’ll work on it. Kairo plans the rest of the effort.</p>
-<p><b>More options</b> has the rest, all optional: type (Normal, Steady, Emergency), project, client, place and travel time, progress, <a data-go="ready">Be ready</a>, custom fields, files, people in charge, email notifications and notes.</p>
-<div class="tip"><b>Steady</b> is for ongoing work without one deadline (e.g. 4 hours per week of studying). Kairo reserves those hours every week.</div>
+<p>Optional: <b>Repeat</b> (see <a data-go="recurring">Repeating tasks and bills</a>) and <b>Work time</b> (pick the days you’ll work on it).</p>
+<p><b>More options</b> has the rest: type (Normal, Ongoing, Emergency), project, place and travel time, progress, <a data-go="ready">Be ready</a>, custom fields, files and notes.</p>
+<div class="tip"><b>Ongoing</b> is for things with no single due date, like studying or exercise: Kairo saves a few hours for it every week.</div>
 <p><button class="btn sm" data-do="new">+ New task</button></p>`},
   {id: 'priority', group: 'plan', title: 'How Kairo ranks your work', sum: 'The score, the P1–P4 tiers and the order of the lists.', tags: 'score ranking order why first priority p1 tier formula',
    body: `<p>Every open task gets a <b>score from 0 to 100</b>:</p>
 <ul><li>40% importance</li><li>25% urgency</li><li>35% deadline pressure (how much work is left compared with the days left)</li></ul>
 <p>The score gives the tier: <b>P1</b> (top) to <b>P4</b>. The lists then follow this order: <b>Emergency → Overdue → Late → At risk → Start today → by start date → no deadline</b>.</p>
-<div class="tip">If something is too high or too low, change its importance or urgency, or fix the effort. A big effort with a near deadline always pushes a task up.</div>`},
+<div class="tip">If something is too high or too low, change its priority, or fix how long it takes. A big effort with a near deadline always pushes a task up.</div>`},
   {id: 'ready', group: 'plan', title: 'Ready by, Late and At risk', sum: 'Why a task says “Late” before its deadline, and how to change it.', tags: 'ready by buffer late deadline fake deadline at risk start by early be ready',
    body: `<p>Kairo plans big tasks to be <b>finished a little before the deadline</b>, so there is room for surprises. That earlier date is <b>Ready by</b>. After it passes, the task shows <b>Late</b> even if the real deadline hasn’t come yet.</p>
 <p>The buffer is automatic and depends on the size of the task:</p>
-<ul><li>Less than 2 hours of work: <b>no buffer</b> (just the deadline)</li><li>2–4 hours: 1 day before</li><li>4–8 hours: 2 days before</li><li>A full day of work or more: the buffer in <b>Settings → Buffer for big tasks</b> (7 days unless you change it)</li></ul>
+<ul><li>Less than 2 hours of work: <b>no buffer</b> (just the deadline)</li><li>2–4 hours: 1 day before</li><li>4–8 hours: 2 days before</li><li>A full day of work or more: the buffer in <b>Settings → Finish big tasks early</b> (7 days unless you change it)</li></ul>
 <p><b>To change it for one task:</b> open the task → Edit → <b>More options → Be ready</b> → choose <i>On the due date</i>, 1–3 days, or 1–2 weeks before.</p>
 <p><b>At risk</b> means that with the hours you have, the work won’t be ready in time. Start it, lower the effort if you overestimated, or move the deadline.</p>
 <div class="tip">Bills use their own reminder days instead of this buffer.</div>`},
@@ -73,18 +73,15 @@ en: {
 </ol>
 <p>The <b>Projects</b> tab shows every project with its progress bar, what is late and what comes next. On the Radar, use the <b>Projects</b> or <b>Subtasks</b> view to see only those.</p>
 <p><button class="btn sm" data-do="projects">Open Projects</button></p>`},
-  {id: 'recurring', group: 'plan', title: 'Recurring work and bills', sum: 'Daily checks, monthly reports, rent and other payments.', tags: 'recurring repeat daily weekly monthly quarterly yearly bill payment rent reminder routine any task',
-   body: `<ol>
-<li>Press <b>+ New → Recurring</b>.</li>
-<li>Write the name and choose how it repeats: every few hours, daily, weekly, monthly or quarterly.</li>
-<li>Choose <b>Create the task</b>: how many days before the due day it should appear.</li>
-<li>For a <b>bill</b>, put it in the Finances space and fill in the <b>payment amount</b>. It shows under <b>Payments due</b> and you press <b>Mark paid</b>.</li>
-</ol>
-<p><b>Any task or project can repeat too:</b> in the task form choose <b>Repeat</b> (every day, weekday, week, 2 weeks, month, 3 or 6 months, year, or every N days). When you close it, Kairo creates the next one with the next due date. A repeating project brings its tasks along with their dates moved.</p>
-<div class="tip">Short daily checks show under <b>Routine checks</b>; longer ones enter the plan like any task.</div>`},
+  {id: 'recurring', group: 'plan', title: 'Repeating tasks and bills', sum: 'Weekly chores, monthly reports, rent and other payments.', tags: 'recurring repeat daily weekly monthly quarterly yearly bill payment rent reminder routine any task',
+   body: `<p><b>Any task or project can repeat.</b> In the task form choose <b>Repeat</b>: every day, weekday, week, 2 weeks, month, 3 or 6 months, year, or every N days. When you mark it as done, Kairo creates the next one with the next date. A repeating project brings its tasks along.</p>
+<p><b>Bills:</b> make a task with the due date, choose <b>Repeat → Every month</b> and fill in <b>More options → Payment amount</b>. It shows under <b>Payments due</b> a few days before (set how many in Settings), and you press <b>Mark paid</b>.</p>
+<p>Examples you can type in the quick box: <i>“Pay rent on the 1st”</i> then set Repeat; <i>“Water the plants Saturday”</i>.</p>
+<div class="tip">With <b>Operations</b> on (Settings → Features) you also get <b>+ New → Recurring</b> for routine checks every few hours and recurring work lists.</div>`},
   {id: 'emergency', group: 'plan', title: 'Emergencies and after-hours jobs', sum: 'Work that jumps the line, and night or weekend work.', tags: 'emergency urgent outage after hours maintenance window night',
-   body: `<p><b>Emergency</b> (<b>+ New → Emergency</b>): something that needs you now. It goes first in today’s plan and everything else moves down.</p>
-<p><b>After hours</b>: in the task form, under <b>When</b>, choose <b>After hours</b> and set the date and time (e.g. a maintenance window at 10 pm). It doesn’t use your focus hours and stays off the radar; it shows in its own <b>After-hours jobs</b> list and in the Calendar.</p>`},
+   body: `<p>These come with <b>Operations</b> (Settings → Features).</p>
+<p><b>Emergency</b> (<b>+ New → Emergency</b>): something that needs you now. It goes first in today’s plan and everything else moves down.</p>
+<p><b>After hours</b>: in the task form, under <b>When</b>, choose <b>After hours</b> and set the date and time (e.g. a maintenance window at 10 pm). It doesn’t use your work hours and stays off the radar; it shows in its own <b>After-hours jobs</b> list and in the Calendar.</p>`},
   {id: 'radar', group: 'plan', title: 'The Radar', sum: 'See everything coming, by importance and urgency.', tags: 'radar eisenhower matrix quadrant horizon week month all time filter view',
    body: `<p>The Radar places each task by <b>importance</b> (up = more important) and <b>urgency</b> (right = more urgent). The top-right corner is what to do first.</p>
 <ul>
@@ -135,13 +132,13 @@ en: {
 <p>Everyone in the space sees and edits its tasks. Shared items have a <b>Shared</b> badge; hover or tap it to see who it’s shared with and who added it. The <b>All shared</b> filter shows only shared work.</p>
 <p><b>Link a shared space to one of yours:</b> if your team’s space is really part of your job, go to <b>Settings → Spaces</b>, find the shared space and choose <b>Counts as → Part of Work</b>. Its tasks are then planned in your work hours and appear when you enter Work. It keeps its own name and members, and only you see the link.</p>
 <div class="tip">Only that space is shared. Your other spaces stay private.</div>`},
-  {id: 'close', group: 'more', title: 'Close tasks and see reports', sum: 'Log time when you finish, then review what got done.', tags: 'close done finish complete time spent report hours client closed work',
+  {id: 'close', group: 'more', title: 'Mark tasks as done and see reports', sum: 'Finish things, log time if you want, and review what got done.', tags: 'close done finish complete time spent report hours client closed work',
    body: `<ol>
-<li>Open the task and press <b>Close task</b>.</li>
+<li>Open the task and press <b>Mark as done</b> (or tick the circle next to it).</li>
 <li>Confirm when it was completed and the <b>time spent</b>, and add a comment if you like.</li>
 </ol>
-<p>The <b>Reports</b> tab shows closed work and <b>time by client</b> for the dates you choose. Handy for timesheets and for seeing where your week went.</p>
-<div class="tip">Closed by mistake? Open it from <b>Completed</b> and edit the close-out.</div>`},
+<p>The <b>Reports</b> tab shows what got done in the dates you choose (and <b>time by client</b> when that feature is on). Handy for seeing where your week went.</p>
+<div class="tip">Marked by mistake? Open it from <b>Completed</b> and edit it.</div>`},
   {id: 'email', group: 'more', title: 'Turn an email into a task', sum: 'Paste an email, or share it from your phone.', tags: 'email mail outlook gmail paste share phone forward',
    body: `<p><b>On a computer:</b> copy the email, press <b>+ New → From an email</b> and paste it. The subject becomes the task name and the email is kept in the notes.</p>
 <p><b>On a phone:</b> with Kairo installed (see <a data-go="install">Install Kairo</a>), open the email or any page, press <b>Share</b> and choose <b>Kairo</b>. A new task opens with the text already in it.</p>`},
@@ -175,6 +172,16 @@ en: {
 <li>Something missing on another device? Open the menu → <b>Sync now</b>.</li>
 <li>Bringing an app back to the screen also syncs it.</li>
 </ul>`},
+  {id: 'features', group: 'app', title: 'Turn features on or off', sum: 'Keep Kairo simple, or add clients, operations and emails.', tags: 'features settings simple advanced clients operations email priority importance urgency modules',
+   body: `<p>Kairo starts simple. In <b>Settings → Features</b> you can turn on more when you need it:</p>
+<ul>
+<li><b>Detailed priority</b>: importance and urgency from 1 to 5 instead of one priority.</li>
+<li><b>Clients and time reports</b>: a client on each task and hours per client in Reports.</li>
+<li><b>Operations</b>: after-hours jobs, emergencies, routine checks and recurring work lists.</li>
+<li><b>Email notifications</b>: emails when work should start, is due or is done.</li>
+</ul>
+<p>Turning a feature off only hides it. Nothing is deleted.</p>
+<p><button class="btn sm" data-do="settings">Open Settings</button></p>`},
   {id: 'account', group: 'app', title: 'Account, password and feedback', sum: 'Change your password, sign out, or tell us what to improve.', tags: 'account password reset forgot sign out log out profile feedback bug',
    body: `<ul>
 <li><b>Change password:</b> your initials → <b>Change password</b>.</li>
@@ -191,59 +198,59 @@ es: {
   groups: [['basics', 'Empieza aquí'], ['plan', 'Planificar tu trabajo'], ['time', 'Calendario y recordatorios'], ['org', 'Espacios y compartir'], ['more', 'Entrada y salida de trabajo'], ['app', 'Tu cuenta y dispositivos']],
   articles: [
   {id: 'start', group: 'basics', title: 'Empieza en 5 minutos', sum: 'Qué hace Kairo y lo primero que debes configurar.', tags: 'bienvenida inicio primera vez nuevo usuario configurar empezar',
-   body: `<p>Kairo es un planificador que te dice <b>en qué trabajar ahora</b>. Añades tus tareas con fecha límite y cuánto tiempo toman; Kairo las ordena y arma un plan para hoy que cabe en las horas que de verdad tienes.</p>
+   body: `<p>Kairo es un planificador que te dice <b>qué hacer ahora</b>. Añades lo que tienes que hacer, con una fecha y cuánto tiempo toma; Kairo arma un plan que cabe en las horas que de verdad tienes.</p>
 <ol>
-<li><b>Configura tu tiempo.</b> Toca el círculo con tus iniciales (arriba a la derecha) → <b>Settings</b>. Revisa tu horario de trabajo, las horas de enfoque por día y las horas libres en las noches.</li>
-<li><b>Revisa tus espacios.</b> Los espacios son áreas de tu vida (Trabajo, Universidad, Casa…). Cada uno se planifica en ciertas horas. Mira <a data-go="spaces">Espacios y horas planificadas</a>.</li>
-<li><b>Añade tus primeras tareas.</b> Presiona <b>+ New → Task</b>. Con nombre, fecha límite y esfuerzo basta. Mira <a data-go="task">Crear una tarea</a>.</li>
-<li><b>Abre la pestaña Today.</b> Ese es tu plan. Trabaja de arriba hacia abajo.</li>
-<li><b>Cierra lo que termines.</b> Abre la tarea → <b>Close task</b>. Kairo registra el tiempo y replanifica lo demás.</li>
+<li><b>Añade algo.</b> Escríbelo en la caja de arriba en Today, como lo dirías: <i>“Entregar informe el viernes 2h”</i>, <i>“Pagar la luz el 15”</i>, <i>“Estudiar para el examen del jueves 3 horas urgente”</i>. Kairo encuentra la fecha, las horas y la prioridad.</li>
+<li><b>Mira Today.</b> Ese es tu plan, en orden. Lo que no tiene fecha espera en <b>Anytime</b>.</li>
+<li><b>Marca lo que termines.</b> Toca una tarea → <b>Mark as done</b>. Kairo replanifica lo demás.</li>
+<li><b>Añade eventos en el Calendar</b> escribiéndolos o diciéndolos. Le quitan tiempo al plan de ese día.</li>
 </ol>
-<div class="tip"><b>Las cinco pestañas:</b> <b>Today</b> (tu plan) · <b>Radar</b> (todo lo que viene, por prioridad) · <b>Projects</b> (proyectos) · <b>Calendar</b> (eventos y recordatorios) · <b>Reports</b> (lo que se hizo).</div>
-<p><button class="btn sm" data-do="settings">Abrir Settings</button> <button class="btn sm" data-do="new">+ Nueva tarea</button></p>`},
+<p>La tarjeta <b>Get started</b> en Today te guía por estos pasos. Escóndela cuando termines.</p>
+<div class="tip"><b>Las cinco pestañas:</b> <b>Today</b> (tu plan) · <b>Radar</b> (todo lo que viene, por prioridad) · <b>Projects</b> (proyectos) · <b>Calendar</b> (eventos, tiempo de trabajo y fechas límite) · <b>Reports</b> (lo que se hizo).</div>
+<p><button class="btn sm" data-do="today">Ir a Today</button> <button class="btn sm" data-do="new">+ Nueva tarea</button></p>`},
   {id: 'scale', group: 'basics', title: 'Palabras y números que usa Kairo', sum: '1 es lo más alto, P1–P4, Ready by, Late, At risk…', tags: 'glosario significado leyenda prioridad numero 1 5 p1 p2 p3 p4 importancia urgencia',
    body: `<ul>
-<li><b>Importance (importancia) 1–5</b>: cuánto importa para tus metas. <b>1 = crítico</b>, 5 = poco impacto.</li>
-<li><b>Urgency (urgencia) 1–5</b>: qué tan pronto alguien lo necesita. <b>1 = alguien está esperando ya</b>, 5 = puede esperar.</li>
+<li><b>Priority (prioridad)</b>: Urgent, High, Normal o Low. Con <b>Detailed priority</b> prendido (Settings → Features) pones <b>importancia</b> y <b>urgencia</b> del 1 al 5, donde <b>1 es lo más alto</b>.</li>
 <li><b>Puntuación 0–100 y P1–P4</b>: el orden de Kairo, calculado con importancia, urgencia y qué tan cerca está la fecha límite. P1 es lo más alto. Mira <a data-go="priority">Cómo Kairo ordena tu trabajo</a>.</li>
-<li><b>Effort (esfuerzo)</b>: horas de trabajo real que necesita la tarea (no las horas que faltan para la fecha).</li>
+<li><b>How long will it take (cuánto toma)</b>: horas de trabajo real que necesita la tarea (no las horas que faltan para la fecha).</li>
 <li><b>Ready by (lista para)</b>: la fecha en que la tarea debe estar terminada para no dejar nada para el último día.</li>
 <li><b>Start by (empezar antes de)</b>: el último día para empezar y llegar a tiempo.</li>
 <li><b>At risk (en riesgo)</b>: al ritmo actual no estará lista a tiempo.</li>
 <li><b>Late (tarde)</b>: ya pasó su fecha Ready by. <b>Overdue (vencida)</b>: ya pasó la fecha límite.</li>
-<li><b>Low-hanging fruit</b>: tareas pequeñas que igual importan. Buenas para un hueco entre reuniones.</li>
+<li><b>Quick wins</b>: tareas pequeñas que igual importan. Buenas para un rato corto.</li><li><b>Anytime</b>: tareas sin fecha. Ponle fecha a una para planificarla.</li>
 </ul>`},
   {id: 'today', group: 'plan', title: 'La pestaña Today: tu plan', sum: 'Cómo se arma el plan y cómo usarlo durante el día.', tags: 'plan hoy diario enfoque horas capacidad low-hanging fruit proximos dias',
    body: `<p><b>Today’s plan</b> te muestra en qué trabajar, en orden, hasta llenar tus horas de enfoque del día. Kairo pone primero: emergencias, luego lo vencido, lo tarde y lo que está en riesgo, después lo que debe empezar hoy y el resto por fecha de inicio.</p>
 <ul>
 <li>Tus horas salen de <b>Settings</b>; las reuniones y eventos del <b>Calendar</b> le quitan tiempo a ese día.</li>
 <li>Los espacios de trabajo se planifican en horario de trabajo; Universidad, Casa y parecidos en las noches y fines de semana (mira <a data-go="spaces">Espacios</a>).</li>
-<li>Si tu día es distinto, puedes cambiar la hora de inicio y de fin de hoy arriba del plan.</li>
-<li><b>Low-hanging fruit</b> muestra tareas rápidas que vale la pena hacer cuando tienes un rato corto.</li>
+<li>¿Tu día es distinto? Abre <b>Adjust today’s hours</b> en la tarjeta del plan.</li>
+<li><b>Quick wins</b> muestra tareas pequeñas para un rato corto; <b>Anytime</b> lista las que no tienen fecha.</li>
 <li><b>Recurring</b> y <b>Routine checks</b> muestran el trabajo repetitivo que toca hoy.</li>
 </ul>
 <div class="tip">Toca cualquier tarea para ver sus detalles: por qué está en ese lugar, su fecha Ready by y lo que falta.</div>`},
   {id: 'task', group: 'plan', title: 'Crear una tarea', sum: 'Los campos que importan y los que puedes dejar en blanco.', tags: 'añadir nueva tarea formulario fecha limite esfuerzo importancia urgencia mas opciones cliente archivos notas',
-   body: `<ol>
-<li>Presiona <b>+ New → Task</b>.</li>
-<li>Escribe el <b>nombre</b>, escoge el <b>espacio</b> (Space) y la <b>fecha límite</b> (Deadline).</li>
-<li>Escoge el <b>esfuerzo</b> (Effort): cuántas horas de trabajo necesita de verdad. Escoge <i>None</i> para recordatorios que no toman tiempo.</li>
-<li>Marca <b>Importance</b> y <b>Urgency</b> (1 es lo más alto).</li>
-<li>Presiona <b>Save</b>. La línea debajo del formulario te dice cómo la va a planificar Kairo.</li>
+   body: `<p><b>Lo más rápido:</b> escríbela en la caja de arriba en Today, ej. <i>“Llamar al banco mañana 30 min”</i>. Antes de añadirla puedes cambiar el espacio o presionar <b>More details</b>.</p>
+<p><b>Con todos los detalles:</b> presiona <b>+ New → Task</b>.</p>
+<ol>
+<li>Escribe el <b>nombre</b>, escoge el <b>espacio</b> y la <b>fecha límite</b> (opcional).</li>
+<li><b>How long will it take?</b> Escoge las horas de trabajo real. ¿No sabes? Deja 1h. <i>None</i> es para recordatorios que no toman tiempo.</li>
+<li>Escoge la <b>prioridad</b>: Urgent, High, Normal o Low.</li>
+<li>Presiona <b>Save</b>. La línea de abajo te dice cómo la va a planificar Kairo.</li>
 </ol>
-<p><b>Work time</b> (opcional): escoge los días, y la hora si quieres, en que vas a trabajarla. Kairo planifica el resto del esfuerzo.</p>
-<p><b>More options</b> tiene lo demás, todo opcional: tipo (Normal, Steady, Emergency), proyecto, cliente, lugar y tiempo de viaje, progreso, <a data-go="ready">Be ready</a>, campos personalizados, archivos, responsables, avisos por email y notas.</p>
-<div class="tip"><b>Steady</b> es para trabajo continuo sin una sola fecha límite (ej. 4 horas por semana de estudio). Kairo reserva esas horas cada semana.</div>
+<p>Opcional: <b>Repeat</b> (mira <a data-go="recurring">Tareas que se repiten y pagos</a>) y <b>Work time</b> (escoge los días en que la vas a trabajar).</p>
+<p><b>More options</b> tiene lo demás: tipo (Normal, Ongoing, Emergency), proyecto, lugar y tiempo de viaje, progreso, <a data-go="ready">Be ready</a>, campos personalizados, archivos y notas.</p>
+<div class="tip"><b>Ongoing</b> (continuo) es para cosas sin una sola fecha límite, como estudiar o hacer ejercicio: Kairo aparta unas horas cada semana.</div>
 <p><button class="btn sm" data-do="new">+ Nueva tarea</button></p>`},
   {id: 'priority', group: 'plan', title: 'Cómo Kairo ordena tu trabajo', sum: 'La puntuación, los niveles P1–P4 y el orden de las listas.', tags: 'puntuacion orden por que primero prioridad p1 nivel formula',
    body: `<p>Cada tarea abierta recibe una <b>puntuación de 0 a 100</b>:</p>
 <ul><li>40% importancia</li><li>25% urgencia</li><li>35% presión de la fecha (cuánto trabajo falta comparado con los días que quedan)</li></ul>
 <p>La puntuación da el nivel: <b>P1</b> (lo más alto) a <b>P4</b>. Las listas siguen este orden: <b>Emergency → Overdue → Late → At risk → Start today → por fecha de inicio → sin fecha</b>.</p>
-<div class="tip">Si algo sale muy alto o muy bajo, cambia su importancia o urgencia, o corrige el esfuerzo. Un esfuerzo grande con la fecha cerca siempre sube una tarea.</div>`},
+<div class="tip">Si algo sale muy alto o muy bajo, cambia su prioridad o corrige cuánto toma. Un esfuerzo grande con la fecha cerca siempre sube una tarea.</div>`},
   {id: 'ready', group: 'plan', title: 'Ready by, Late y At risk', sum: 'Por qué una tarea dice “Late” antes de su fecha límite y cómo cambiarlo.', tags: 'ready by margen tarde fecha limite falsa en riesgo start by antes be ready lista',
    body: `<p>Kairo planifica las tareas grandes para que estén <b>terminadas un poco antes de la fecha límite</b>, y así haya espacio para imprevistos. Esa fecha más temprana es <b>Ready by</b>. Cuando pasa, la tarea dice <b>Late</b> aunque la fecha límite real todavía no haya llegado.</p>
 <p>El margen es automático y depende del tamaño de la tarea:</p>
-<ul><li>Menos de 2 horas de trabajo: <b>sin margen</b> (solo la fecha límite)</li><li>2–4 horas: 1 día antes</li><li>4–8 horas: 2 días antes</li><li>Un día completo de trabajo o más: el margen de <b>Settings → Buffer for big tasks</b> (7 días si no lo cambias)</li></ul>
+<ul><li>Menos de 2 horas de trabajo: <b>sin margen</b> (solo la fecha límite)</li><li>2–4 horas: 1 día antes</li><li>4–8 horas: 2 días antes</li><li>Un día completo de trabajo o más: el margen de <b>Settings → Finish big tasks early</b> (7 días si no lo cambias)</li></ul>
 <p><b>Para cambiarlo en una sola tarea:</b> abre la tarea → Edit → <b>More options → Be ready</b> → escoge <i>On the due date</i> (en la fecha límite), 1–3 días o 1–2 semanas antes.</p>
 <p><b>At risk</b> quiere decir que con las horas que tienes no va a estar lista a tiempo. Empiézala, baja el esfuerzo si lo sobreestimaste o mueve la fecha.</p>
 <div class="tip">Los pagos usan sus propios días de aviso en vez de este margen.</div>`},
@@ -255,18 +262,15 @@ es: {
 </ol>
 <p>La pestaña <b>Projects</b> muestra cada proyecto con su barra de progreso, lo que va tarde y lo que sigue. En el Radar, usa la vista <b>Projects</b> o <b>Subtasks</b> para ver solo eso.</p>
 <p><button class="btn sm" data-do="projects">Abrir Projects</button></p>`},
-  {id: 'recurring', group: 'plan', title: 'Trabajo recurrente y pagos', sum: 'Revisiones diarias, informes mensuales, renta y otros pagos.', tags: 'recurrente repetir diario semanal mensual trimestral anual factura pago renta recordatorio rutina cualquier tarea',
-   body: `<ol>
-<li>Presiona <b>+ New → Recurring</b>.</li>
-<li>Escribe el nombre y escoge cada cuánto se repite: cada ciertas horas, diario, semanal, mensual o trimestral.</li>
-<li>Escoge <b>Create the task</b>: cuántos días antes del día que vence debe aparecer.</li>
-<li>Para un <b>pago</b>, ponlo en el espacio Finances y llena el <b>monto</b> (Payment amount). Aparece en <b>Payments due</b> y presionas <b>Mark paid</b>.</li>
-</ol>
-<p><b>Cualquier tarea o proyecto también se puede repetir:</b> en el formulario escoge <b>Repeat</b> (cada día, día laborable, semana, 2 semanas, mes, 3 o 6 meses, año, o cada N días). Cuando la cierras, Kairo crea la próxima con la siguiente fecha. Un proyecto que se repite trae sus tareas con las fechas movidas.</p>
-<div class="tip">Las revisiones diarias cortas salen en <b>Routine checks</b>; las más largas entran al plan como cualquier tarea.</div>`},
+  {id: 'recurring', group: 'plan', title: 'Tareas que se repiten y pagos', sum: 'Tareas semanales, informes mensuales, renta y otros pagos.', tags: 'recurrente repetir diario semanal mensual trimestral anual factura pago renta recordatorio rutina cualquier tarea',
+   body: `<p><b>Cualquier tarea o proyecto se puede repetir.</b> En el formulario escoge <b>Repeat</b>: cada día, día laborable, semana, 2 semanas, mes, 3 o 6 meses, año, o cada N días. Cuando la marcas como hecha, Kairo crea la próxima con la siguiente fecha. Un proyecto que se repite trae sus tareas.</p>
+<p><b>Pagos:</b> crea una tarea con la fecha de pago, escoge <b>Repeat → Every month</b> y llena <b>More options → Payment amount</b>. Aparece en <b>Payments due</b> unos días antes (cuántos, lo decides en Settings) y presionas <b>Mark paid</b>.</p>
+<p>Ejemplos para la caja rápida: <i>“Pagar la renta el 1”</i> y luego pones Repeat; <i>“Regar las plantas el sábado”</i>.</p>
+<div class="tip">Con <b>Operations</b> prendido (Settings → Features) también tienes <b>+ New → Recurring</b> para revisiones cada ciertas horas y listas de trabajo recurrente.</div>`},
   {id: 'emergency', group: 'plan', title: 'Emergencias y trabajos fuera de horario', sum: 'Trabajo que se salta la fila, y trabajo de noche o fin de semana.', tags: 'emergencia urgente caida fuera de horario after hours mantenimiento noche',
-   body: `<p><b>Emergency</b> (<b>+ New → Emergency</b>): algo que te necesita ahora. Va primero en el plan de hoy y todo lo demás baja.</p>
-<p><b>After hours</b> (fuera de horario): en el formulario de la tarea, en <b>When</b>, escoge <b>After hours</b> y pon la fecha y hora (ej. una ventana de mantenimiento a las 10 pm). No usa tus horas de enfoque y no sale en el radar; aparece en su propia lista <b>After-hours jobs</b> y en el Calendar.</p>`},
+   body: `<p>Esto viene con <b>Operations</b> (Settings → Features).</p>
+<p><b>Emergency</b> (<b>+ New → Emergency</b>): algo que te necesita ahora. Va primero en el plan de hoy y todo lo demás baja.</p>
+<p><b>After hours</b> (fuera de horario): en el formulario de la tarea, en <b>When</b>, escoge <b>After hours</b> y pon la fecha y hora (ej. una ventana de mantenimiento a las 10 pm). No usa tus horas de trabajo y no sale en el radar; aparece en su propia lista <b>After-hours jobs</b> y en el Calendar.</p>`},
   {id: 'radar', group: 'plan', title: 'El Radar', sum: 'Mira todo lo que viene, por importancia y urgencia.', tags: 'radar eisenhower matriz cuadrante horizonte semana mes todo filtro vista',
    body: `<p>El Radar coloca cada tarea según su <b>importancia</b> (arriba = más importante) y su <b>urgencia</b> (derecha = más urgente). La esquina de arriba a la derecha es lo primero que debes hacer.</p>
 <ul>
@@ -317,13 +321,13 @@ es: {
 <p>Todos en el espacio ven y editan sus tareas. Lo compartido tiene la etiqueta <b>Shared</b>; pasa el cursor o tócala para ver con quién está compartido y quién lo añadió. El filtro <b>All shared</b> muestra solo lo compartido.</p>
 <p><b>Unir un espacio compartido a uno tuyo:</b> si el espacio de tu equipo en realidad es parte de tu trabajo, ve a <b>Settings → Spaces</b>, busca el espacio compartido y escoge <b>Counts as → Part of Work</b>. Sus tareas se planifican en tu horario de trabajo y salen cuando entras a Work. Mantiene su nombre y sus miembros, y solo tú ves la unión.</p>
 <div class="tip">Solo se comparte ese espacio. Tus otros espacios siguen privados.</div>`},
-  {id: 'close', group: 'more', title: 'Cerrar tareas y ver informes', sum: 'Registra el tiempo al terminar y repasa lo que se hizo.', tags: 'cerrar terminar completar hecho tiempo invertido informe horas cliente reporte',
+  {id: 'close', group: 'more', title: 'Marcar tareas como hechas y ver informes', sum: 'Termina cosas, registra el tiempo si quieres y repasa lo que se hizo.', tags: 'cerrar terminar completar hecho tiempo invertido informe horas cliente reporte',
    body: `<ol>
-<li>Abre la tarea y presiona <b>Close task</b>.</li>
+<li>Abre la tarea y presiona <b>Mark as done</b> (o marca el círculo al lado).</li>
 <li>Confirma cuándo se completó y el <b>tiempo invertido</b> (Time spent), y añade un comentario si quieres.</li>
 </ol>
-<p>La pestaña <b>Reports</b> muestra el trabajo cerrado y el <b>tiempo por cliente</b> en las fechas que escojas. Útil para hojas de tiempo y para ver a dónde se fue tu semana.</p>
-<div class="tip">¿La cerraste por error? Ábrela desde <b>Completed</b> y edita el cierre.</div>`},
+<p>La pestaña <b>Reports</b> muestra lo que se hizo en las fechas que escojas (y el <b>tiempo por cliente</b> cuando esa función está prendida). Útil para ver a dónde se fue tu semana.</p>
+<div class="tip">¿La marcaste por error? Ábrela desde <b>Completed</b> y edítala.</div>`},
   {id: 'email', group: 'more', title: 'Convertir un email en tarea', sum: 'Pega un email o compártelo desde tu teléfono.', tags: 'email correo outlook gmail pegar compartir telefono reenviar',
    body: `<p><b>En la computadora:</b> copia el email, presiona <b>+ New → From an email</b> y pégalo. El asunto se vuelve el nombre de la tarea y el email se guarda en las notas.</p>
 <p><b>En el teléfono:</b> con Kairo instalado (mira <a data-go="install">Instalar Kairo</a>), abre el email o cualquier página, presiona <b>Compartir</b> y escoge <b>Kairo</b>. Se abre una tarea nueva con el texto ya puesto.</p>`},
@@ -357,6 +361,16 @@ es: {
 <li>¿Falta algo en otro dispositivo? Abre el menú → <b>Sync now</b>.</li>
 <li>Volver a abrir la app en pantalla también sincroniza.</li>
 </ul>`},
+  {id: 'features', group: 'app', title: 'Prender o apagar funciones', sum: 'Mantén Kairo simple, o añade clientes, operaciones y emails.', tags: 'funciones features settings simple avanzado clientes operaciones email prioridad importancia urgencia modulos',
+   body: `<p>Kairo empieza simple. En <b>Settings → Features</b> puedes prender más cuando lo necesites:</p>
+<ul>
+<li><b>Detailed priority</b>: importancia y urgencia del 1 al 5 en vez de una sola prioridad.</li>
+<li><b>Clients and time reports</b>: un cliente en cada tarea y horas por cliente en Reports.</li>
+<li><b>Operations</b>: trabajos fuera de horario, emergencias, revisiones de rutina y listas de trabajo recurrente.</li>
+<li><b>Email notifications</b>: emails cuando el trabajo debe empezar, vence o se termina.</li>
+</ul>
+<p>Apagar una función solo la esconde. No se borra nada.</p>
+<p><button class="btn sm" data-do="settings">Abrir Settings</button></p>`},
   {id: 'account', group: 'app', title: 'Cuenta, contraseña y comentarios', sum: 'Cambia tu contraseña, cierra sesión o dinos qué mejorar.', tags: 'cuenta contraseña olvide restablecer cerrar sesion salir perfil comentarios error',
    body: `<ul>
 <li><b>Cambiar contraseña:</b> tus iniciales → <b>Change password</b>.</li>
