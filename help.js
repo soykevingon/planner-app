@@ -106,6 +106,7 @@ en: {
 <ul>
 <li><b>Work time</b> (colored block): when you’ll work on the task. Striped means Kairo planned it; solid with a clock means you chose it.</li>
 <li><b>Deadline</b> (red flag, “Due”): the day it has to be done.</li>
+<li>If you work on it the same day it’s due, it’s one block with a red <b>Due</b> tag.</li>
 </ul>
 <p><b>Choose when to work:</b> drag a work block to the day you want; the deadline doesn’t move. Or in the task form use <b>Work time → Choose when to work on it</b> to pick a day, an optional start time and the hours. Kairo plans the rest of the effort around your choice.</p>
 <p><b>Change a deadline:</b> drag the red “Due” marker to another day. Events move the same way. On a phone, press and hold first, then drag. Changed your mind? Press <b>Undo</b>.</p>
@@ -287,6 +288,7 @@ es: {
 <ul>
 <li><b>Tiempo de trabajo</b> (bloque de color): cuándo vas a trabajar la tarea. Con rayas, lo planificó Kairo; sólido con un reloj, lo escogiste tú.</li>
 <li><b>Fecha límite</b> (bandera roja, “Due”): el día en que tiene que estar hecha.</li>
+<li>Si la trabajas el mismo día en que vence, sale en un solo bloque con la etiqueta roja <b>Due</b>.</li>
 </ul>
 <p><b>Escoge cuándo trabajar:</b> arrastra un bloque de trabajo al día que quieras; la fecha límite no se mueve. O en el formulario de la tarea usa <b>Work time → Choose when to work on it</b> para escoger el día, una hora de inicio (opcional) y las horas. Kairo planifica el resto del esfuerzo alrededor de lo que escojas.</p>
 <p><b>Cambiar una fecha límite:</b> arrastra la marca roja “Due” a otro día. Los eventos se mueven igual. En el teléfono, déjalo presionado primero y luego arrástralo. ¿Te equivocaste? Presiona <b>Undo</b>.</p>

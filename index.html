@@ -436,6 +436,10 @@ body.cal-dragging{cursor:grabbing;-webkit-user-select:none;user-select:none}
 .wt-row input[type=time]{width:auto;font:15px var(--f-body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 10px}
 .wt-row input[type=number]{width:80px}
 #wtAdd{align-self:flex-start;margin-top:2px}
+.cal-item.work.has-due{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--crit) 55%,transparent)}
+.cal-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.cal-due-tag{display:inline-flex;align-items:center;gap:3px;font:600 11.5px var(--f-mono);color:var(--crit);background:var(--surface);border:1px solid color-mix(in srgb,var(--crit) 50%,transparent);border-radius:999px;padding:1px 7px;white-space:nowrap}
+.cal-due-tag svg{width:11px;height:11px}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:10px;font-size:14px;z-index:30}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px}
 .tab{border:none;background:none;font:600 15px var(--f-body);color:var(--muted);padding:10px 14px;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
@@ -1397,7 +1401,7 @@ table.rep tr.clickable:hover td{background:var(--bg)}
 (() => {
   const $ = id => document.getElementById(id);
   const DAY = 864e5;
-  const APP_VERSION = '0.38 POC';
+  const APP_VERSION = '0.39 POC';
   const FEEDBACK_EMAIL = 'gonzalezkevin70@gmail.com';
   // Product name lives here only: change these two lines to rebrand.
   const APP_NAME = 'Kairo', APP_TAGLINE = 'Strategic planner';
@@ -3359,14 +3363,20 @@ table.rep tr.clickable:hover td{background:var(--bg)}
       const items = [];
       for(const ev of events.filter(e => spaceOk({spaceId: e.spaceId}) && e.start && e.start.slice(0, 10) <= key && (e.end || e.start).slice(0, 10) >= key))
         items.push({at: ev.allDay ? -1 : (ev.start.slice(0, 10) === key ? toH(ev.start.slice(11, 16)) : 0), node: calItem(ev)});
+      // work time on this day, per task, so a deadline on the same day joins its work block
+      const o = Math.round((d.getTime() - t0) / DAY), workOn = new Map();
+      if(o >= 0) for(const [id, r] of S.res){ if(r.emergency) continue; const ch = r.chunks.filter(c => c[0] === o); if(ch.length) workOn.set(id, ch); }
+      const dueWith = new Map();
       for(const t of tasks.filter(t => isOpen(t) && vis(t))){
         if(t.afterHours){ const w = ahWhen(t); if(w && dayKey(w) === key) items.push({at: w.getHours() + w.getMinutes() / 60, node: calTaskItem(t, 'After hours · ' + fmtTime(w), 'ah')}); }
-        else if(eff(t).deadline === key && !t.parentId || (t.parentId && t.deadline === key)) items.push({at: -0.5, node: calTaskItem(t, isPayment(t) ? 'Bill due · ' + money(t.amount) : isProject(t) ? 'Project due' : 'Due', 'due')});
+        else if(eff(t).deadline === key && !t.parentId || (t.parentId && t.deadline === key)){
+          const lbl = isPayment(t) ? 'Bill due · ' + money(t.amount) : isProject(t) ? 'Project due' : 'Due';
+          if(workOn.has(t.id)) dueWith.set(t.id, lbl); else items.push({at: -0.5, node: calTaskItem(t, lbl, 'due')});
+        }
       }
       // work time: the hours planned on this day (chosen by you, or placed by Kairo)
-      const o = Math.round((d.getTime() - t0) / DAY);
       if(o >= 0){
-        for(const [id, r] of S.res){ const t = byId(id); if(!t || !vis(t) || r.emergency) continue; for(const c of r.chunks) if(c[0] === o) items.push(calWorkItem(t, c, key)); }
+        for(const [id, ch] of workOn){ const t = byId(id); if(!t || !vis(t)) continue; ch.forEach((c, n) => items.push(calWorkItem(t, c, key, false, n === 0 ? dueWith.get(id) : null))); }
         for(const [id, days] of S.steady){ const t = byId(id); if(!t || !vis(t)) continue; for(const c of days) if(c[0] === o) items.push(calWorkItem(t, c, key, true)); }
       }
       items.sort((a, b) => a.at - b.at).forEach(x => col.append(x.node));
@@ -3388,18 +3398,21 @@ table.rep tr.clickable:hover td{background:var(--bg)}
   }
   const FLAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg>';
   const PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>';
-  function calWorkItem(t, c, key, steady){
+  function calWorkItem(t, c, key, steady, due){
     const w = c[3] === 'pin' ? (t.workTimes || [])[c[4]] : null, sp = spaceOf(t);
     const b = document.createElement('button'); b.type = 'button'; b.className = 'cal-item work ' + (w ? 'mine' : 'auto');
     b.style.setProperty('--wc', (sp && sp.color) || 'var(--mid)');
     const where = c[2] === 'work' ? '' : c[2] === 'eve' ? 'Evening · ' : ((spaceById(String(c[2]).slice(3)) || {}).name || '') + ' time · ';
     const lab = span(w ? `Your time · ${w.time ? fmtClock(toH(w.time)) + ' · ' : ''}${fmtH(c[1])}` : `${where}${steady ? 'Session' : 'Work'} · ${fmtH(c[1])}`, 'ct');
     if(w) lab.insertAdjacentHTML('afterbegin', PIN);
-    b.append(lab, span(t.title, 'cn'));
+    if(due){ b.classList.add('has-due'); const dt = span(due, 'cal-due-tag'); dt.insertAdjacentHTML('afterbegin', FLAG); b.append(Object.assign(document.createElement('div'), {className: 'cal-row'})); b.lastChild.append(lab, dt); }
+    else b.append(lab);
+    b.append(span(t.title, 'cn'));
+    if(due) b.append(span('Work on it and it’s due the same day', 'cr'));
     b.title = w ? 'Work time you chose. Drag to another day to move it.' : 'Work time Kairo planned. Drag it to another day to choose when you’ll do it.';
     b.addEventListener('click', () => openDetails(t));
     if(!steady) calDraggable(b, {work: {t, pin: w ? c[4] : null, hours: c[1]}});
-    return {at: w ? (w.time ? toH(w.time) : 23.5) : 23.9, node: b};
+    return {at: due ? -0.5 : w ? (w.time ? toH(w.time) : 23.5) : 23.9, node: b};
   }
   function calTaskItem(t, label, cls){
     const b = document.createElement('button'); b.type = 'button'; b.className = 'cal-item task ' + cls;
