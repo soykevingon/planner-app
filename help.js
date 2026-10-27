@@ -135,7 +135,7 @@ en: {
   {id: 'close', group: 'more', title: 'Mark tasks as done and see reports', sum: 'Finish things, log time if you want, and review what got done.', tags: 'close done finish complete time spent report hours client closed work',
    body: `<ol>
 <li>Open the task and press <b>Mark as done</b> (or tick the circle next to it).</li>
-<li>Confirm when it was completed and the <b>time spent</b>, and add a comment if you like.</li>
+<li>That’s it: it’s done, and the message has <b>Undo</b> in case you tapped by mistake. With <b>Clients and time reports</b> on, Kairo also asks how long it took.</li>
 </ol>
 <p>The <b>Reports</b> tab shows what got done in the dates you choose (and <b>time by client</b> when that feature is on). Handy for seeing where your week went.</p>
 <div class="tip">Marked by mistake? Open it from <b>Completed</b> and edit it.</div>`},
@@ -172,13 +172,12 @@ en: {
 <li>Something missing on another device? Open the menu → <b>Sync now</b>.</li>
 <li>Bringing an app back to the screen also syncs it.</li>
 </ul>`},
-  {id: 'features', group: 'app', title: 'Turn features on or off', sum: 'Keep Kairo simple, or add clients, operations and emails.', tags: 'features settings simple advanced clients operations email priority importance urgency modules',
+  {id: 'features', group: 'app', title: 'Turn features on or off', sum: 'Keep Kairo simple, or add clients and operations.', tags: 'features settings simple advanced clients operations email priority importance urgency modules',
    body: `<p>Kairo starts simple. In <b>Settings → Features</b> you can turn on more when you need it:</p>
 <ul>
 <li><b>Detailed priority</b>: importance and urgency from 1 to 5 instead of one priority.</li>
 <li><b>Clients and time reports</b>: a client on each task and hours per client in Reports.</li>
 <li><b>Operations</b>: after-hours jobs, emergencies, routine checks and recurring work lists.</li>
-<li><b>Email notifications</b>: emails when work should start, is due or is done.</li>
 </ul>
 <p>Turning a feature off only hides it. Nothing is deleted.</p>
 <p><button class="btn sm" data-do="settings">Open Settings</button></p>`},
@@ -324,7 +323,7 @@ es: {
   {id: 'close', group: 'more', title: 'Marcar tareas como hechas y ver informes', sum: 'Termina cosas, registra el tiempo si quieres y repasa lo que se hizo.', tags: 'cerrar terminar completar hecho tiempo invertido informe horas cliente reporte',
    body: `<ol>
 <li>Abre la tarea y presiona <b>Mark as done</b> (o marca el círculo al lado).</li>
-<li>Confirma cuándo se completó y el <b>tiempo invertido</b> (Time spent), y añade un comentario si quieres.</li>
+<li>Listo: queda hecha, y el mensaje trae <b>Undo</b> por si la marcaste por error. Con <b>Clients and time reports</b> prendido, Kairo también pregunta cuánto tiempo tomó.</li>
 </ol>
 <p>La pestaña <b>Reports</b> muestra lo que se hizo en las fechas que escojas (y el <b>tiempo por cliente</b> cuando esa función está prendida). Útil para ver a dónde se fue tu semana.</p>
 <div class="tip">¿La marcaste por error? Ábrela desde <b>Completed</b> y edítala.</div>`},
@@ -361,13 +360,12 @@ es: {
 <li>¿Falta algo en otro dispositivo? Abre el menú → <b>Sync now</b>.</li>
 <li>Volver a abrir la app en pantalla también sincroniza.</li>
 </ul>`},
-  {id: 'features', group: 'app', title: 'Prender o apagar funciones', sum: 'Mantén Kairo simple, o añade clientes, operaciones y emails.', tags: 'funciones features settings simple avanzado clientes operaciones email prioridad importancia urgencia modulos',
+  {id: 'features', group: 'app', title: 'Prender o apagar funciones', sum: 'Mantén Kairo simple, o añade clientes y operaciones.', tags: 'funciones features settings simple avanzado clientes operaciones email prioridad importancia urgencia modulos',
    body: `<p>Kairo empieza simple. En <b>Settings → Features</b> puedes prender más cuando lo necesites:</p>
 <ul>
 <li><b>Detailed priority</b>: importancia y urgencia del 1 al 5 en vez de una sola prioridad.</li>
 <li><b>Clients and time reports</b>: un cliente en cada tarea y horas por cliente en Reports.</li>
 <li><b>Operations</b>: trabajos fuera de horario, emergencias, revisiones de rutina y listas de trabajo recurrente.</li>
-<li><b>Email notifications</b>: emails cuando el trabajo debe empezar, vence o se termina.</li>
 </ul>
 <p>Apagar una función solo la esconde. No se borra nada.</p>
 <p><button class="btn sm" data-do="settings">Abrir Settings</button></p>`},
