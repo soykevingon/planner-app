@@ -1,9 +1,9 @@
 (() => {
   const $ = id => document.getElementById(id);
   const DAY = 864e5;
-  const APP_VERSION = '0.42 alpha';
+  const APP_VERSION = '0.43 alpha';
   // Product name lives here only: change these two lines to rebrand.
-  const APP_NAME = 'Kairo', APP_TAGLINE = 'Strategic planner';
+  const APP_NAME = 'Kairo', APP_TAGLINE = 'Less time planning. More time doing.';
   // Supabase project (the anon key is public by design; row level security protects the data)
   const CLOUD_URL = 'https://yuyvntrzwuyttauunzff.supabase.co';
   const CLOUD_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1eXZudHJ6d3V5dHRhdXVuemZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzMTU3MDgsImV4cCI6MjEwNjg5MTcwOH0.5Zx_foofHEs23S1lmh3PvWTXits-yPa79l7L-pWYoPA';
@@ -114,7 +114,7 @@
     {id: 'sp-personal', name: 'Personal', color: '#b8487a', planDuring: 'evenings'},
     {id: 'sp-finances', name: 'Finances', color: '#3b8a4c', planDuring: 'any'},
   ];
-  const SPACE_COLORS = ['#2f7d8c', '#6a55c9', '#b8487a', '#3b8a4c', '#d9781e', '#4f6fb8', '#8a6a2f', '#5d6878'];
+  const SPACE_COLORS = ['#2f7d8c', '#6a55c9', '#b8487a', '#3b8a4c', '#C0702F', '#4f6fb8', '#8a6a2f', '#5d6878'];
   const PLAN_DURING = {work: 'Work hours', evenings: 'Evenings & weekends', any: 'Any time', custom: 'Custom hours'};
   const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   // a space with its own schedule: chosen weekdays, between start and end
@@ -536,7 +536,7 @@
       meta.append(add);
     }
     body.append(title, meta);
-    const sc = span(x.score, 'score tier-' + x.tier); sc.title = tierName[x.tier] + ' priority';
+    const sc = span(prioLabel(x), 'score tier-' + x.tier); sc.title = (mod('detail') ? 'Score ' + x.score + ' · ' : '') + tierName[x.tier] + ' priority';
     row.append(rk, cb, body, sc);
     row.addEventListener('click', () => openDetails(t));
     row.addEventListener('keydown', e => { if(e.key === 'Enter' && e.target === row) openDetails(t); });
@@ -599,7 +599,7 @@
   const pinnedNext = () => settings.nextUp && settings.nextUp.date === dayKey() ? byId(settings.nextUp.id) : null;
   async function setNextUp(id){
     settings = {...settings, nextUp: id ? {date: dayKey(), id} : null}; render();
-    try { await store.saveSettings(settings); if(id) toast('Moved to Right now'); } catch(e){ fail(e); }
+    try { await store.saveSettings(settings); if(id) toast('Moved to Up next'); } catch(e){ fail(e); }
   }
   // What to do with the time left: an emergency, your own pick, or the
   // highest-priority task that can be finished before the day ends.
@@ -675,6 +675,31 @@
     return out;
   }
 
+  /* New interface copy lives here, in both languages, ready for the full translation.
+     The app is English for now (UI_LANG); Spanish is filled in so switching is one line. */
+  const UI_LANG = 'en';
+  const TXT = {
+    en: {morning: 'Good morning', afternoon: 'Good afternoon', evening: 'Good evening',
+      calm: 'Your day, made manageable.', empty: 'Nothing scheduled yet. Add something above, or pick from Anytime.',
+      emergency: 'An emergency comes first today. Everything else moved down.',
+      over: h => `There’s ${h} more work than time today. Kairo moved what it could to the next days.`,
+      attention: n => `${n} ${n === 1 ? 'task needs' : 'tasks need'} attention. ${n === 1 ? 'It’s' : 'They’re'} at the top of your plan.`,
+      offday: 'Your plan below is for your next workday.',
+      available: 'Focus time left', availableNext: 'Focus time', planned: 'Planned', free: 'Free', overBy: 'Over by', upNext: 'Up next', tonight: 'Tonight',
+      prio: {crit: 'Top priority', high: 'High', mid: 'Normal', low: 'Low'}},
+    es: {morning: 'Buenos días', afternoon: 'Buenas tardes', evening: 'Buenas noches',
+      calm: 'Tu día, paso a paso.', empty: 'Nada programado todavía. Añade algo arriba o escoge de Anytime.',
+      emergency: 'Hoy primero va una emergencia. Lo demás bajó en la lista.',
+      over: h => `Hoy hay ${h} más de trabajo que de tiempo. Kairo movió lo que pudo a los próximos días.`,
+      attention: n => `${n} ${n === 1 ? 'tarea necesita' : 'tareas necesitan'} atención. Están arriba en tu plan.`,
+      offday: 'El plan de abajo es para tu próximo día de trabajo.',
+      available: 'Tiempo de enfoque restante', availableNext: 'Tiempo de enfoque', planned: 'Planificado', free: 'Libre', overBy: 'Te pasas por', upNext: 'Lo próximo', tonight: 'Esta noche',
+      prio: {crit: 'Prioridad máxima', high: 'Alta', mid: 'Normal', low: 'Baja'}}
+  };
+  const tx = k => (TXT[UI_LANG] || TXT.en)[k] ?? TXT.en[k];
+  // the priority badge: a word in simple mode, the 0–100 score with detailed priority on
+  const prioLabel = x => mod('detail') ? String(x.score) : tx('prio')[x.tier];
+
   function renderToday(dailyItems){
     const fw = S.firstW, plan = todayPlan();
     // Right now
@@ -697,7 +722,7 @@
       const meta = document.createElement('div'); meta.className = 't-meta';
       if(nu.x.e.space) meta.append(spaceTag(nu.x.e.space));
       if(nu.x.e.client) meta.append(span(nu.x.e.client, 'tag'));
-      meta.append(span(fmtH(effortOf(t)), 'hours'), span('Priority ' + nu.x.score));
+      meta.append(span(fmtH(effortOf(t)), 'hours'), span(mod('detail') ? 'Priority ' + nu.x.score : tx('prio')[nu.x.tier]));
       const why = document.createElement('div'); why.className = 'now-why'; why.textContent = nu.why;
       const acts = document.createElement('div'); acts.className = 'now-acts';
       const done = document.createElement('button'); done.type = 'button'; done.className = 'btn primary sm'; done.textContent = 'Done ✓'; done.addEventListener('click', () => finish(t));
@@ -732,6 +757,25 @@
     $('capBar').classList.toggle('over', planned > capH + 1e-9);
     $('planTitle').firstChild.textContent = fw === 0 ? 'Today’s plan ' : `${offDate(fw).toLocaleDateString('en-US',{weekday:'long'})}’s plan `;
     $('cPlan').textContent = plan.length;
+    // capacity in three plain numbers, and an honest line about the day
+    { const box = $('capStats'); box.textContent = '';
+      const stat = (v, l, cls) => { const d = document.createElement('div'); if(cls) d.className = cls; const b = document.createElement('b'); b.textContent = v; d.append(b, span(l)); box.append(d); };
+      stat(fmtH(capH), fw === 0 ? tx('available') : tx('availableNext'));
+      stat(fmtH(planned), tx('planned'));
+      const free = capH - planned;
+      if(free < -1e-9) stat(fmtH(-free), tx('overBy'), 'over'); else stat(fmtH(Math.max(0, free)), tx('free'));
+      const now = new Date(), hr = now.getHours(), name = (settings.displayName || '').split(' ')[0];
+      $('dayHello').textContent = (hr < 12 ? tx('morning') : hr < 18 ? tx('afternoon') : tx('evening')) + (name ? ', ' + name : '');
+      $('dayTitle').textContent = now.toLocaleDateString(UI_LANG === 'es' ? 'es-PR' : 'en-US', {weekday: 'long', month: 'long', day: 'numeric'});
+      const urgent = plan.filter(p => p.why && (p.why[1] === 'risk' || p.why[1] === 'due')).length;
+      const emerg = plan.some(p => p.x.t && modeOf(p.x.t) === 'emergency');
+      const msg = $('dayMsg'); msg.className = '';
+      if(emerg){ msg.textContent = tx('emergency'); msg.className = 'alert'; }
+      else if(free < -1e-9){ msg.textContent = tx('over')(fmtH(-free)); msg.className = 'warn'; }
+      else if(urgent){ msg.textContent = tx('attention')(urgent); msg.className = 'warn'; }
+      else if(!plan.length) msg.textContent = tx('empty');
+      else msg.textContent = fw === 0 || !hasWork() ? tx('calm') : tx('offday');
+      $('nowLabel').textContent = tx('upNext'); }
     fillList('lPlan', plan.map((p, i) => taskRow(p.x, String(i+1), !!p.x.t.parentId, {prefix:'plan-', why:p.why, hours: p.h < p.total - 1e-9 ? `${fmtH(p.h)} of ${fmtH(p.total)}` : fmtH(p.h), showParent:true, compact:true,
       ...(p.steady ? {checked:false, onCheck: on => logSession(p.x.t, on, p.h)} : {})})),
       'Nothing scheduled. Add tasks with deadlines and effort, or enjoy the free time.');

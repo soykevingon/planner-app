@@ -1,9 +1,7 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Kairo</title><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://yuyvntrzwuyttauunzff.supabase.co wss://yuyvntrzwuyttauunzff.supabase.co; worker-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'"><meta name="theme-color" content="#d9781e"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><link rel="icon" type="image/png" href="favicon.png"><style>:root{color-scheme:light}html,body{margin:0}body{font:14px system-ui,sans-serif;background:#f6f7f9}img{max-width:100%}[hidden]{display:none!important}</style></head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Kairo</title><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://yuyvntrzwuyttauunzff.supabase.co wss://yuyvntrzwuyttauunzff.supabase.co; worker-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'"><meta name="theme-color" content="#0F766E"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><link rel="icon" type="image/png" href="favicon.png"><style>:root{color-scheme:light}html,body{margin:0}body{font:14px system-ui,sans-serif;background:#f6f7f9}img{max-width:100%}[hidden]{display:none!important}</style></head>
 <body>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
-<link rel="stylesheet" href="app.css?v=0.42">
+<link rel="stylesheet" href="app.css?v=0.43">
 
 <div class="wrap">
   <header class="top">
@@ -23,8 +21,8 @@
         </div>
       </span>
     <div>
-      <h1 class="brand"><img src="logo.png" alt="" width="40" height="40"><span>Kairo<small>Strategic planner</small></span></h1>
-      <p class="sub"><span id="today"></span> · <span id="appVersion"></span></p>
+      <h1 class="brand"><img src="logo.png" alt="" width="40" height="40"><span>Kairo<small>Less time planning. More time doing.</small></span></h1>
+      <p class="sub"><span id="today" hidden></span><span id="appVersion"></span></p>
     </div>
     <div class="actions">
       <span class="newwrap" id="scopeWrap">
@@ -71,9 +69,10 @@
   </div>
 
   <div id="viewToday">
+    <header class="day-head"><span class="eyebrow" id="dayHello"></span><h2 id="dayTitle"></h2><p id="dayMsg" role="status"></p></header>
     <form class="quick-add" id="qaForm" autocomplete="off">
       <div class="qa-row">
-        <input type="text" id="qaText" maxlength="200" aria-label="Add a task in one line" placeholder="Add a task… e.g. “Submit report Friday 2h” or “Pagar la luz el 15”">
+        <input type="text" id="qaText" maxlength="200" aria-label="Add a task in one line" placeholder="What do you need to do? e.g. “Report Friday 2h”">
         <button class="btn primary" type="submit">Add</button>
       </div>
       <div class="qa-prev fnote" id="qaPrev" hidden></div>
@@ -82,10 +81,11 @@
     <div class="today-grid">
       <div>
         <div class="now-card" id="nowCard">
-          <div class="now-head"><span class="flabel">Right now</span><b id="timeLeft"></b></div>
+          <div class="now-head"><span class="flabel" id="nowLabel">Up next</span><b id="timeLeft"></b></div>
           <div id="nextUp"></div>
         </div>
         <div class="plan-card" data-mod="work">
+          <div class="cap-stats" id="capStats"></div>
           <div class="plan-head"><div><b id="capUsed">0h</b> <span id="capOf">of 5h focus time planned</span></div><span id="planDay"></span></div>
           <div class="cap" id="capBar"><i id="capFill" style="width:0"></i></div>
           <details class="plan-adj" id="planAdj"><summary>Adjust today’s hours</summary>
@@ -219,10 +219,10 @@
         <div class="hz-row"><span class="flabel">Look ahead</span><button class="help-q" type="button" data-help="radar" aria-label="Help: the Radar" title="How this works">?</button><div class="seg-ctl" id="horizonCtl" role="group" aria-label="Look ahead"></div></div>
         <svg class="radar" id="radar" viewBox="0 0 520 520" role="img" aria-label="Task radar by priority"></svg>
         <div class="legend">
-          <span><i style="background:var(--crit)"></i>P1 Critical 70+</span>
-          <span><i style="background:var(--high)"></i>P2 High 50–69</span>
-          <span><i style="background:var(--mid)"></i>P3 Medium 30–49</span>
-          <span><i style="background:var(--low)"></i>P4 Low &lt;30</span>
+          <span><i style="background:var(--crit)"></i><span data-mod="simple">Top priority</span><span data-mod="detail">P1 Critical 70+</span></span>
+          <span><i style="background:var(--high)"></i><span data-mod="simple">High</span><span data-mod="detail">P2 High 50–69</span></span>
+          <span><i style="background:var(--mid)"></i><span data-mod="simple">Normal</span><span data-mod="detail">P3 Medium 30–49</span></span>
+          <span><i style="background:var(--low)"></i><span data-mod="simple">Low</span><span data-mod="detail">P4 Low &lt;30</span></span>
           <span><i class="subk"></i>Subtask</span>
           <span><i class="sq"></i>Routine check due</span>
           <span><i class="ring"></i>Ring = space</span>
@@ -698,16 +698,8 @@
 </div>
 <!-- Sign-in page -->
 <div class="auth checking" id="lScrim">
-  <div class="auth-bg" aria-hidden="true">
-    <svg viewBox="0 0 1000 1000">
-      <defs><linearGradient id="authG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f0913a" stop-opacity="0"/><stop offset="1" stop-color="#f0913a" stop-opacity=".55"/></linearGradient></defs>
-      <circle cx="500" cy="500" r="120" fill="none" stroke="rgba(240,145,58,0.5)" stroke-width="1.5"/><circle cx="500" cy="500" r="220" fill="none" stroke="rgba(240,145,58,0.38)" stroke-width="1.5"/><circle cx="500" cy="500" r="320" fill="none" stroke="rgba(240,145,58,0.28)" stroke-width="1.5"/><circle cx="500" cy="500" r="420" fill="none" stroke="rgba(240,145,58,0.2)" stroke-width="1.5"/><circle cx="500" cy="500" r="495" fill="none" stroke="rgba(240,145,58,0.14)" stroke-width="1.5"/>
-      <line x1="5" y1="500" x2="995" y2="500" stroke="rgba(240,145,58,.12)"/><line x1="500" y1="5" x2="500" y2="995" stroke="rgba(240,145,58,.12)"/>
-      <g class="auth-sweep"><path d="M500 500 L995 500 A495 495 0 0 0 850 150 Z" fill="url(#authG)" opacity=".5"/></g>
-      <circle cx="680" cy="330" r="9" fill="#ef5d50"/><circle cx="380" cy="270" r="7" fill="#f0913a"/><circle cx="300" cy="640" r="6" fill="#4fb0c0"/><circle cx="720" cy="700" r="5" fill="#7d889a"/>
-    </svg>
-  </div>
-  <header class="auth-top"><img id="lLogo" alt=""><div><b id="lName">Kairo</b><small id="lTag">Strategic planner</small></div></header>
+  
+  <header class="auth-top"><img id="lLogo" alt=""><div><b id="lName">Kairo</b><small id="lTag">Less time planning. More time doing.</small></div></header>
   <main class="auth-main">
     <form class="auth-card" id="lForm" novalidate>
       <h1 id="lHead">Sign in</h1>
@@ -864,5 +856,5 @@
 <script src="supabase.js"></script>
 <div class="toast" id="toast" hidden></div>
 
-<script src="app.js?v=0.42"></script>
+<script src="app.js?v=0.43"></script>
 </body></html>

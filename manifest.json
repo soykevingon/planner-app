@@ -1,12 +1,12 @@
 {
   "name": "Kairo",
   "short_name": "Kairo",
-  "description": "Strategic planner",
+  "description": "A realistic plan for the time you actually have.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#12171e",
-  "theme_color": "#d9781e",
+  "background_color": "#F7F6F2",
+  "theme_color": "#0F766E",
   "icons": [
     {
       "src": "icon-192.png",
